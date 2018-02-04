@@ -30,6 +30,7 @@ static NSString * const PAAAccessTokenInUserDefaultsKey = @"accessToken";
     return [NSString stringWithFormat:@"https://api.vk.com/method/friends.get?order=name&fields=photo_50&v=%@&access_token=%@", PAAVkApiVersion, accessToken];
 }
 
+
 #pragma ManagingAccessToken
 
 + (void)saveAccessTokenToUserDefaults:(NSURL *)url
