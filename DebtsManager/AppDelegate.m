@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "PAAAuthoriseViewController.h"
 
 @interface AppDelegate ()
 
@@ -16,8 +17,19 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    PAAAuthoriseViewController *loginViewController = [PAAAuthoriseViewController new];
+    self.window.rootViewController = loginViewController;
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
     return YES;
+}
+
+
+-(BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+        [NSNotificationCenter.defaultCenter postNotificationName:PAAAccessTokenReceivedNotification object:url];
+        return YES;
 }
 
 
