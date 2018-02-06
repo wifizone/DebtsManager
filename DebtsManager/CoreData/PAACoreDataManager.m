@@ -48,7 +48,7 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     return [self.coreDataContext executeFetchRequest:[Debt fetchRequest] error:nil];
 }
 
-- (Debt *)createDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
+- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
 {
     NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
     Debt *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
@@ -66,7 +66,6 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
         NSLog(@"Не удалось сохрнаить объект");
         NSLog(@"%@, %@", error, error.localizedDescription);
     }
-    return debt;
 }
 
 @end

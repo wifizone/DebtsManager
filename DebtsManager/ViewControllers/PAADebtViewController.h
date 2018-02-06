@@ -14,6 +14,7 @@
 
 @property (nonatomic, strong) UITextField *textFieldName;
 @property (nonatomic, strong) UITextField *textFieldSurname;
+@property (nonatomic, strong) UITextField *textFieldSum;
 @property (nonatomic, strong) UIDatePicker *dueDatePicker;
 @property (nonatomic, strong) UIDatePicker *debtAppearedDatePicker;
 @property (nonatomic, strong) UIImageView *personPhotoView;

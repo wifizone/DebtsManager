@@ -24,5 +24,6 @@ extern NSString * const PAADebtSumCoreDataField;
 + (PAACoreDataManager *)sharedCoreDataManager;
 - (NSManagedObjectContext *)coreDataContext;
 - (NSManagedObjectContext *)getCurrentModel;
+- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared;
 
 @end

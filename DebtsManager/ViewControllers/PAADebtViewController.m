@@ -7,6 +7,7 @@
 //
 
 #import "PAADebtViewController.h"
+#import "PAACoreDataManager.h"
 #import "PAAFriend.h"
 #import "Masonry.h"
 
@@ -95,6 +96,16 @@ static CGFloat const PAAAddButtonHeight = 50;
     [self.navigationController pushViewController:self.friendListViewController animated:YES];
 }
 
+- (void)addDebt  //добавить сумму
+{
+    [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.textFieldName.text
+                                                                 surname:self.textFieldSurname.text
+                                                          photoUrlString:self.friendModel.personPhoto50UrlString
+                                                                 debtSum:5000 debtDueDate:self.dueDatePicker.date
+                                                        debtAppearedDate:self.debtAppearedDatePicker.date];
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
 #pragma mark - UI
 
 - (void)prepareUI
@@ -157,6 +168,7 @@ static CGFloat const PAAAddButtonHeight = 50;
     self.addUIButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addUIButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.addUIButton setTitle:@"Добавить" forState:UIControlStateNormal];
+    [self.addUIButton addTarget:self action:@selector(addDebt) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addUIButton];
 }
 

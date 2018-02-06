@@ -41,6 +41,12 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [self loadModel];
+    [super viewWillAppear:YES];
+    [self.tableViewWithDebts reloadData];
+}
 
 #pragma mark - UI
 
