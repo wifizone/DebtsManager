@@ -12,6 +12,7 @@
 #import "AppDelegate.h"
 #import "PAADebtTableViewCell.h"
 #import "PAADebtViewController.h"
+#import "PAACoreDataManager.h"
 
 static CGFloat const PAARowHeight = 120.0;
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
@@ -19,7 +20,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableViewWithDebts;
-@property (nonatomic, copy) NSArray *arrayWithDebts;
+@property (nonatomic, copy) NSArray<Debt *> *arrayWithDebts;
 @property (nonatomic, strong)NSManagedObjectContext *coreDataContext;
 
 @end
@@ -43,12 +44,17 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    [self loadModel];
     [super viewWillAppear:YES];
-    [self.tableViewWithDebts reloadData];
+    [self updateTableOfDebts];
 }
 
 #pragma mark - UI
+
+- (void)updateTableOfDebts
+{
+    [self loadModel];
+    [self.tableViewWithDebts reloadData];
+}
 
 - (void)prepareUI
 {
@@ -65,6 +71,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     self.tableViewWithDebts.dataSource = self;
     self.tableViewWithDebts.delegate = self;
     [self.tableViewWithDebts registerClass:[PAADebtTableViewCell class] forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
+    self.tableViewWithDebts.allowsMultipleSelection = NO;
 }
 
 - (void)createButtonAdd {
@@ -86,7 +93,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     return 1;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PAADebtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier];
     Debt *debt = self.arrayWithDebts[indexPath.row];
@@ -101,9 +108,23 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     return cell;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.arrayWithDebts.count;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        [[PAACoreDataManager sharedCoreDataManager] deleteObject:self.arrayWithDebts[indexPath.row]];
+        [self updateTableOfDebts];
+    }
 }
 
 

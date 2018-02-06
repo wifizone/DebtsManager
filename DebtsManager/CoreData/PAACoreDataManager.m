@@ -43,6 +43,9 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     return context;
 }
 
+
+#pragma mark - CRUD
+
 - (NSArray *)getCurrentModel
 {
     return [self.coreDataContext executeFetchRequest:[Debt fetchRequest] error:nil];
@@ -65,6 +68,17 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     {
         NSLog(@"Не удалось сохрнаить объект");
         NSLog(@"%@, %@", error, error.localizedDescription);
+    }
+}
+
+- (void)deleteObject: (Debt *)debt
+{
+    //    NSError *error;
+    [self.coreDataContext deleteObject:debt];
+    
+    if (![debt isDeleted])
+    {
+        NSLog(@"Ошибка при удалении из CoreData");
     }
 }
 
