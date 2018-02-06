@@ -15,6 +15,6 @@
 @property (nonatomic, copy) NSString *surname;
 @property (nonatomic, copy) NSString *personPhoto50UrlString;
 
-- (instancetype)initWithUserId: (NSString *)userId name:(NSString *)name surname:(NSString *)surname personPhotoUrlString:(NSString *)personPhotoUrlString;
+- (instancetype)initWithDictionary: (NSDictionary *)friendModelDictionary;
 
 @end

@@ -10,15 +10,15 @@
 
 @implementation PAAFriend
 
-- (instancetype)initWithUserId: (NSString *)userId name:(NSString *)name surname:(NSString *)surname personPhotoUrlString:(NSString *)personPhotoUrlString;
+- (instancetype)initWithDictionary: (NSDictionary *)friendModelDictionary
 {
     self = [super init];
     if (self)
     {
-        _userId = userId;
-        _name = name;
-        _surname = surname;
-        _personPhoto50UrlString = personPhotoUrlString;
+        _userId = friendModelDictionary[@"id"];
+        _name = friendModelDictionary[@"first_name"];
+        _surname = friendModelDictionary[@"last_name"];
+        _personPhoto50UrlString = friendModelDictionary[@"photo_50"];
     }
     return self;
 }

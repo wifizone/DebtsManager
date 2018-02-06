@@ -42,7 +42,6 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 }
 
 
-
 #pragma mark - UI
 
 - (void)prepareUI

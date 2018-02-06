@@ -6,9 +6,7 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
-#import "Debt+CoreDataClass.h"
 #import "PAADebtViewController.h"
-#import "PAAFriendListViewController.h"
 #import "PAAFriend.h"
 #import "Masonry.h"
 
@@ -22,13 +20,9 @@ static CGFloat const PAAAddButtonHeight = 50;
 @interface PAADebtViewController ()
 
 @property (nonatomic, assign) BOOL addFeatureIsNeeded;
-@property (nonatomic, strong) UITextField *textFieldName;
-@property (nonatomic, strong) UITextField *textFieldSurname;
-@property (nonatomic, strong) UIDatePicker *dueDatePicker;
-@property (nonatomic, strong) UIDatePicker *debtAppearedDatePicker;
-@property (nonatomic, strong) UIImageView *personPhotoView;
 @property (nonatomic, strong) UIButton *addUIButton;
-
+@property (nonatomic, strong) PAAFriend *friendModel;
+@property (nonatomic, strong) PAAFriendListViewController *friendListViewController;
 
 @end
 
@@ -80,6 +74,26 @@ static CGFloat const PAAAddButtonHeight = 50;
     [super updateViewConstraints];
 }
 
+
+#pragma mark - PAAFriendListViewControllerDelegate
+
+- (void)friendListViewController:(PAAFriendListViewController *)controller didChooseFriend:(PAAFriend *)friendModel
+{
+    self.friendModel = friendModel;
+    [self.textFieldName setText:friendModel.name];
+    [self.textFieldSurname setText:friendModel.surname];
+    [[self navigationController] popViewControllerAnimated:YES];
+}
+
+
+#pragma mark - Navigation
+
+- (void)openFriendListViewController
+{
+    self.friendListViewController = [PAAFriendListViewController new];
+    self.friendListViewController.delegate = self;
+    [self.navigationController pushViewController:self.friendListViewController animated:YES];
+}
 
 #pragma mark - UI
 
@@ -144,12 +158,6 @@ static CGFloat const PAAAddButtonHeight = 50;
     [self.addUIButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.addUIButton setTitle:@"Добавить" forState:UIControlStateNormal];
     [self.view addSubview:self.addUIButton];
-}
-
-- (void)openFriendListViewController
-{
-    PAAFriendListViewController *friendListViewController = [PAAFriendListViewController new];
-    [self.navigationController pushViewController:friendListViewController animated:YES];
 }
 
 
