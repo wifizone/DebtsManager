@@ -10,4 +10,6 @@
 
 @interface PAADebtViewController : UIViewController
 
+@property (nonatomic, strong) Debt *currentDebt;
+
 @end

@@ -66,4 +66,9 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+}
+
 @end

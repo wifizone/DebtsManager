@@ -7,6 +7,7 @@
 //
 
 #import "PAACoreDataManager.h"
+#import "Debt+CoreDataClass.h"
 #import "AppDelegate.h"
 
 NSString * const PAAPersonNameCoreDataField = @"personName";
@@ -41,5 +42,12 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     });
     return coreDataManager;
 }
+
+- (NSArray *)getCurrentModel
+{
+    return [self.coreDataContext executeFetchRequest:[Debt fetchRequest] error:nil];
+}
+
+
 
 @end

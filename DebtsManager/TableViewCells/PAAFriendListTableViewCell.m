@@ -7,6 +7,7 @@
 //
 
 #import "PAAFriendListTableViewCell.h"
+#import "Masonry.h"
 
 static CGFloat const PAAOffset = 15.0;
 static CGFloat const PAAImageWidth = 50.0;
@@ -45,61 +46,61 @@ static CGFloat const PAAImageWidth = 50.0;
 
 - (void)setupConstraints
 {
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                multiplier:1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:1.0
-                                                                  constant:PAAImageWidth]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                multiplier:1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier:1.0
-                                                                  constant:-PAAOffset]];
-    
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
-                                                                 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                multiplier: 1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeTrailing
-                                                                multiplier: 1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier: 1.0
-                                                                  constant:-PAAOffset]];
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
+//                                                                 attribute:NSLayoutAttributeLeading
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeLeading
+//                                                                multiplier:1.0
+//                                                                  constant:PAAOffset]];
+//
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
+//                                                                 attribute:NSLayoutAttributeWidth
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:nil
+//                                                                 attribute:NSLayoutAttributeNotAnAttribute
+//                                                                multiplier:1.0
+//                                                                  constant:PAAImageWidth]];
+//
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                multiplier:1.0
+//                                                                  constant:PAAOffset]];
+//
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
+//                                                                 attribute:NSLayoutAttributeBottom
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeBottom
+//                                                                multiplier:1.0
+//                                                                  constant:-PAAOffset]];
+//
+//
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
+//                                                                 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeTop
+//                                                                multiplier: 1.0
+//                                                                  constant:PAAOffset]];
+//
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
+//                                                                 attribute:NSLayoutAttributeLeading
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.personPhotoImage
+//                                                                 attribute:NSLayoutAttributeTrailing
+//                                                                multiplier: 1.0
+//                                                                  constant:PAAOffset]];
+//
+//    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                 relatedBy:NSLayoutRelationEqual
+//                                                                    toItem:self.contentView
+//                                                                 attribute:NSLayoutAttributeRight
+//                                                                multiplier: 1.0
+//                                                                  constant:-PAAOffset]];
     
 }
 

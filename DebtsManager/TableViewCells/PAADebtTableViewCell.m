@@ -7,9 +7,11 @@
 //
 
 #import "PAADebtTableViewCell.h"
+#import "Masonry.h"
 
 static CGFloat const PAAOffset = 15.0;
-static CGFloat const PAAImageWidth = 50.0;
+static CGFloat const PAAImageWidth = 100.0;
+static CGFloat const PAALabelHeight = 30.0;
 
 @implementation PAADebtTableViewCell
 
@@ -34,117 +36,51 @@ static CGFloat const PAAImageWidth = 50.0;
         [self.contentView addSubview:_dueDateLabel];
     }
     
-    [self setupConstraints];
+    [self updateConstraints];
     
     return self;
 }
 
-- (void)setupConstraints
+- (void)updateConstraints
 {
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                multiplier:1.0
-                                                                  constant:PAAOffset]];
+    UIView *superview = self;
+    UIEdgeInsets imagePadding = UIEdgeInsetsMake(10, 10, -10, 0);
+    UIEdgeInsets labelNamePadding = UIEdgeInsetsMake(10, 10, -5, -10);
+    UIEdgeInsets labelSumPadding = UIEdgeInsetsMake(5, 10, -5, -10);
+    UIEdgeInsets labelDatePadding = UIEdgeInsetsMake(5, 10, -10, -10);
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:nil
-                                                                 attribute:NSLayoutAttributeNotAnAttribute
-                                                                multiplier:1.0
-                                                                  constant:PAAImageWidth]];
+    [self.personPhotoImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(superview.mas_left).with.offset(imagePadding.left);
+        make.top.equalTo(superview.mas_top).with.offset(imagePadding.top);
+        make.bottom.equalTo(superview.mas_bottom).with.offset(imagePadding.bottom);
+        make.width.mas_equalTo(PAAImageWidth);
+    }];
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                multiplier:1.0
-                                                                  constant:PAAOffset]];
+    [self.personNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.personPhotoImage.mas_right).with.offset(labelNamePadding.left);
+        make.right.equalTo(superview.mas_right).with.offset(labelNamePadding.right);
+        make.top.equalTo(superview.mas_top).with.offset(labelNamePadding.top);
+        make.bottom.equalTo(self.sumToRepayLabel.mas_top).with.offset(labelNamePadding.bottom);
+        make.height.mas_equalTo(PAALabelHeight);
+    }];
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier:1.0
-                                                                  constant:-PAAOffset]];
+    [self.sumToRepayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.personPhotoImage.mas_right).with.offset(labelSumPadding.left);
+        make.right.equalTo(superview.mas_right).with.offset(labelSumPadding.right);
+        make.top.equalTo(self.personNameLabel.mas_bottom).with.offset(labelSumPadding.top);
+        make.bottom.equalTo(self.dueDateLabel.mas_top).with.offset(labelSumPadding.bottom);
+        make.height.mas_equalTo(PAALabelHeight);
+    }];
     
+    [self.dueDateLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.personPhotoImage.mas_right).with.offset(labelDatePadding.left);
+        make.right.equalTo(superview.mas_right).with.offset(labelDatePadding.right);
+        make.top.equalTo(self.sumToRepayLabel.mas_bottom).with.offset(labelDatePadding.top);
+        make.bottom.equalTo(superview.mas_bottom).with.offset(labelDatePadding.bottom);
+        make.height.mas_equalTo(PAALabelHeight);
+    }];
     
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
-                                                                 attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeTop
-                                                                multiplier: 1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeTrailing
-                                                                multiplier: 1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.personNameLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier: 1.0
-                                                                  constant:-PAAOffset]];
-    
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.sumToRepayLabel
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeTrailing
-                                                                multiplier: 1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.sumToRepayLabel
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.personNameLabel
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier: 1.0
-                                                                  constant:10.0]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.sumToRepayLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier: 1.0
-                                                                  constant:-PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dueDateLabel
-                                                                 attribute:NSLayoutAttributeLeading
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.personPhotoImage
-                                                                 attribute:NSLayoutAttributeTrailing
-                                                                multiplier: 1.0
-                                                                  constant:PAAOffset]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dueDateLabel
-                                                                 attribute:NSLayoutAttributeTop
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.sumToRepayLabel
-                                                                 attribute:NSLayoutAttributeBottom
-                                                                multiplier: 1.0
-                                                                  constant:10.0]];
-    
-    [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:self.dueDateLabel
-                                                                 attribute:NSLayoutAttributeRight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self.contentView
-                                                                 attribute:NSLayoutAttributeRight
-                                                                multiplier: 1.0
-                                                                  constant:-PAAOffset]];
+    [super updateConstraints];
 }
 
 - (void)awakeFromNib {

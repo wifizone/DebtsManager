@@ -23,5 +23,6 @@ extern NSString * const PAADebtSumCoreDataField;
 
 + (PAACoreDataManager *)sharedCoreDataManager;
 - (NSManagedObjectContext *)coreDataContext;
+- (NSManagedObjectContext *)getCurrentModel;
 
 @end
