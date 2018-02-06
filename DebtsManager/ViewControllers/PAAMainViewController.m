@@ -127,7 +127,6 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
         NSLog(@"Не удалось сохрнаить объект");
         NSLog(@"%@, %@", error, error.localizedDescription);
     }
-    
 }
 
 - (void)loadModel

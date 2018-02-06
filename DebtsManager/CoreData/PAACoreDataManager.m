@@ -19,6 +19,16 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
 
 @implementation PAACoreDataManager
 
++ (PAACoreDataManager *)sharedCoreDataManager
+{
+    static PAACoreDataManager *coreDataManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        coreDataManager = [[self alloc] init];
+    });
+    return coreDataManager;
+}
+
 - (NSManagedObjectContext *)coreDataContext
 {
     if (_coreDataContext)
@@ -33,21 +43,30 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     return context;
 }
 
-+ (PAACoreDataManager *)sharedCoreDataManager
-{
-    static PAACoreDataManager *coreDataManager = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        coreDataManager = [[self alloc] init];
-    });
-    return coreDataManager;
-}
-
 - (NSArray *)getCurrentModel
 {
     return [self.coreDataContext executeFetchRequest:[Debt fetchRequest] error:nil];
 }
 
-
+- (Debt *)createDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
+{
+    NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
+    Debt *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
+    debt.personName = name;
+    debt.personSurname = surename;
+    debt.personPhotoUrl = photoUrlString;
+    debt.debtSum = debtSum;
+    debt.debtDueDate = dueDate;
+    debt.debtAppearedDate = dateAppeared;
+    
+    NSError *error;
+    
+    if (![debt.managedObjectContext save:&error])
+    {
+        NSLog(@"Не удалось сохрнаить объект");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    }
+    return debt;
+}
 
 @end

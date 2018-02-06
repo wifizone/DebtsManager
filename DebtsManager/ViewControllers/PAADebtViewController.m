@@ -11,7 +11,6 @@
 #import "PAAFriendListViewController.h"
 #import "Masonry.h"
 
-static CGFloat const PAAButtonHeight = 50.0;
 static CGFloat const PAATextFieldHeight = 50.0;
 static CGFloat const PAAImageOffset = 10.0;
 static CGFloat const PAAImageWidth = 100.0;
