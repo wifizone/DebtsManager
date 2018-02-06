@@ -16,20 +16,47 @@ static CGFloat const PAAImageOffset = 10.0;
 static CGFloat const PAAImageWidth = 100.0;
 static CGFloat const PAAStatusAndNavigationBarHeight = 64.0;
 static CGFloat const PAADatePickerHeight = 150;
+static CGFloat const PAAAddButtonHeight = 50;
 
 @interface PAADebtViewController ()
 
+@property (nonatomic, assign) BOOL addFeatureIsNeeded;
 @property (nonatomic, strong) UITextField *textFieldName;
 @property (nonatomic, strong) UITextField *textFieldSurname;
 @property (nonatomic, strong) UIDatePicker *dueDatePicker;
 @property (nonatomic, strong) UIDatePicker *debtAppearedDatePicker;
 @property (nonatomic, strong) UIImageView *personPhotoView;
-@property (nonatomic, strong) UIButton *chooseFromFriendListButton;
+@property (nonatomic, strong) UIButton *addUIButton;
 
 
 @end
 
 @implementation PAADebtViewController
+
+
+#pragma mark - Constructor
+
+- (instancetype)initWithAddFeature
+{
+    self = [super init];
+    if (self)
+    {
+        self.addFeatureIsNeeded = YES;
+    }
+    return self;
+}
+
+- (instancetype)initWithEditFeature
+{
+    self = [super init];
+    if (self)
+    {
+        self.addFeatureIsNeeded = NO;
+    }
+    return self;
+}
+
+#pragma mark - Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -41,14 +68,32 @@ static CGFloat const PAADatePickerHeight = 150;
     // Dispose of any resources that can be recreated.
 }
 
+- (void)updateViewConstraints
+{
+    [self setupImageViewConstraints];
+    [self setupTextFieldNameConstraints];
+    [self setupTextFieldSurnameConstraints];
+    [self setupDueDatePickerConstraints];
+    [self setupDateAppearedPickerConstraints];
+    [self setupAddButtonConstraints];
+    [super updateViewConstraints];
+}
+
+
+#pragma mark - UI
+
 - (void)prepareUI
 {
-    [self addButton];
+    [self addNavigationRightItem];
     [self addImage];
     [self addNameTextField];
     [self addSurnameTextField];
     [self addDueDatePicker];
     [self addDebtAppearedDatePicker];
+    if (self.addFeatureIsNeeded)
+    {
+        [self addAddUIButton];
+    }
     [self updateViewConstraints];
 }
 
@@ -60,7 +105,7 @@ static CGFloat const PAADatePickerHeight = 150;
     [self.view addSubview:self.personPhotoView];
 }
 
-- (void)addButton
+- (void)addNavigationRightItem
 {
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Выбрать из друзей" style:UIBarButtonItemStylePlain target:self action:@selector(openFriendListViewController)];
     self.navigationItem.rightBarButtonItem = rightItem;
@@ -92,6 +137,14 @@ static CGFloat const PAADatePickerHeight = 150;
     [self.view addSubview:self.debtAppearedDatePicker];
 }
 
+- (void)addAddUIButton
+{
+    self.addUIButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.addUIButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self.addUIButton setTitle:@"Добавить" forState:UIControlStateNormal];
+    [self.view addSubview:self.addUIButton];
+}
+
 - (void)openFriendListViewController
 {
     PAAFriendListViewController *friendListViewController = [PAAFriendListViewController new];
@@ -100,16 +153,6 @@ static CGFloat const PAADatePickerHeight = 150;
 
 
 #pragma mark - ViewConstraints
-
-- (void)updateViewConstraints
-{
-    [self setupImageViewConstraints];
-    [self setupTextFieldNameConstraints];
-    [self setupTextFieldSurnameConstraints];
-    [self setupDueDatePickerConstraints];
-    [self setupDateAppearedPickerConstraints];
-    [super updateViewConstraints];
-}
 
 - (void)setupImageViewConstraints
 {
@@ -157,6 +200,16 @@ static CGFloat const PAADatePickerHeight = 150;
         make.right.equalTo(self.view.mas_right);
         make.left.equalTo(self.view.mas_left);
         make.height.mas_equalTo(PAADatePickerHeight);
+    }];
+}
+
+- (void)setupAddButtonConstraints
+{
+    [self.addUIButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.view.mas_bottom);
+        make.height.mas_equalTo(PAAAddButtonHeight);
+        make.right.equalTo(self.view.mas_right);
+        make.left.equalTo(self.view.mas_left);
     }];
 }
 

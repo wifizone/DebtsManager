@@ -69,7 +69,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 - (void)openDebtViewControllerToAddNewDebt
 {
-    PAADebtViewController *debtViewController = [PAADebtViewController new];
+    PAADebtViewController *debtViewController = [[PAADebtViewController alloc] initWithAddFeature];
     [self.navigationController pushViewController:debtViewController animated:YES];
 }
 

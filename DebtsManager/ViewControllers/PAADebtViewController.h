@@ -12,4 +12,7 @@
 
 @property (nonatomic, strong) Debt *currentDebt;
 
+- (instancetype)initWithAddFeature;
+- (instancetype)initWithEditFeature;
+
 @end
