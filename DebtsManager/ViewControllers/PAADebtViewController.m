@@ -9,6 +9,7 @@
 #import "Debt+CoreDataClass.h"
 #import "PAADebtViewController.h"
 #import "PAAFriendListViewController.h"
+#import "PAAFriend.h"
 #import "Masonry.h"
 
 static CGFloat const PAATextFieldHeight = 50.0;
@@ -41,7 +42,7 @@ static CGFloat const PAAAddButtonHeight = 50;
     self = [super init];
     if (self)
     {
-        self.addFeatureIsNeeded = YES;
+        _addFeatureIsNeeded = YES;
     }
     return self;
 }
@@ -51,7 +52,7 @@ static CGFloat const PAAAddButtonHeight = 50;
     self = [super init];
     if (self)
     {
-        self.addFeatureIsNeeded = NO;
+        _addFeatureIsNeeded = NO;
     }
     return self;
 }
