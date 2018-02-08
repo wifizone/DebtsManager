@@ -12,19 +12,21 @@
 
 @interface PAANetworkService()
 
-@property (nonatomic, copy) NSDictionary *response;
+@property (nonatomic, strong) NSURLSession *session;
 
 @end
 
 @implementation PAANetworkService
 
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+- (instancetype)init
 {
-    NSData *data = [NSData dataWithContentsOfURL:location];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.output loadingIsDoneWithImageReceived:data];
-    });
+    self = [super init];
+    if (self)
+    {
+        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+    }
+    return self;
 }
 
 - (NSMutableURLRequest *)getConfiguredRequestForUrl:(NSString *)urlString {
@@ -40,10 +42,8 @@
 {
     NSString *urlString = [PAAApiManager getFriendsIdsRequestUrl];
     NSMutableURLRequest *request = [self getConfiguredRequestForUrl:urlString];
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
     
-    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *temp = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];  //ошибку обработать
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.output loadingIsDoneWithJsonRecieved: [PAAApiManager parseFriendList:temp]];
@@ -54,11 +54,14 @@
 
 - (void)loadImageOfPerson: (NSString *)imageUrlString
 {
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
-    NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
-    NSURLSessionDownloadTask *downloadTask = [urlSession downloadTaskWithURL:imageUrl];
-    [downloadTask resume];
+    NSMutableURLRequest *request = [self getConfiguredRequestForUrl:imageUrlString];
+    
+    NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.output loadingIsDoneWithImageReceived:data];
+        });
+    }];
+    [sessionDataTask resume];
 }
 
 @end
