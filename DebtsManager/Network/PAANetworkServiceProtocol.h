@@ -11,8 +11,9 @@
 @protocol PAANetworkServiceOutputProtocol <NSObject>
 @optional
 
--(void)loadingIsDoneWithJsonRecieved: (NSArray *)friendItemsReceived;
--(void)loadingIsDoneWithImageReceived: (NSData *)personPhoto;
+- (void)loadingIsDoneWithJsonRecieved: (NSArray *)friendItemsReceived;
+- (void)loadingIsDoneWithImageReceived: (NSData *)personPhoto;
+- (void)loadingIsDoneWithImageReceived: (NSData *)personPhoto forIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
@@ -26,6 +27,6 @@
 
 - (void)loadFriendListOfPerson;
 - (void)loadImageOfPerson: (NSString *)imageUrlString;
-
+- (void)loadImageOfPerson:(NSString *)imageUrlString forIndexPath:(NSIndexPath *)indexPath;
 
 @end
