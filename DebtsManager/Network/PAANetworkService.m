@@ -20,10 +20,10 @@
 
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
 {
-    NSArray *arrayOfFriendsDownloaded = [NSArray arrayWithContentsOfURL:location];
+    NSData *data = [NSData dataWithContentsOfURL:location];
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.output loadingIsDoneWithJsonRecieved:arrayOfFriendsDownloaded];
+        [self.output loadingIsDoneWithImageReceived:data];
     });
 }
 
@@ -36,10 +36,10 @@
     return request;
 }
 
--(void)loadFriendListOfPerson
+- (void)loadFriendListOfPerson
 {
     NSString *urlString = [PAAApiManager getFriendsIdsRequestUrl];
-    NSMutableURLRequest * request = [self getConfiguredRequestForUrl:urlString];
+    NSMutableURLRequest *request = [self getConfiguredRequestForUrl:urlString];
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
     
@@ -50,6 +50,15 @@
         });
     }];
     [sessionDataTask resume];
+}
+
+- (void)loadImageOfPerson: (NSString *)imageUrlString
+{
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:self delegateQueue:nil];
+    NSURL *imageUrl = [NSURL URLWithString:imageUrlString];
+    NSURLSessionDownloadTask *downloadTask = [urlSession downloadTaskWithURL:imageUrl];
+    [downloadTask resume];
 }
 
 @end

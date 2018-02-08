@@ -13,7 +13,7 @@
 @property (nonatomic, copy) NSString *userId;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *surname;
-@property (nonatomic, copy) NSString *personPhoto50UrlString;
+@property (nonatomic, copy) NSString *personPhotoUrlString;
 
 - (instancetype)initWithDictionary: (NSDictionary *)friendModelDictionary;
 
