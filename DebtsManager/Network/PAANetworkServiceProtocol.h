@@ -11,20 +11,21 @@
 @protocol PAANetworkServiceOutputProtocol <NSObject>
 @optional
 
--(void)loadingContinuesWithProgress: (double)progress;
 -(void)loadingIsDoneWithJsonRecieved: (NSArray *)friendItemsReceived;
+-(void)loadingIsDoneWithImageReceived: (NSData *)personPhoto;
 
 @end
 
 
 @protocol PAANetworkServiceInputProtocol <NSObject>
 @optional
--(void)configureUrlSessionWithParams: (NSDictionary *)params;
--(void)startImageLoading: (NSString *)searchName;
+- (void)configureUrlSessionWithParams: (NSDictionary *)params;
 
--(BOOL)resumeNetworkLoading;
--(void)suspendNetworkLoading;
+- (BOOL)resumeNetworkLoading;
+- (void)suspendNetworkLoading;
 
--(void)loadFriendListOfPerson;
+- (void)loadFriendListOfPerson;
+- (void)loadImageOfPerson: (NSString *)imageUrlString;
+
 
 @end

@@ -27,7 +27,7 @@ static NSString * const PAAAccessTokenInUserDefaultsKey = @"accessToken";
 + (NSString *)getFriendsIdsRequestUrl
 {
     NSString *accessToken = [self getAccessTokenFromUserDefaults];
-    return [NSString stringWithFormat:@"https://api.vk.com/method/friends.get?order=name&fields=photo_50&v=%@&access_token=%@", PAAVkApiVersion, accessToken];
+    return [NSString stringWithFormat:@"https://api.vk.com/method/friends.get?order=name&fields=photo_100&v=%@&access_token=%@", PAAVkApiVersion, accessToken];
 }
 
 

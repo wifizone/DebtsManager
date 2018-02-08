@@ -8,6 +8,7 @@
 
 #import "PAADebtViewController.h"
 #import "PAACoreDataManager.h"
+#import "PAANetworkService.h"
 #import "PAAFriend.h"
 #import "Masonry.h"
 
@@ -18,7 +19,7 @@ static CGFloat const PAAStatusAndNavigationBarHeight = 64.0;
 static CGFloat const PAADatePickerHeight = 150;
 static CGFloat const PAAAddButtonHeight = 50;
 
-@interface PAADebtViewController ()
+@interface PAADebtViewController () <PAANetworkServiceOutputProtocol>
 
 @property (nonatomic, assign) BOOL addFeatureIsNeeded;
 @property (nonatomic, strong) UIButton *addUIButton;
@@ -83,9 +84,24 @@ static CGFloat const PAAAddButtonHeight = 50;
     self.friendModel = friendModel;
     [self.textFieldName setText:friendModel.name];
     [self.textFieldSurname setText:friendModel.surname];
+    [self loadPersonPhoto:friendModel.personPhotoUrlString];
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+
+#pragma mark - LoadingImage
+
+- (void)loadingIsDoneWithImageReceived:(NSData *)personPhoto
+{
+    self.personPhotoView.image = [UIImage imageWithData:personPhoto];
+}
+
+- (void)loadPersonPhoto: (NSString *)urlString
+{
+    PAANetworkService *networkService = [PAANetworkService new];
+    networkService.output = self;
+    [networkService loadImageOfPerson:urlString];
+}
 
 #pragma mark - Navigation
 
@@ -100,7 +116,7 @@ static CGFloat const PAAAddButtonHeight = 50;
 {
     [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.textFieldName.text
                                                                  surname:self.textFieldSurname.text
-                                                          photoUrlString:self.friendModel.personPhoto50UrlString
+                                                          photoUrlString:self.friendModel.personPhotoUrlString
                                                                  debtSum:5000
                                                              debtDueDate:self.dueDatePicker.date
                                                         debtAppearedDate:self.debtAppearedDatePicker.date];

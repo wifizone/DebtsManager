@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "PAANetworkServiceProtocol.h"
 
-@interface PAANetworkService : NSObject <PAANetworkServiceInputProtocol, NSURLSessionDownloadDelegate>
+@interface PAANetworkService : NSObject <PAANetworkServiceInputProtocol>
 
 @property (nonatomic, weak) id<PAANetworkServiceOutputProtocol> output;
+- (instancetype)init;
 
 @end

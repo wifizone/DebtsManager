@@ -12,19 +12,21 @@
 
 @interface PAANetworkService()
 
-@property (nonatomic, copy) NSDictionary *response;
+@property (nonatomic, strong) NSURLSession *session;
 
 @end
 
 @implementation PAANetworkService
 
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+- (instancetype)init
 {
-    NSArray *arrayOfFriendsDownloaded = [NSArray arrayWithContentsOfURL:location];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.output loadingIsDoneWithJsonRecieved:arrayOfFriendsDownloaded];
-    });
+    self = [super init];
+    if (self)
+    {
+        NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _session = [NSURLSession sessionWithConfiguration:sessionConfiguration];
+    }
+    return self;
 }
 
 - (NSMutableURLRequest *)getConfiguredRequestForUrl:(NSString *)urlString {
@@ -36,17 +38,27 @@
     return request;
 }
 
--(void)loadFriendListOfPerson
+- (void)loadFriendListOfPerson
 {
     NSString *urlString = [PAAApiManager getFriendsIdsRequestUrl];
-    NSMutableURLRequest * request = [self getConfiguredRequestForUrl:urlString];
-    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration: sessionConfiguration];
+    NSMutableURLRequest *request = [self getConfiguredRequestForUrl:urlString];
     
-    NSURLSessionDataTask *sessionDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         NSDictionary *temp = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];  //ошибку обработать
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.output loadingIsDoneWithJsonRecieved: [PAAApiManager parseFriendList:temp]];
+        });
+    }];
+    [sessionDataTask resume];
+}
+
+- (void)loadImageOfPerson: (NSString *)imageUrlString
+{
+    NSMutableURLRequest *request = [self getConfiguredRequestForUrl:imageUrlString];
+    
+    NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.output loadingIsDoneWithImageReceived:data];
         });
     }];
     [sessionDataTask resume];
