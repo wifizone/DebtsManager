@@ -7,7 +7,83 @@
 //
 
 #import "PAACoreDataManager.h"
+#import "Debt+CoreDataClass.h"
+#import "AppDelegate.h"
+
+NSString * const PAAPersonNameCoreDataField = @"personName";
+NSString * const PAAPersonSurnameCoreDataField = @"personSurname";
+NSString * const PAAPersonPhotoUrlCoreDataField = @"personPhotoUrl";
+NSString * const PAADebtAppearedDateCoreDataField = @"debtAppearedDate";
+NSString * const PAADebtDueDateCoreDataField = @"debtDueDate";
+NSString * const PAADebtSumCoreDataField = @"debtSum";
 
 @implementation PAACoreDataManager
+
++ (PAACoreDataManager *)sharedCoreDataManager
+{
+    static PAACoreDataManager *coreDataManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        coreDataManager = [[self alloc] init];
+    });
+    return coreDataManager;
+}
+
+- (NSManagedObjectContext *)coreDataContext
+{
+    if (_coreDataContext)
+    {
+        return _coreDataContext;
+    }
+    
+    UIApplication *application = [UIApplication sharedApplication];
+    NSPersistentContainer *container = ((AppDelegate *) (application.delegate)).persistentContainer;
+    NSManagedObjectContext *context = container.viewContext;
+    
+    return context;
+}
+
+
+#pragma mark - CRUD
+
+- (NSArray *)getCurrentModel
+{
+    return [self.coreDataContext executeFetchRequest:[Debt fetchRequest] error:nil];
+}
+
+- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
+{
+    NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
+    Debt *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
+    debt.personName = name;
+    debt.personSurname = surename;
+    debt.personPhotoUrl = photoUrlString;
+    debt.debtSum = debtSum;
+    debt.debtDueDate = dueDate;
+    debt.debtAppearedDate = dateAppeared;
+    
+    NSError *error;
+    
+    if (![debt.managedObjectContext save:&error])
+    {
+        NSLog(@"Не удалось сохрнаить объект");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    }
+}
+
+- (void)deleteObject: (Debt *)debt
+{
+    //    NSError *error;
+    [self.coreDataContext deleteObject:debt];
+    
+    if (![debt isDeleted])
+    {
+        NSLog(@"Ошибка при удалении из CoreData");
+    }
+}
+
+- (void)editObject: (Debt *)debt
+{
+}
 
 @end

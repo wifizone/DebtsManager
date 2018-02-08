@@ -12,7 +12,6 @@
 #import "PAAMainViewController.h"
 
 NSString * const PAAAccessTokenReceivedNotification = @"PAAAccessTokenReceivedNotification";
-
 static CGFloat const PAAButtonHeight = 40.0;
 static CGFloat const PAAButtonWidth = 200.0;
 
@@ -62,6 +61,7 @@ static CGFloat const PAAButtonWidth = 200.0;
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
+
 
 #pragma mark - ManagingAcessTokenWithSafariView
 

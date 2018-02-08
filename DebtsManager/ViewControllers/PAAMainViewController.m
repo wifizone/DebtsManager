@@ -8,17 +8,19 @@
 
 #import "PAAMainViewController.h"
 #import "Debt+CoreDataClass.h"
+#import "PAACoreDataManager.h"
 #import "AppDelegate.h"
 #import "PAADebtTableViewCell.h"
 #import "PAADebtViewController.h"
+#import "PAACoreDataManager.h"
 
-static CGFloat const PAARowHeight = 90.0;
+static CGFloat const PAARowHeight = 120.0;
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableViewWithDebts;
-@property (nonatomic, copy) NSArray *arrayWithDebts;
+@property (nonatomic, copy) NSArray<Debt *> *arrayWithDebts;
 @property (nonatomic, strong)NSManagedObjectContext *coreDataContext;
 
 @end
@@ -31,6 +33,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self loadModel];
     [self prepareUI];
 }
 
@@ -39,16 +42,22 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [self updateTableOfDebts];
+}
 
 #pragma mark - UI
 
+- (void)updateTableOfDebts
+{
+    [self loadModel];
+    [self.tableViewWithDebts reloadData];
+}
+
 - (void)prepareUI
 {
-    self.arrayWithDebts = @[@{
-                                @"Name":@"Антон",
-                                @"SumToRepay":@500,
-                                @"Date":@"19.03.1995"
-                                }];
     [self addTableViewWithDebts];
     [self createButtonAdd];
 }
@@ -56,32 +65,25 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (void)addTableViewWithDebts
 {
     //изменить 20
-    self.tableViewWithDebts = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.navigationController.navigationBar.frame) + 20,self.view.bounds.size.width, self.view.bounds.size.height)
-                                                           style:UITableViewStylePlain];
+    self.tableViewWithDebts = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.navigationController.navigationBar.frame) + 20,self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
     self.tableViewWithDebts.rowHeight = PAARowHeight;
     [self.view addSubview:self.tableViewWithDebts];
     self.tableViewWithDebts.dataSource = self;
     self.tableViewWithDebts.delegate = self;
     [self.tableViewWithDebts registerClass:[PAADebtTableViewCell class] forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
+    self.tableViewWithDebts.allowsMultipleSelection = NO;
 }
 
 - (void)createButtonAdd {
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Добавить" style:UIBarButtonItemStylePlain target:self action:@selector(openDebtViewController)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Добавить" style:UIBarButtonItemStylePlain target:self action:@selector(openDebtViewControllerToAddNewDebt)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
-- (void)openDebtViewController
+- (void)openDebtViewControllerToAddNewDebt
 {
-    PAADebtViewController *debtViewController = [PAADebtViewController new];
+    PAADebtViewController *debtViewController = [[PAADebtViewController alloc] initWithAddFeature];
     [self.navigationController pushViewController:debtViewController animated:YES];
 }
-
-//- (void)createButtonDelete {
-//    self.view.backgroundColor = [UIColor greenColor];
-//
-//    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc] initWithTitle:@"Удалить" style:UIBarButtonItemStylePlain target:self action:@selector(deleteEntry)];
-//    self.navigationItem.leftBarButtonItem = leftItem;
-//}
 
 
 #pragma mark - UITableViewDelegate, UITableViewDataSource
@@ -91,38 +93,72 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     return 1;
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PAADebtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier];
-    NSDictionary *object = self.arrayWithDebts[indexPath.row];
+    Debt *debt = self.arrayWithDebts[indexPath.row];
     
-    cell.personNameLabel.text = object[@"Name"];
-    cell.sumToRepayLabel.text = [object[@"SumToRepay"] stringValue]; 
-    cell.dueDateLabel.text = object[@"Date"];
+    cell.personNameLabel.text = debt.personName;
+    cell.sumToRepayLabel.text = [NSString stringWithFormat:@"%f", debt.debtSum];
+    NSDateFormatter *formatter = [NSDateFormatter new];
+    [formatter setDateFormat:@"dd.mm.yyyy"];
+    cell.dueDateLabel.text = [formatter stringFromDate:debt.debtDueDate];
     cell.personPhotoImage.image = [UIImage imageNamed:@"ok.png"];
     
     return cell;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.arrayWithDebts.count;
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete)
+    {
+        [[PAACoreDataManager sharedCoreDataManager] deleteObject:self.arrayWithDebts[indexPath.row]];
+        [self updateTableOfDebts];
+    }
+}
+
+
 #pragma mark - CoreDataManagement
 
-- (NSManagedObjectContext *)coreDataContext
+- (void)addObjectToCoreDataTest
 {
-    if (_coreDataContext)
+    NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
+    Debt *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
+    debt.personName = @"Aleksandr";
+    debt.personSurname = @"Konevskii";
+    debt.personPhotoUrl = @"https://pp.userapi.com/c621323/v621323368/221ed/QK3Xj2XE7kM.jpg";
+    debt.debtSum = 5000;
+    NSDateComponents *dateComponents = [NSDateComponents new];
+    [dateComponents setYear:2014];
+    [dateComponents setMonth:01];
+    [dateComponents setDay:28];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    debt.debtDueDate = [calendar dateFromComponents:dateComponents];
+    debt.debtAppearedDate = [calendar dateFromComponents:dateComponents];
+    
+    NSError *error;
+    
+    if (![debt.managedObjectContext save:&error])
     {
-        return _coreDataContext;
+        NSLog(@"Не удалось сохрнаить объект");
+        NSLog(@"%@, %@", error, error.localizedDescription);
     }
-    
-    UIApplication *application = [UIApplication sharedApplication];
-    NSPersistentContainer *container = ((AppDelegate *) (application.delegate)).persistentContainer;
-    NSManagedObjectContext *context = container.viewContext;
-    
-    return context;
+}
+
+- (void)loadModel
+{
+    self.arrayWithDebts = nil;
+    self.arrayWithDebts = [[PAACoreDataManager sharedCoreDataManager] getCurrentModel];
 }
 
 @end

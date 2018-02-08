@@ -9,6 +9,7 @@
 #import "PAAFriendListViewController.h"
 #import "PAAFriendListTableViewCell.h"
 #import "PAANetworkService.h"
+#import "PAADebtViewController.h"
 
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
@@ -19,6 +20,9 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 @end
 
 @implementation PAAFriendListViewController
+
+
+#pragma mark - Lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -32,6 +36,9 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark - DownloadingFriendList
 
 - (void)loadFriendList
 {
@@ -60,10 +67,16 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier forIndexPath:indexPath];
-    NSString *name = self.friendList[indexPath.row][@"first_name"];
+    NSString *name = self.friendList[indexPath.row][@"first_name"];  //2 раза повторяется
     NSString *surname = self.friendList[indexPath.row][@"last_name"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", surname, name];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PAAFriend *friendModel = [[PAAFriend alloc] initWithDictionary:self.friendList[indexPath.row]];
+    [self.delegate friendListViewController:self didChooseFriend:friendModel];
 }
 
 @end
