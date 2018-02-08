@@ -82,4 +82,8 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     }
 }
 
+- (void)editObject: (Debt *)debt
+{
+}
+
 @end

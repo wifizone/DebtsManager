@@ -101,7 +101,8 @@ static CGFloat const PAAAddButtonHeight = 50;
     [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.textFieldName.text
                                                                  surname:self.textFieldSurname.text
                                                           photoUrlString:self.friendModel.personPhoto50UrlString
-                                                                 debtSum:5000 debtDueDate:self.dueDatePicker.date
+                                                                 debtSum:5000
+                                                             debtDueDate:self.dueDatePicker.date
                                                         debtAppearedDate:self.debtAppearedDatePicker.date];
     [[self navigationController] popViewControllerAnimated:YES];
 }
