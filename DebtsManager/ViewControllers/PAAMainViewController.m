@@ -8,20 +8,21 @@
 
 #import "PAAMainViewController.h"
 #import "Debt+CoreDataClass.h"
-#import "PAACoreDataManager.h"
 #import "AppDelegate.h"
 #import "PAADebtTableViewCell.h"
 #import "PAADebtViewController.h"
 #import "PAACoreDataManager.h"
+#import "PAANetworkService.h"
 
 static CGFloat const PAARowHeight = 120.0;
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
-@interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource, PAANetworkServiceOutputProtocol>
 
 @property (nonatomic, strong) UITableView *tableViewWithDebts;
 @property (nonatomic, copy) NSArray<Debt *> *arrayWithDebts;
-@property (nonatomic, strong)NSManagedObjectContext *coreDataContext;
+@property (nonatomic, strong) NSManagedObjectContext *coreDataContext;
+@property (nonatomic, strong) PAANetworkService *networkService;
 
 @end
 
@@ -35,6 +36,8 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     [super viewDidLoad];
     [self loadModel];
     [self prepareUI];
+    self.networkService = [PAANetworkService new];
+    self.networkService.output = self;
 }
 
 - (void)didReceiveMemoryWarning
@@ -103,8 +106,10 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"dd.mm.yyyy"];
     cell.dueDateLabel.text = [formatter stringFromDate:debt.debtDueDate];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.networkService loadImageOfPerson:debt.personPhotoUrl forIndexPath:indexPath];
+    });
     cell.personPhotoImage.image = [UIImage imageNamed:@"ok.png"];
-    
     return cell;
 }
 
@@ -127,6 +132,15 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     }
 }
 
+
+#pragma mark - PAANetworkServiceOutputProtocol
+
+- (void)loadingIsDoneWithImageReceived:(NSData *)personPhoto forIndexPath:(NSIndexPath *)indexPath
+{
+    PAADebtTableViewCell *cell = [self.tableViewWithDebts cellForRowAtIndexPath:indexPath];
+    UIImage *personImage = [UIImage imageWithData:personPhoto];
+    cell.personPhotoImage.image = personImage;
+}
 
 #pragma mark - CoreDataManagement
 

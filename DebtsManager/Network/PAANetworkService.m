@@ -64,4 +64,16 @@
     [sessionDataTask resume];
 }
 
+- (void)loadImageOfPerson:(NSString *)imageUrlString forIndexPath:(NSIndexPath *)indexPath
+{
+    NSMutableURLRequest *request = [self getConfiguredRequestForUrl:imageUrlString];
+    
+    NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.output loadingIsDoneWithImageReceived:data forIndexPath:indexPath];
+        });
+    }];
+    [sessionDataTask resume];
+}
+
 @end
