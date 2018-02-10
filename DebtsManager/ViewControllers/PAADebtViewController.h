@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Debt+CoreDataClass.h"
+#import "DebtPAA+CoreDataClass.h"
 #import "PAAFriendListViewController.h"
 
 @interface PAADebtViewController : UIViewController <PAAFriendListViewControllerDelegate>
@@ -18,7 +18,7 @@
 @property (nonatomic, strong) UIDatePicker *dueDatePicker;
 @property (nonatomic, strong) UIDatePicker *debtAppearedDatePicker;
 @property (nonatomic, strong) UIImageView *personPhotoView;
-@property (nonatomic, strong) Debt *currentDebt;
+@property (nonatomic, strong) DebtPAA *currentDebt;
 
 - (instancetype)initWithAddFeature;
 - (instancetype)initWithEditFeature;

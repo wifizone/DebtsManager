@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Debt+CoreDataClass.h"
+#import "DebtPAA+CoreDataClass.h"
 
 extern NSString * const PAAPersonNameCoreDataField;
 extern NSString * const PAAPersonSurnameCoreDataField;
@@ -25,6 +25,6 @@ extern NSString * const PAADebtSumCoreDataField;
 - (NSManagedObjectContext *)coreDataContext;
 - (NSManagedObjectContext *)getCurrentModel;
 - (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared;
-- (void)deleteObject: (Debt *)debt;
+- (void)deleteObject: (DebtPAA *)debt;
 
 @end

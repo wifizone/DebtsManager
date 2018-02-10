@@ -7,7 +7,7 @@
 //
 
 #import "PAACoreDataManager.h"
-#import "Debt+CoreDataClass.h"
+#import "DebtPAA+CoreDataClass.h"
 #import "AppDelegate.h"
 
 NSString * const PAAPersonNameCoreDataField = @"personName";
@@ -48,13 +48,13 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
 
 - (NSArray *)getCurrentModel
 {
-    return [self.coreDataContext executeFetchRequest:[Debt fetchRequest] error:nil];
+    return [self.coreDataContext executeFetchRequest:[DebtPAA fetchRequest] error:nil];
 }
 
 - (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
 {
     NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
-    Debt *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
+    DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:@"DebtPAA" inManagedObjectContext:context];
     debt.personName = name;
     debt.personSurname = surename;
     debt.personPhotoUrl = photoUrlString;
@@ -71,7 +71,7 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     }
 }
 
-- (void)deleteObject: (Debt *)debt
+- (void)deleteObject: (DebtPAA *)debt
 {
     //    NSError *error;
     [self.coreDataContext deleteObject:debt];
@@ -82,7 +82,7 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     }
 }
 
-- (void)editObject: (Debt *)debt
+- (void)editObject: (DebtPAA *)debt
 {
 }
 

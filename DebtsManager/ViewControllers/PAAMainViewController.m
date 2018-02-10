@@ -7,7 +7,7 @@
 //
 
 #import "PAAMainViewController.h"
-#import "Debt+CoreDataClass.h"
+#import "DebtPAA+CoreDataClass.h"
 #import "AppDelegate.h"
 #import "PAADebtTableViewCell.h"
 #import "PAADebtViewController.h"
@@ -20,7 +20,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource, PAANetworkServiceOutputProtocol>
 
 @property (nonatomic, strong) UITableView *tableViewWithDebts;
-@property (nonatomic, copy) NSArray<Debt *> *arrayWithDebts;
+@property (nonatomic, copy) NSArray<DebtPAA *> *arrayWithDebts;
 @property (nonatomic, strong) NSManagedObjectContext *coreDataContext;
 @property (nonatomic, strong) PAANetworkService *networkService;
 
@@ -99,7 +99,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PAADebtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier];
-    Debt *debt = self.arrayWithDebts[indexPath.row];
+    DebtPAA *debt = self.arrayWithDebts[indexPath.row];
     
     cell.personNameLabel.text = debt.personName;
     cell.sumToRepayLabel.text = [NSString stringWithFormat:@"%f", debt.debtSum];
@@ -147,7 +147,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (void)addObjectToCoreDataTest
 {
     NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
-    Debt *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
+    DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
     debt.personName = @"Aleksandr";
     debt.personSurname = @"Konevskii";
     debt.personPhotoUrl = @"https://pp.userapi.com/c621323/v621323368/221ed/QK3Xj2XE7kM.jpg";
