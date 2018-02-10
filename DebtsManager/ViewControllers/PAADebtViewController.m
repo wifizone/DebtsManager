@@ -18,10 +18,12 @@ static CGFloat const PAAImageWidth = 100.0;
 static CGFloat const PAAStatusAndNavigationBarHeight = 64.0;
 static CGFloat const PAADatePickerHeight = 150;
 static CGFloat const PAAAddButtonHeight = 50;
+static NSString * const PAAbuttonAddText = @"Добавить";
+static NSString * const PAAbuttonEditText = @"Изменить";
 
-@interface PAADebtViewController () <PAANetworkServiceOutputProtocol>
 
-@property (nonatomic, assign) BOOL addFeatureIsNeeded;
+@interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>
+
 @property (nonatomic, strong) UIButton *addUIButton;
 @property (nonatomic, strong) PAAFriend *friendModel;
 @property (nonatomic, strong) PAAFriendListViewController *friendListViewController;
@@ -30,28 +32,6 @@ static CGFloat const PAAAddButtonHeight = 50;
 
 @implementation PAADebtViewController
 
-
-#pragma mark - Constructor
-
-- (instancetype)initWithAddFeature
-{
-    self = [super init];
-    if (self)
-    {
-        _addFeatureIsNeeded = YES;
-    }
-    return self;
-}
-
-- (instancetype)initWithEditFeature
-{
-    self = [super init];
-    if (self)
-    {
-        _addFeatureIsNeeded = NO;
-    }
-    return self;
-}
 
 #pragma mark - Lifecycle
 
@@ -70,6 +50,7 @@ static CGFloat const PAAAddButtonHeight = 50;
     [self setupImageViewConstraints];
     [self setupTextFieldNameConstraints];
     [self setupTextFieldSurnameConstraints];
+    [self setupTextFieldSumConstraints];
     [self setupDueDatePickerConstraints];
     [self setupDateAppearedPickerConstraints];
     [self setupAddButtonConstraints];
@@ -103,6 +84,7 @@ static CGFloat const PAAAddButtonHeight = 50;
     [networkService loadImageOfPerson:urlString];
 }
 
+
 #pragma mark - Navigation
 
 - (void)openFriendListViewController
@@ -112,15 +94,45 @@ static CGFloat const PAAAddButtonHeight = 50;
     [self.navigationController pushViewController:self.friendListViewController animated:YES];
 }
 
-- (void)addDebt  //добавить сумму
+- (void)addDebt:(UIButton *)button  //добавить сумму
 {
-    [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.textFieldName.text
-                                                                 surname:self.textFieldSurname.text
-                                                          photoUrlString:self.friendModel.personPhotoUrlString
-                                                                 debtSum:5000
-                                                             debtDueDate:self.dueDatePicker.date
-                                                        debtAppearedDate:self.debtAppearedDatePicker.date];
+    if (button.titleLabel.text == PAAbuttonAddText)
+    {
+        [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.textFieldName.text
+                                                                     surname:self.textFieldSurname.text
+                                                              photoUrlString:self.friendModel.personPhotoUrlString
+                                                                     debtSum:[self.textFieldSum.text doubleValue]
+                                                                 debtDueDate:self.dueDatePicker.date
+                                                            debtAppearedDate:self.debtAppearedDatePicker.date];
+    }
+    else
+    {
+        [[PAACoreDataManager sharedCoreDataManager] editObject:self.currentDebt
+                                                          name:self.textFieldName.text
+                                                       surname:self.textFieldSurname.text
+                                                photoUrlString:self.currentDebt.personPhotoUrl
+                                                       debtSum:[self.textFieldSum.text doubleValue]
+                                                   debtDueDate:self.dueDatePicker.date
+                                              debtAppearedDate:self.debtAppearedDatePicker.date];
+    }
+    
     [[self navigationController] popViewControllerAnimated:YES];
+}
+
+
+#pragma mark - Keyboard
+
+-(void)addGestureRecognizer
+{
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:tap];
+}
+
+-(void)dismissKeyboard
+{
+    [self.textFieldName resignFirstResponder];
+    [self.textFieldSurname resignFirstResponder];
+    [self.textFieldSum resignFirstResponder];
 }
 
 #pragma mark - UI
@@ -132,11 +144,14 @@ static CGFloat const PAAAddButtonHeight = 50;
     [self addImage];
     [self addNameTextField];
     [self addSurnameTextField];
+    [self addGestureRecognizer];
+    [self addSumTextField];
     [self addDueDatePicker];
     [self addDebtAppearedDatePicker];
-    if (self.addFeatureIsNeeded)
+    [self addAddUIButton];
+    if (self.currentDebt != nil)
     {
-        [self addAddUIButton];
+        [self populateDebtFields];
     }
     [self updateViewConstraints];
 }
@@ -169,6 +184,14 @@ static CGFloat const PAAAddButtonHeight = 50;
     [self.view addSubview:self.textFieldSurname];
 }
 
+- (void)addSumTextField
+{
+    self.textFieldSum = [UITextField new];
+    [self.textFieldSum setBorderStyle:UITextBorderStyleRoundedRect];
+    [self.textFieldSum setKeyboardType:UIKeyboardTypeNumberPad];
+    [self.view addSubview:self.textFieldSum];
+}
+
 - (void)addDueDatePicker
 {
     self.dueDatePicker = [UIDatePicker new];
@@ -185,11 +208,28 @@ static CGFloat const PAAAddButtonHeight = 50;
 {
     self.addUIButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.addUIButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.addUIButton setTitle:@"Добавить" forState:UIControlStateNormal];
-    [self.addUIButton addTarget:self action:@selector(addDebt) forControlEvents:UIControlEventTouchUpInside];
+    if (self.addFeatureIsNeeded)
+    {
+        [self.addUIButton setTitle:PAAbuttonAddText forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.addUIButton setTitle:PAAbuttonEditText forState:UIControlStateNormal];
+    }
+    [self.addUIButton addTarget:self action:@selector(addDebt:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.addUIButton];
 }
 
+- (void)populateDebtFields
+{
+    [self loadPersonPhoto:self.currentDebt.personPhotoUrl];
+    [self.textFieldName setText:self.currentDebt.personName];
+    [self.textFieldSurname setText:self.currentDebt.personSurname];
+    NSString *debtSum = [NSString stringWithFormat:@"%2.f", self.currentDebt.debtSum];
+    [self.textFieldSum setText:debtSum];
+    [self.debtAppearedDatePicker setDate:self.currentDebt.debtAppearedDate];
+    [self.dueDatePicker setDate:self.currentDebt.debtDueDate];
+}
 
 #pragma mark - ViewConstraints
 
@@ -222,10 +262,20 @@ static CGFloat const PAAAddButtonHeight = 50;
     }];
 }
 
+- (void)setupTextFieldSumConstraints
+{
+    [self.textFieldSum mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.textFieldSurname.mas_bottom);
+        make.right.equalTo(self.view.mas_right);
+        make.left.equalTo(self.view.mas_left);
+        make.height.mas_equalTo(PAATextFieldHeight);
+    }];
+}
+
 - (void)setupDueDatePickerConstraints
 {
     [self.dueDatePicker mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.textFieldSurname.mas_bottom);
+        make.top.equalTo(self.textFieldSum.mas_bottom);
         make.right.equalTo(self.view.mas_right);
         make.left.equalTo(self.view.mas_left);
         make.height.mas_equalTo(PAADatePickerHeight);

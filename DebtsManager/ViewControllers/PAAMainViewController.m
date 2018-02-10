@@ -7,7 +7,7 @@
 //
 
 #import "PAAMainViewController.h"
-#import "Debt+CoreDataClass.h"
+#import "DebtPAA+CoreDataClass.h"
 #import "AppDelegate.h"
 #import "PAADebtTableViewCell.h"
 #import "PAADebtViewController.h"
@@ -20,7 +20,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource, PAANetworkServiceOutputProtocol>
 
 @property (nonatomic, strong) UITableView *tableViewWithDebts;
-@property (nonatomic, copy) NSArray<Debt *> *arrayWithDebts;
+@property (nonatomic, copy) NSArray<DebtPAA *> *arrayWithDebts;
 @property (nonatomic, strong) NSManagedObjectContext *coreDataContext;
 @property (nonatomic, strong) PAANetworkService *networkService;
 
@@ -77,14 +77,27 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     self.tableViewWithDebts.allowsMultipleSelection = NO;
 }
 
-- (void)createButtonAdd {
+- (void)createButtonAdd
+{
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Добавить" style:UIBarButtonItemStylePlain target:self action:@selector(openDebtViewControllerToAddNewDebt)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
+
+#pragma mark - Navigation
+
 - (void)openDebtViewControllerToAddNewDebt
 {
-    PAADebtViewController *debtViewController = [[PAADebtViewController alloc] initWithAddFeature];
+    PAADebtViewController *debtViewController = [PAADebtViewController new];
+    debtViewController.addFeatureIsNeeded = YES;
+    [self.navigationController pushViewController:debtViewController animated:YES];
+}
+
+- (void)openDebtViewControllerToEditNewDebt:(NSIndexPath *)indexPath
+{
+    PAADebtViewController *debtViewController = [PAADebtViewController new];
+    debtViewController.addFeatureIsNeeded = NO;
+    debtViewController.currentDebt = self.arrayWithDebts[indexPath.row];
     [self.navigationController pushViewController:debtViewController animated:YES];
 }
 
@@ -99,7 +112,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     PAADebtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier];
-    Debt *debt = self.arrayWithDebts[indexPath.row];
+    DebtPAA *debt = self.arrayWithDebts[indexPath.row];
     
     cell.personNameLabel.text = debt.personName;
     cell.sumToRepayLabel.text = [NSString stringWithFormat:@"%f", debt.debtSum];
@@ -132,6 +145,11 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     }
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self openDebtViewControllerToEditNewDebt:indexPath];
+}
+
 
 #pragma mark - PAANetworkServiceOutputProtocol
 
@@ -143,31 +161,6 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 }
 
 #pragma mark - CoreDataManagement
-
-- (void)addObjectToCoreDataTest
-{
-    NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
-    Debt *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
-    debt.personName = @"Aleksandr";
-    debt.personSurname = @"Konevskii";
-    debt.personPhotoUrl = @"https://pp.userapi.com/c621323/v621323368/221ed/QK3Xj2XE7kM.jpg";
-    debt.debtSum = 5000;
-    NSDateComponents *dateComponents = [NSDateComponents new];
-    [dateComponents setYear:2014];
-    [dateComponents setMonth:01];
-    [dateComponents setDay:28];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    debt.debtDueDate = [calendar dateFromComponents:dateComponents];
-    debt.debtAppearedDate = [calendar dateFromComponents:dateComponents];
-    
-    NSError *error;
-    
-    if (![debt.managedObjectContext save:&error])
-    {
-        NSLog(@"Не удалось сохрнаить объект");
-        NSLog(@"%@, %@", error, error.localizedDescription);
-    }
-}
 
 - (void)loadModel
 {
