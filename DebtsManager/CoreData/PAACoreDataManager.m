@@ -75,15 +75,31 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
 {
     //    NSError *error;
     [self.coreDataContext deleteObject:debt];
-    
+    [self.coreDataContext save:nil];
+    NSLog(@"%i", self.coreDataContext.registeredObjects.count);
+
     if (![debt isDeleted])
     {
         NSLog(@"Ошибка при удалении из CoreData");
     }
 }
 
-- (void)editObject: (DebtPAA *)debt
+- (void)editObject:(DebtPAA *)debt name:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
 {
+    debt.personName = name;
+    debt.personSurname = surename;
+    debt.personPhotoUrl = photoUrlString;
+    debt.debtSum = debtSum;
+    debt.debtDueDate = dueDate;
+    debt.debtAppearedDate = dateAppeared;
+    
+    NSError *error;
+    
+    if (![debt.managedObjectContext save:&error])
+    {
+        NSLog(@"Не удалось изменить объект");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    }
 }
 
 @end

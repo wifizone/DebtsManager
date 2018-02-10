@@ -77,7 +77,8 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     self.tableViewWithDebts.allowsMultipleSelection = NO;
 }
 
-- (void)createButtonAdd {
+- (void)createButtonAdd
+{
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Добавить" style:UIBarButtonItemStylePlain target:self action:@selector(openDebtViewControllerToAddNewDebt)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
@@ -160,31 +161,6 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 }
 
 #pragma mark - CoreDataManagement
-
-- (void)addObjectToCoreDataTest
-{
-    NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
-    DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:@"DebtPAA" inManagedObjectContext:context];
-    debt.personName = @"Aleksandr";
-    debt.personSurname = @"Konevskii";
-    debt.personPhotoUrl = @"https://pp.userapi.com/c621323/v621323368/221ed/QK3Xj2XE7kM.jpg";
-    debt.debtSum = 5000;
-    NSDateComponents *dateComponents = [NSDateComponents new];
-    [dateComponents setYear:2014];
-    [dateComponents setMonth:01];
-    [dateComponents setDay:28];
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
-    debt.debtDueDate = [calendar dateFromComponents:dateComponents];
-    debt.debtAppearedDate = [calendar dateFromComponents:dateComponents];
-    
-    NSError *error;
-    
-    if (![debt.managedObjectContext save:&error])
-    {
-        NSLog(@"Не удалось сохрнаить объект");
-        NSLog(@"%@, %@", error, error.localizedDescription);
-    }
-}
 
 - (void)loadModel
 {
