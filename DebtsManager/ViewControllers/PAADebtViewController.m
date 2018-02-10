@@ -21,7 +21,6 @@ static CGFloat const PAAAddButtonHeight = 50;
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol>
 
-@property (nonatomic, assign) BOOL addFeatureIsNeeded;
 @property (nonatomic, strong) UIButton *addUIButton;
 @property (nonatomic, strong) PAAFriend *friendModel;
 @property (nonatomic, strong) PAAFriendListViewController *friendListViewController;
@@ -30,28 +29,6 @@ static CGFloat const PAAAddButtonHeight = 50;
 
 @implementation PAADebtViewController
 
-
-#pragma mark - Constructor
-
-- (instancetype)initWithAddFeature
-{
-    self = [super init];
-    if (self)
-    {
-        _addFeatureIsNeeded = YES;
-    }
-    return self;
-}
-
-- (instancetype)initWithEditFeature
-{
-    self = [super init];
-    if (self)
-    {
-        _addFeatureIsNeeded = NO;
-    }
-    return self;
-}
 
 #pragma mark - Lifecycle
 
@@ -138,6 +115,10 @@ static CGFloat const PAAAddButtonHeight = 50;
     {
         [self addAddUIButton];
     }
+    if (self.currentDebt != nil)
+    {
+        [self populateDebtFields];
+    }
     [self updateViewConstraints];
 }
 
@@ -190,6 +171,15 @@ static CGFloat const PAAAddButtonHeight = 50;
     [self.view addSubview:self.addUIButton];
 }
 
+- (void)populateDebtFields
+{
+    [self loadPersonPhoto:self.currentDebt.personPhotoUrl];
+    [self.textFieldName setText:self.currentDebt.personName];
+    [self.textFieldSurname setText:self.currentDebt.personSurname];
+    [self.debtAppearedDatePicker setDate:self.currentDebt.debtAppearedDate];
+    [self.dueDatePicker setDate:self.currentDebt.debtDueDate];
+    //сумма
+}
 
 #pragma mark - ViewConstraints
 

@@ -82,9 +82,21 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
+
+#pragma mark - Navigation
+
 - (void)openDebtViewControllerToAddNewDebt
 {
-    PAADebtViewController *debtViewController = [[PAADebtViewController alloc] initWithAddFeature];
+    PAADebtViewController *debtViewController = [PAADebtViewController new];
+    debtViewController.addFeatureIsNeeded = YES;
+    [self.navigationController pushViewController:debtViewController animated:YES];
+}
+
+- (void)openDebtViewControllerToEditNewDebt:(NSIndexPath *)indexPath
+{
+    PAADebtViewController *debtViewController = [PAADebtViewController new];
+    debtViewController.addFeatureIsNeeded = NO;
+    debtViewController.currentDebt = self.arrayWithDebts[indexPath.row];
     [self.navigationController pushViewController:debtViewController animated:YES];
 }
 
@@ -132,6 +144,11 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     }
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self openDebtViewControllerToEditNewDebt:indexPath];
+}
+
 
 #pragma mark - PAANetworkServiceOutputProtocol
 
@@ -147,7 +164,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (void)addObjectToCoreDataTest
 {
     NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
-    DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:@"Debt" inManagedObjectContext:context];
+    DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:@"DebtPAA" inManagedObjectContext:context];
     debt.personName = @"Aleksandr";
     debt.personSurname = @"Konevskii";
     debt.personPhotoUrl = @"https://pp.userapi.com/c621323/v621323368/221ed/QK3Xj2XE7kM.jpg";

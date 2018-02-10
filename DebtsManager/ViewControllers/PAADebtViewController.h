@@ -18,9 +18,7 @@
 @property (nonatomic, strong) UIDatePicker *dueDatePicker;
 @property (nonatomic, strong) UIDatePicker *debtAppearedDatePicker;
 @property (nonatomic, strong) UIImageView *personPhotoView;
+@property (nonatomic, assign) BOOL addFeatureIsNeeded;
 @property (nonatomic, strong) DebtPAA *currentDebt;
-
-- (instancetype)initWithAddFeature;
-- (instancetype)initWithEditFeature;
 
 @end
