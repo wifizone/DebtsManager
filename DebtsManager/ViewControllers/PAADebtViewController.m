@@ -127,6 +127,7 @@ static CGFloat const PAAAddButtonHeight = 50;
 
 - (void)prepareUI
 {
+    self.view.backgroundColor = [UIColor whiteColor];
     [self addNavigationRightItem];
     [self addImage];
     [self addNameTextField];
