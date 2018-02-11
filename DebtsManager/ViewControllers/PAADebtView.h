@@ -16,7 +16,6 @@
 @property (nonatomic, strong) UIDatePicker *dueDatePicker;
 @property (nonatomic, strong) UIDatePicker *debtAppearedDatePicker;
 @property (nonatomic, strong) UIImageView *personPhotoView;
-@property (nonatomic, strong) UIButton *chooseFriendButton;
 @property (nonatomic, assign) CGFloat viewHeight;
 
 - (instancetype)init;

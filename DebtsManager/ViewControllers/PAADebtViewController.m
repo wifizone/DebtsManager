@@ -57,6 +57,14 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 }
 
 
+#pragma mark - UITextFieldDelegate
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    [self openFriendListViewController];
+    return NO;
+}
+
 #pragma mark - LoadingImage
 
 - (void)loadingIsDoneWithImageReceived:(NSData *)personPhoto
@@ -141,7 +149,8 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     [self.view addSubview:self.scrollView];
     self.debtView = [[PAADebtView alloc] init];
     [self.scrollView addSubview:self.debtView];
-    [self.debtView.chooseFriendButton addTarget:self action:@selector(openFriendListViewController) forControlEvents:UIControlEventTouchUpInside];
+    self.debtView.textFieldName.delegate = self;
+    self.debtView.textFieldSurname.delegate = self;
 }
 
 - (void)addNavigationRightItem
