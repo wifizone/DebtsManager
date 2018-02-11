@@ -167,7 +167,7 @@ static NSString * const PAANavigationBarRightButtonText = @"Друзья";
 
 - (void)addNavigationRightItem
 {
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Выбрать из друзей" style:UIBarButtonItemStylePlain target:self action:@selector(openFriendListViewController)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:PAANavigationBarRightButtonText style:UIBarButtonItemStylePlain target:self action:@selector(openFriendListViewController)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 

@@ -19,6 +19,8 @@ static CGFloat const PAARowHeight = 120.0;
 static CGFloat const PAANavBarAndStatusBarOffsetTableViewOffset = 66.0;
 static CGFloat const PAATableViewOffset = 0;
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
+static NSString * const PAAPlaceHolderImageName = @"ok.png";
+static NSString * const PAANavigationBarTitle = @"Долги";
 
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource, PAANetworkServiceOutputProtocol>
 
@@ -64,6 +66,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 - (void)prepareUI
 {
+    self.navigationController.navigationBar.topItem.title = PAANavigationBarTitle;
     [self addTableViewWithDebts];
     [self createButtonAdd];
     [self updateViewConstraints];
@@ -139,7 +142,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.networkService loadImageOfPerson:debt.personPhotoUrl forIndexPath:indexPath];
     });
-    cell.personPhotoImage.image = [UIImage imageNamed:@"ok.png"];
+    cell.personPhotoImage.image = [UIImage imageNamed:PAAPlaceHolderImageName];
     return cell;
 }
 
