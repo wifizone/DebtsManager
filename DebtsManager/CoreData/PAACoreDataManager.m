@@ -76,7 +76,6 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     //    NSError *error;
     [self.coreDataContext deleteObject:debt];
     [self.coreDataContext save:nil];
-    NSLog(@"%i", self.coreDataContext.registeredObjects.count);
 
     if (![debt isDeleted])
     {

@@ -20,6 +20,7 @@ static CGFloat const PAADatePickerHeight = 150;
 static CGFloat const PAAAddButtonHeight = 50;
 static NSString * const PAAbuttonAddText = @"Добавить";
 static NSString * const PAAbuttonEditText = @"Изменить";
+static NSString * const PAANavigationBarRightButtonText = @"Друзья";
 
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>
@@ -166,7 +167,7 @@ static NSString * const PAAbuttonEditText = @"Изменить";
 
 - (void)addNavigationRightItem
 {
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Выбрать из друзей" style:UIBarButtonItemStylePlain target:self action:@selector(openFriendListViewController)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:PAANavigationBarRightButtonText style:UIBarButtonItemStylePlain target:self action:@selector(openFriendListViewController)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
