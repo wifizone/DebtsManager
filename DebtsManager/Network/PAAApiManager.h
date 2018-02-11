@@ -16,6 +16,7 @@
 + (NSString *)getFriendsIdsRequestUrl;
 + (void)saveAccessTokenToUserDefaults:(NSURL *)url;
 + (NSString *)getAccessTokenFromUserDefaults;
++ (void)eraseAccessToken;
 + (NSString *)parseTokenFromUrl:(NSURL *)url;
 + (NSArray *)parseFriendList:(NSDictionary *)friendList;
 

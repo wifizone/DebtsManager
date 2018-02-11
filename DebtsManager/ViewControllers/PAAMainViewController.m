@@ -21,6 +21,9 @@ static CGFloat const PAATableViewOffset = 0;
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 static NSString * const PAAPlaceHolderImageName = @"ok.png";
 static NSString * const PAANavigationBarTitle = @"Долги";
+static NSString * const PAANamePrefixInLabel = @"Имя: %@ %@";
+static NSString * const PAASumPrefixInLabel = @"Долг: %.0f рублей";
+static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
 
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource, PAANetworkServiceOutputProtocol>
 
@@ -134,11 +137,11 @@ static NSString * const PAANavigationBarTitle = @"Долги";
     PAADebtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier];
     DebtPAA *debt = self.arrayWithDebts[indexPath.row];
     
-    cell.personNameLabel.text = debt.personName;
-    cell.sumToRepayLabel.text = [NSString stringWithFormat:@"%f", debt.debtSum];
+    cell.personNameLabel.text = [NSString stringWithFormat:PAANamePrefixInLabel, debt.personName, debt.personSurname];
+    cell.sumToRepayLabel.text = [NSString stringWithFormat:PAASumPrefixInLabel, debt.debtSum];
     NSDateFormatter *formatter = [NSDateFormatter new];
-    [formatter setDateFormat:@"dd.mm.yyyy"];
-    cell.dueDateLabel.text = [formatter stringFromDate:debt.debtDueDate];
+    [formatter setDateFormat:@"dd.MM.yyyy"];
+    cell.dueDateLabel.text = [NSString stringWithFormat:PAADatePrefixInLabel, [formatter stringFromDate:debt.debtDueDate]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.networkService loadImageOfPerson:debt.personPhotoUrl forIndexPath:indexPath];
     });

@@ -17,7 +17,6 @@
 		A64CFA6F202F48CA008A36D3 /* DebtPAA+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFA6D202F48CA008A36D3 /* DebtPAA+CoreDataProperties.m */; };
 		A64CFA75203035A1008A36D3 /* PAADebtView.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFA74203035A1008A36D3 /* PAADebtView.m */; };
 		A6785F1C20260D8900B94131 /* PAAFriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */; };
-		A6785F1F20260EE400B94131 /* PAAFriendListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F1E20260EE400B94131 /* PAAFriendListTableViewCell.m */; };
 		A6785F222026170700B94131 /* PAANetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F212026170700B94131 /* PAANetworkService.m */; };
 		A6DA22762020D5E40092650A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DA22752020D5E40092650A /* AppDelegate.m */; };
 		A6DA22792020D5E40092650A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DA22782020D5E40092650A /* ViewController.m */; };
@@ -76,8 +75,6 @@
 		A668ECC66998A8E95E8938F8 /* Pods-DebtsManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebtsManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DebtsManager/Pods-DebtsManager.debug.xcconfig"; sourceTree = "<group>"; };
 		A6785F1A20260D8900B94131 /* PAAFriendListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAAFriendListViewController.h; sourceTree = "<group>"; };
 		A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAFriendListViewController.m; sourceTree = "<group>"; };
-		A6785F1D20260EE400B94131 /* PAAFriendListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAAFriendListTableViewCell.h; sourceTree = "<group>"; };
-		A6785F1E20260EE400B94131 /* PAAFriendListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAFriendListTableViewCell.m; sourceTree = "<group>"; };
 		A6785F202026170700B94131 /* PAANetworkService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAANetworkService.h; sourceTree = "<group>"; };
 		A6785F212026170700B94131 /* PAANetworkService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAANetworkService.m; sourceTree = "<group>"; };
 		A6785F24202617DE00B94131 /* PAANetworkServiceProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAANetworkServiceProtocol.h; sourceTree = "<group>"; };
@@ -177,8 +174,6 @@
 			children = (
 				A6DA22932020DEAF0092650A /* PAADebtTableViewCell.h */,
 				A6DA22942020DEAF0092650A /* PAADebtTableViewCell.m */,
-				A6785F1D20260EE400B94131 /* PAAFriendListTableViewCell.h */,
-				A6785F1E20260EE400B94131 /* PAAFriendListTableViewCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -529,7 +524,6 @@
 				A6DA228F2020DA920092650A /* PAAMainViewController.m in Sources */,
 				A6DA22952020DEAF0092650A /* PAADebtTableViewCell.m in Sources */,
 				A64CFA6F202F48CA008A36D3 /* DebtPAA+CoreDataProperties.m in Sources */,
-				A6785F1F20260EE400B94131 /* PAAFriendListTableViewCell.m in Sources */,
 				A6398291202608AD00387B67 /* PAACoreDataManager.m in Sources */,
 				A6DA22792020D5E40092650A /* ViewController.m in Sources */,
 				A6DA227F2020D5E40092650A /* DebtsManager.xcdatamodeld in Sources */,

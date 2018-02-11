@@ -14,10 +14,10 @@
 #import "PAADebtView.h"
 
 static CGFloat const PAAStatusAndNavigationBarHeight = 64.0;
+static CGFloat const PAAScrollableDebtViewContent = 750.0;
 static CGFloat const PAADebtViewOffset = 0;
-static NSString * const PAAbuttonAddText = @"Добавить";
-static NSString * const PAAbuttonEditText = @"Изменить";
-static NSString * const PAANavigationBarRightButtonText = @"Друзья";
+static NSString * const PAARightNavButtonAddText = @"Добавить";
+static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>
@@ -25,6 +25,7 @@ static NSString * const PAANavigationBarRightButtonText = @"Друзья";
 @property (nonatomic, strong) PAAFriend *friendModel;
 @property (nonatomic, strong) PAAFriendListViewController *friendListViewController;
 @property (nonatomic, strong) PAADebtView *debtView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
 
@@ -80,9 +81,9 @@ static NSString * const PAANavigationBarRightButtonText = @"Друзья";
     [self.navigationController pushViewController:self.friendListViewController animated:YES];
 }
 
-- (void)addDebt:(UIButton *)button  //добавить сумму
+- (void)addDebt:(UIBarButtonItem *)rightBarButton
 {
-    if (button.titleLabel.text == PAAbuttonAddText)
+    if (rightBarButton.title == PAARightNavButtonAddText)
     {
         [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.debtView.textFieldName.text
                                                                      surname:self.debtView.textFieldSurname.text
@@ -124,10 +125,7 @@ static NSString * const PAANavigationBarRightButtonText = @"Друзья";
 
 - (void)prepareUI
 {
-    self.debtView = [[PAADebtView alloc] init];
-    self.debtView.addFeatureIsNeeded = self.addFeatureIsNeeded;
-    [self.view addSubview:self.debtView];
-    [self.debtView.addUIButton addTarget:self action:@selector(addDebt:) forControlEvents:UIControlEventTouchUpInside];
+    [self addDebtView];
     [self addNavigationRightItem];
     [self addGestureRecognizer];
     if (self.currentDebt != nil)
@@ -137,9 +135,19 @@ static NSString * const PAANavigationBarRightButtonText = @"Друзья";
     [self updateViewConstraints];
 }
 
+- (void)addDebtView
+{
+    self.scrollView = [UIScrollView new];
+    [self.view addSubview:self.scrollView];
+    self.debtView = [[PAADebtView alloc] init];
+    [self.scrollView addSubview:self.debtView];
+    [self.debtView.chooseFriendButton addTarget:self action:@selector(openFriendListViewController) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)addNavigationRightItem
 {
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:PAANavigationBarRightButtonText style:UIBarButtonItemStylePlain target:self action:@selector(openFriendListViewController)];
+    NSString *barButtonTitle = self.addFeatureIsNeeded ? PAARightNavButtonAddText : PAARightNavButtonEditText;
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:barButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(addDebt:)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
@@ -158,8 +166,14 @@ static NSString * const PAANavigationBarRightButtonText = @"Друзья";
 {
     UIEdgeInsets padding = UIEdgeInsetsMake(PAAStatusAndNavigationBarHeight,
                                             PAADebtViewOffset, PAADebtViewOffset, PAADebtViewOffset);
-    [self.debtView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view).with.insets(padding);
+    }];
+    
+    [self.debtView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.scrollView);
+        make.height.mas_equalTo(PAAScrollableDebtViewContent);
+        make.right.and.left.equalTo(self.view);
     }];
     [super updateViewConstraints];
 }
