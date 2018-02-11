@@ -46,9 +46,10 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
 
 #pragma mark - CRUD
 
-- (NSArray *)getCurrentModel
+- (NSArray<DebtPAA *> *)getCurrentModel
 {
-    return [self.coreDataContext executeFetchRequest:[DebtPAA fetchRequest] error:nil];
+    NSArray<DebtPAA *> *modelArray = [self.coreDataContext executeFetchRequest:[DebtPAA fetchRequest] error:nil];
+    return modelArray;
 }
 
 - (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
@@ -75,12 +76,13 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
 {
     //    NSError *error;
     [self.coreDataContext deleteObject:debt];
-    [self.coreDataContext save:nil];
-
+    
     if (![debt isDeleted])
     {
         NSLog(@"Ошибка при удалении из CoreData");
     }
+    
+    [self.coreDataContext save:nil];
 }
 
 - (void)editObject:(DebtPAA *)debt name:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared

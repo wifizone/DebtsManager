@@ -21,7 +21,7 @@ static NSString * const PAAAccessTokenInUserDefaultsKey = @"accessToken";
 + (NSString *)getAuthorizaitionUrl
 {
     NSString *redirectUri = [NSString stringWithFormat:@"vk%@://authorize", PAAapplicationId];
-    return [NSString stringWithFormat:@"https://oauth.vk.com/authorize?client_id=%@&display=page&redirect_uri=%@&scope=friends&response_type=token&v=%@", PAAapplicationId, redirectUri, PAAVkApiVersion];
+    return [NSString stringWithFormat:@"https://oauth.vk.com/authorize?client_id=%@&display=page&redirect_uri=%@&scope=65538&response_type=token&v=%@", PAAapplicationId, redirectUri, PAAVkApiVersion];
 }
 
 + (NSString *)getFriendsIdsRequestUrl
@@ -45,6 +45,12 @@ static NSString * const PAAAccessTokenInUserDefaultsKey = @"accessToken";
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     return [defaults objectForKey:PAAAccessTokenInUserDefaultsKey];
+}
+
++ (void)eraseAccessToken
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults removeObjectForKey:PAAAccessTokenInUserDefaultsKey];
 }
 
 
