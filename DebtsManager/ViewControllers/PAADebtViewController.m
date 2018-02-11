@@ -89,47 +89,78 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     [self.navigationController pushViewController:self.friendListViewController animated:YES];
 }
 
+- (BOOL)isUserInputOk
+{
+    if (self.debtView.dueDatePicker.date < self.debtView.debtAppearedDatePicker.date)
+    {
+        [self popupAlertMessageWithText:@"Дата возврата долга должна быть больше даты его появления"];
+        return NO;
+    }
+    if ((self.debtView.textFieldName.text.length == 0) || (self.debtView.textFieldSurname.text.length == 0))
+    {
+        [self popupAlertMessageWithText:@"Сначала выберите друга"];
+        return NO;
+    }
+    if ((self.debtView.textFieldSum.text.length > 10))
+    {
+        [self popupAlertMessageWithText:@"Максимальная сумма долга десятизначная"];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)addDebt:(UIBarButtonItem *)rightBarButton
 {
-    if (rightBarButton.title == PAARightNavButtonAddText)
+    if ([self isUserInputOk])
     {
-        [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.debtView.textFieldName.text
-                                                                     surname:self.debtView.textFieldSurname.text
-                                                              photoUrlString:self.friendModel.personPhotoUrlString
-                                                                     debtSum:[self.debtView.textFieldSum.text doubleValue]
-                                                                 debtDueDate:self.debtView.dueDatePicker.date
-                                                            debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+        if (rightBarButton.title == PAARightNavButtonAddText)
+        {
+            [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.debtView.textFieldName.text
+                                                                         surname:self.debtView.textFieldSurname.text
+                                                                  photoUrlString:self.friendModel.personPhotoUrlString
+                                                                         debtSum:[self.debtView.textFieldSum.text doubleValue]
+                                                                     debtDueDate:self.debtView.dueDatePicker.date
+                                                                debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+        }
+        else
+        {
+            [[PAACoreDataManager sharedCoreDataManager] editObject:self.currentDebt
+                                                              name:self.debtView.textFieldName.text
+                                                           surname:self.debtView.textFieldSurname.text
+                                                    photoUrlString:self.currentDebt.personPhotoUrl
+                                                           debtSum:[self.debtView.textFieldSum.text doubleValue]
+                                                       debtDueDate:self.debtView.dueDatePicker.date
+                                                  debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+        }
+        [[self navigationController] popViewControllerAnimated:YES];
     }
-    else
-    {
-        [[PAACoreDataManager sharedCoreDataManager] editObject:self.currentDebt
-                                                          name:self.debtView.textFieldName.text
-                                                       surname:self.debtView.textFieldSurname.text
-                                                photoUrlString:self.currentDebt.personPhotoUrl
-                                                       debtSum:[self.debtView.textFieldSum.text doubleValue]
-                                                   debtDueDate:self.debtView.dueDatePicker.date
-                                              debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
-    }
-    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 
-#pragma mark - Keyboard
+#pragma mark - UI
 
--(void)addGestureRecognizer
+- (void)popupAlertMessageWithText:(NSString *)message
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Ошибка"
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:alertAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)addGestureRecognizer
 {
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
 }
 
--(void)dismissKeyboard
+- (void)dismissKeyboard
 {
     [self.debtView.textFieldName resignFirstResponder];
     [self.debtView.textFieldSurname resignFirstResponder];
     [self.debtView.textFieldSum resignFirstResponder];
 }
-
-#pragma mark - UI
 
 - (void)prepareUI
 {
