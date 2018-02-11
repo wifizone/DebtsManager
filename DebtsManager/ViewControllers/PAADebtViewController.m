@@ -20,6 +20,7 @@ static CGFloat const PAADatePickerHeight = 150;
 static CGFloat const PAAAddButtonHeight = 50;
 static NSString * const PAAbuttonAddText = @"Добавить";
 static NSString * const PAAbuttonEditText = @"Изменить";
+static NSString * const PAANavigationBarRightButtonText = @"Друзья";
 
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>

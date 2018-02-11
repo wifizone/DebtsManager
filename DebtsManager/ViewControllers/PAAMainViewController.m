@@ -13,8 +13,11 @@
 #import "PAADebtViewController.h"
 #import "PAACoreDataManager.h"
 #import "PAANetworkService.h"
+#import "Masonry.h"
 
 static CGFloat const PAARowHeight = 120.0;
+static CGFloat const PAANavBarAndStatusBarOffsetTableViewOffset = 66.0;
+static CGFloat const PAATableViewOffset = 0;
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource, PAANetworkServiceOutputProtocol>
@@ -63,12 +66,13 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 {
     [self addTableViewWithDebts];
     [self createButtonAdd];
+    [self updateViewConstraints];
 }
 
 - (void)addTableViewWithDebts
 {
     //изменить 20
-    self.tableViewWithDebts = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(self.navigationController.navigationBar.frame) + 20,self.view.bounds.size.width, self.view.bounds.size.height) style:UITableViewStylePlain];
+    self.tableViewWithDebts = [UITableView new];
     self.tableViewWithDebts.rowHeight = PAARowHeight;
     [self.view addSubview:self.tableViewWithDebts];
     self.tableViewWithDebts.dataSource = self;
@@ -99,6 +103,19 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     debtViewController.addFeatureIsNeeded = NO;
     debtViewController.currentDebt = self.arrayWithDebts[indexPath.row];
     [self.navigationController pushViewController:debtViewController animated:YES];
+}
+
+
+#pragma mark - Constraints
+
+- (void)updateViewConstraints
+{
+    UIEdgeInsets padding = UIEdgeInsetsMake(PAANavBarAndStatusBarOffsetTableViewOffset,
+                                            PAATableViewOffset, PAATableViewOffset, PAATableViewOffset);
+    [self.tableViewWithDebts mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.view).with.insets(padding);
+    }];
+    [super updateViewConstraints];
 }
 
 

@@ -15,6 +15,7 @@
 		A6398291202608AD00387B67 /* PAACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6398290202608AD00387B67 /* PAACoreDataManager.m */; };
 		A64CFA6E202F48CA008A36D3 /* DebtPAA+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFA6B202F48CA008A36D3 /* DebtPAA+CoreDataClass.m */; };
 		A64CFA6F202F48CA008A36D3 /* DebtPAA+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFA6D202F48CA008A36D3 /* DebtPAA+CoreDataProperties.m */; };
+		A64CFA75203035A1008A36D3 /* PAADebtView.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFA74203035A1008A36D3 /* PAADebtView.m */; };
 		A6785F1C20260D8900B94131 /* PAAFriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */; };
 		A6785F1F20260EE400B94131 /* PAAFriendListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F1E20260EE400B94131 /* PAAFriendListTableViewCell.m */; };
 		A6785F222026170700B94131 /* PAANetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F212026170700B94131 /* PAANetworkService.m */; };
@@ -70,6 +71,8 @@
 		A64CFA6B202F48CA008A36D3 /* DebtPAA+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DebtPAA+CoreDataClass.m"; sourceTree = "<group>"; };
 		A64CFA6C202F48CA008A36D3 /* DebtPAA+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DebtPAA+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A64CFA6D202F48CA008A36D3 /* DebtPAA+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DebtPAA+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A64CFA73203035A1008A36D3 /* PAADebtView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAADebtView.h; sourceTree = "<group>"; };
+		A64CFA74203035A1008A36D3 /* PAADebtView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAADebtView.m; sourceTree = "<group>"; };
 		A668ECC66998A8E95E8938F8 /* Pods-DebtsManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebtsManager.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DebtsManager/Pods-DebtsManager.debug.xcconfig"; sourceTree = "<group>"; };
 		A6785F1A20260D8900B94131 /* PAAFriendListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAAFriendListViewController.h; sourceTree = "<group>"; };
 		A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAFriendListViewController.m; sourceTree = "<group>"; };
@@ -159,6 +162,8 @@
 				A6DA228E2020DA920092650A /* PAAMainViewController.m */,
 				A639825C2023740300387B67 /* PAAAuthoriseViewController.h */,
 				A639825D2023740300387B67 /* PAAAuthoriseViewController.m */,
+				A64CFA73203035A1008A36D3 /* PAADebtView.h */,
+				A64CFA74203035A1008A36D3 /* PAADebtView.m */,
 				A639828A202607C000387B67 /* PAADebtViewController.h */,
 				A639828B202607C000387B67 /* PAADebtViewController.m */,
 				A6785F1A20260D8900B94131 /* PAAFriendListViewController.h */,
@@ -520,6 +525,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A6EDACAD202A06D7008FB391 /* PAAFriend.m in Sources */,
+				A64CFA75203035A1008A36D3 /* PAADebtView.m in Sources */,
 				A6DA228F2020DA920092650A /* PAAMainViewController.m in Sources */,
 				A6DA22952020DEAF0092650A /* PAADebtTableViewCell.m in Sources */,
 				A64CFA6F202F48CA008A36D3 /* DebtPAA+CoreDataProperties.m in Sources */,
