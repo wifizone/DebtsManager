@@ -45,7 +45,18 @@ static NSString * const PAAEntityDebtName = @"DebtPAA";
 
 - (NSArray<DebtPAA *> *)getCurrentModel
 {
-    NSArray<DebtPAA *> *modelArray = [self.coreDataContext executeFetchRequest:[DebtPAA fetchRequest] error:nil];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"debtDueDate" ascending:YES];
+    NSArray *sortDescription = @[sortDescriptor];
+    NSFetchRequest *fetchRequest = [DebtPAA fetchRequest];
+    [fetchRequest setSortDescriptors:sortDescription];
+    NSArray<DebtPAA *> *modelArray;
+    
+    NSError *error;
+    if (!(modelArray = [self.coreDataContext executeFetchRequest:fetchRequest error:nil]))
+    {
+        NSLog(@"Не удалось загрузить модель");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    }
     return modelArray;
 }
 
@@ -69,14 +80,13 @@ static NSString * const PAAEntityDebtName = @"DebtPAA";
     
     if (![debt.managedObjectContext save:&error])
     {
-        NSLog(@"Не удалось сохрнаить объект");
+        NSLog(@"Не удалось сохранить объект");
         NSLog(@"%@, %@", error, error.localizedDescription);
     }
 }
 
 - (void)deleteObject: (DebtPAA *)debt
 {
-    //    NSError *error;
     [self.coreDataContext deleteObject:debt];
     
     if (![debt isDeleted])
@@ -84,7 +94,12 @@ static NSString * const PAAEntityDebtName = @"DebtPAA";
         NSLog(@"Ошибка при удалении из CoreData");
     }
     
-    [self.coreDataContext save:nil];
+    NSError *error;
+    if ([self.coreDataContext save:&error])
+    {
+        NSLog(@"Не удалось сохранить контекст посое удаления объекта из CoreData");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    }
 }
 
 - (void)editObject:(DebtPAA *)debt name:(NSString *)name
