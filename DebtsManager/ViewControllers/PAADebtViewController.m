@@ -6,6 +6,7 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAADebtViewController.h"
 #import "PAACoreDataManager.h"
 #import "PAANetworkService.h"
@@ -13,17 +14,19 @@
 #import "Masonry.h"
 #import "PAADebtView.h"
 
-static CGFloat const PAAStatusAndNavigationBarHeight = 64.0;
-static CGFloat const PAAScrollableDebtViewContent = 750.0;
-static CGFloat const PAADebtViewOffset = 0;
-static NSString * const PAARightNavButtonAddText = @"Добавить";
-static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 typedef NS_ENUM(NSInteger, PAARightNavButtonTags)
 {
     PAARightNavButtonTagAdd = 1,
     PAARightNavButtonTagEdit = 2
 };
+
+
+static CGFloat const PAAStatusAndNavigationBarHeight = 64.0;
+static CGFloat const PAAScrollableDebtViewContent = 750.0;
+static CGFloat const PAADebtViewOffset = 0;
+static NSString * const PAARightNavButtonAddText = @"Добавить";
+static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>

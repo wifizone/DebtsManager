@@ -6,17 +6,21 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAAFriendListViewController.h"
 #import "PAANetworkService.h"
 #import "PAADebtViewController.h"
 
+
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
+
 
 @interface PAAFriendListViewController () <UITableViewDataSource, UITableViewDelegate, PAANetworkServiceOutputProtocol>
 
 @property (nonatomic, copy) NSArray<NSDictionary *> *friendList;
 
 @end
+
 
 @implementation PAAFriendListViewController
 

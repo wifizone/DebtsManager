@@ -6,7 +6,9 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
+
 
 @interface PAADebtView : UIView
 
@@ -16,7 +18,6 @@
 @property (nonatomic, strong) UIDatePicker *dueDatePicker;
 @property (nonatomic, strong) UIDatePicker *debtAppearedDatePicker;
 @property (nonatomic, strong) UIImageView *personPhotoView;
-@property (nonatomic, assign) CGFloat viewHeight;
 
 - (instancetype)init;
 

@@ -6,16 +6,9 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 #import "DebtPAA+CoreDataClass.h"
-
-
-extern NSString * const PAAPersonNameCoreDataField;
-extern NSString * const PAAPersonSurnameCoreDataField;
-extern NSString * const PAAPersonPhotoUrlCoreDataField;
-extern NSString * const PAADebtAppearedDateCoreDataField;
-extern NSString * const PAADebtDueDateCoreDataField;
-extern NSString * const PAADebtSumCoreDataField;
 
 
 @interface PAACoreDataManager : NSObject

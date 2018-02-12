@@ -6,11 +6,13 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAAAuthoriseViewController.h"
 #import "SafariServices/SafariServices.h"
 #import "PAAApiManager.h"
 #import "PAAMainViewController.h"
 #import "Masonry.h"
+
 
 NSString * const PAAAccessTokenReceivedNotification = @"PAAAccessTokenReceivedNotification";
 NSString * const PAALoginUsingVkButtonText = @"Войти с помощью вк";
@@ -27,6 +29,7 @@ static CGFloat const PAAButtonOffset = 20.0;
 @property (nonatomic, strong)UIButton *logoutButton;
 
 @end
+
 
 @implementation PAAAuthoriseViewController
 
@@ -145,6 +148,5 @@ static CGFloat const PAAButtonOffset = 20.0;
         make.centerX.equalTo(self.view);
     }];
 }
-
 
 @end

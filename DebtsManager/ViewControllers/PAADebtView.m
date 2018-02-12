@@ -6,8 +6,10 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAADebtView.h"
 #import "Masonry.h"
+
 
 static NSString * const PAAPlaceHolderImageName = @"ok.png";
 static NSString * const PAAChooseFriendButtonText = @"Выбрать друга";
@@ -23,6 +25,7 @@ static CGFloat const PAATextFieldHeight = 50.0;
 static CGFloat const PAADatePickerHeight = 162.0;
 static CGFloat const PAALabelHeight = 20.0;
 
+
 @interface PAADebtView()
 
 @property (nonatomic, strong) UILabel *debtAppearedDateLabel;
@@ -30,6 +33,7 @@ static CGFloat const PAALabelHeight = 20.0;
 @property (nonatomic, strong) UIView *contentView;
 
 @end
+
 
 @implementation PAADebtView
 

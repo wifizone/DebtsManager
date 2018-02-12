@@ -6,6 +6,7 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAAMainViewController.h"
 #import "DebtPAA+CoreDataClass.h"
 #import "AppDelegate.h"
@@ -14,6 +15,7 @@
 #import "PAACoreDataManager.h"
 #import "PAANetworkService.h"
 #import "Masonry.h"
+
 
 static CGFloat const PAARowHeight = 120.0;
 static CGFloat const PAANavBarAndStatusBarOffsetTableViewOffset = 66.0;
@@ -25,6 +27,7 @@ static NSString * const PAANamePrefixInLabel = @"Имя: %@ %@";
 static NSString * const PAASumPrefixInLabel = @"Долг: %.0f рублей";
 static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
 
+
 @interface PAAMainViewController () <UITableViewDelegate, UITableViewDataSource, PAANetworkServiceOutputProtocol>
 
 @property (nonatomic, strong) UITableView *tableViewWithDebts;
@@ -33,6 +36,7 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
 @property (nonatomic, strong) PAANetworkService *networkService;
 
 @end
+
 
 @implementation PAAMainViewController
 

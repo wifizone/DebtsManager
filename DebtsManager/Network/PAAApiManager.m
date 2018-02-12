@@ -6,7 +6,9 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAAApiManager.h"
+
 
 static NSString * const PAAapplicationId = @"6355774";
 static NSString * const PAAVkApiVersion = @"5.71";
@@ -32,7 +34,7 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
 }
 
 
-#pragma ManagingAccessToken
+#pragma mark - ManagingAccessToken
 
 + (void)saveAccessTokenToUserDefaults:(NSURL *)url
 {
