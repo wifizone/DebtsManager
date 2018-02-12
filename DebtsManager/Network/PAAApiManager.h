@@ -6,8 +6,8 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 
+#import <Foundation/Foundation.h>
 
 
 @interface PAAApiManager : NSObject
@@ -19,6 +19,5 @@
 + (void)eraseAccessToken;
 + (NSString *)parseTokenFromUrl:(NSURL *)url;
 + (NSArray *)parseFriendList:(NSDictionary *)friendList;
-
 
 @end

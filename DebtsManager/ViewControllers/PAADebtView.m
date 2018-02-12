@@ -6,8 +6,10 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAADebtView.h"
 #import "Masonry.h"
+
 
 static NSString * const PAAPlaceHolderImageName = @"ok.png";
 static NSString * const PAAChooseFriendButtonText = @"Выбрать друга";
@@ -18,11 +20,11 @@ static NSString * const PAANameSurNameTextFieldPlaceholder = @"Выберите 
 static NSString * const PAASumTextFieldPlaceholder = @"Введите сумму долга";
 static CGFloat const PAAImageOffset = 10.0;
 static CGFloat const PAAImageWidth = 100.0;
-static CGFloat const PAAControlsOffset = 20.0;
+static CGFloat const PAAControlsOffset = 5.0;
 static CGFloat const PAATextFieldHeight = 50.0;
 static CGFloat const PAADatePickerHeight = 162.0;
-static CGFloat const PAAChooseFriendButtonHeight = 40.0;
 static CGFloat const PAALabelHeight = 20.0;
+
 
 @interface PAADebtView()
 
@@ -31,6 +33,7 @@ static CGFloat const PAALabelHeight = 20.0;
 @property (nonatomic, strong) UIView *contentView;
 
 @end
+
 
 @implementation PAADebtView
 
@@ -56,7 +59,6 @@ static CGFloat const PAALabelHeight = 20.0;
     [self addDueDatePicker];
     [self addDebtAppearedDatePicker];
     [self addLabels];
-    [self addChooseFriendButton];
     [self updateConstraints];
 }
 
@@ -109,18 +111,12 @@ static CGFloat const PAALabelHeight = 20.0;
 {
     self.debtAppearedDateLabel = [UILabel new];
     [self.debtAppearedDateLabel setText:PAALabelDebtAppearedText];
+    self.debtAppearedDateLabel.textAlignment = NSTextAlignmentCenter;
     self.debtDueDateLabel = [UILabel new];
     [self.debtDueDateLabel setText:PAALabelDebtDueDateText];
+    self.debtDueDateLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:self.debtAppearedDateLabel];
     [self addSubview:self.debtDueDateLabel];
-}
-
-- (void)addChooseFriendButton
-{
-    _chooseFriendButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [_chooseFriendButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [_chooseFriendButton setTitle:PAAChooseFriendButtonText forState:UIControlStateNormal];
-    [self addSubview:_chooseFriendButton];
 }
 
 
@@ -136,7 +132,6 @@ static CGFloat const PAALabelHeight = 20.0;
     [self setupDueDatePickerConstraints];
     [self setupDebtAppearedDateLabel];
     [self setupDateAppearedPickerConstraints];
-    [self setupChooseFriendButtonConstraints];
     [super updateConstraints];
 }
 
@@ -162,25 +157,16 @@ static CGFloat const PAALabelHeight = 20.0;
 - (void)setupTextFieldSurnameConstraints
 {
     [self.textFieldSurname mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.textFieldName.mas_bottom);
+        make.top.equalTo(self.textFieldName.mas_bottom).with.offset(PAAControlsOffset);
         make.left.and.right.equalTo(self);
         make.height.mas_equalTo(PAATextFieldHeight);
-    }];
-}
-
-- (void)setupChooseFriendButtonConstraints
-{
-    [self.chooseFriendButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.textFieldSurname.mas_bottom).with.offset(PAAControlsOffset);
-        make.height.mas_equalTo(PAAChooseFriendButtonHeight);
-        make.left.and.right.equalTo(self);
     }];
 }
 
 - (void)setupTextFieldSumConstraints
 {
     [self.textFieldSum mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.chooseFriendButton.mas_bottom).with.offset(PAAControlsOffset);
+        make.top.equalTo(self.textFieldSurname.mas_bottom).with.offset(PAAControlsOffset);
         make.left.and.right.equalTo(self);
         make.height.mas_equalTo(PAATextFieldHeight);
     }];

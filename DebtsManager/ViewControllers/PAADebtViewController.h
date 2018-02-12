@@ -6,9 +6,11 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 #import "DebtPAA+CoreDataClass.h"
 #import "PAAFriendListViewController.h"
+
 
 @interface PAADebtViewController : UIViewController <PAAFriendListViewControllerDelegate>
 

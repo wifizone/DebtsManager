@@ -6,11 +6,13 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAAAuthoriseViewController.h"
 #import "SafariServices/SafariServices.h"
 #import "PAAApiManager.h"
 #import "PAAMainViewController.h"
 #import "Masonry.h"
+
 
 NSString * const PAAAccessTokenReceivedNotification = @"PAAAccessTokenReceivedNotification";
 NSString * const PAALoginUsingVkButtonText = @"Войти с помощью вк";
@@ -28,6 +30,7 @@ static CGFloat const PAAButtonOffset = 20.0;
 
 @end
 
+
 @implementation PAAAuthoriseViewController
 
 
@@ -35,7 +38,9 @@ static CGFloat const PAAButtonOffset = 20.0;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tokenReceivedWithNotification:) name:PAAAccessTokenReceivedNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(tokenReceivedWithNotification:)
+                                                 name:PAAAccessTokenReceivedNotification object:nil];
     [self addLoginButton];
     [self addLogoutButton];
     [self updateViewConstraints];
@@ -66,7 +71,9 @@ static CGFloat const PAAButtonOffset = 20.0;
     self.loginButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.loginButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.loginButton setTitle:PAALoginUsingVkButtonText forState:UIControlStateNormal];
-    [self.loginButton addTarget:self action:@selector(getAccessTokenUsingSafari) forControlEvents:UIControlEventTouchUpInside];
+    [self.loginButton addTarget:self
+                         action:@selector(getAccessTokenUsingSafari)
+               forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview: self.loginButton];
 }
 
@@ -82,7 +89,8 @@ static CGFloat const PAAButtonOffset = 20.0;
 - (void)presentMainViewController
 {
     PAAMainViewController *mainViewController = [PAAMainViewController new];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+    UINavigationController *navigationController = [[UINavigationController alloc]
+                                                    initWithRootViewController:mainViewController];
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
@@ -140,6 +148,5 @@ static CGFloat const PAAButtonOffset = 20.0;
         make.centerX.equalTo(self.view);
     }];
 }
-
 
 @end

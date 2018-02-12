@@ -6,12 +6,21 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAADebtViewController.h"
 #import "PAACoreDataManager.h"
 #import "PAANetworkService.h"
 #import "PAAFriend.h"
 #import "Masonry.h"
 #import "PAADebtView.h"
+
+
+typedef NS_ENUM(NSInteger, PAARightNavButtonTags)
+{
+    PAARightNavButtonTagAdd = 1,
+    PAARightNavButtonTagEdit = 2
+};
+
 
 static CGFloat const PAAStatusAndNavigationBarHeight = 64.0;
 static CGFloat const PAAScrollableDebtViewContent = 750.0;
@@ -29,6 +38,7 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 @end
 
+
 @implementation PAADebtViewController
 
 
@@ -37,11 +47,6 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self prepareUI];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -56,6 +61,14 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
+
+#pragma mark - UITextFieldDelegate
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    [self openFriendListViewController];
+    return NO;
+}
 
 #pragma mark - LoadingImage
 
@@ -81,47 +94,82 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     [self.navigationController pushViewController:self.friendListViewController animated:YES];
 }
 
+- (BOOL)isUserInputOk
+{
+    if (self.debtView.dueDatePicker.date < self.debtView.debtAppearedDatePicker.date)
+    {
+        [self popupAlertMessageWithText:@"Дата возврата долга должна быть больше даты его появления"];
+        return NO;
+    }
+    if ((self.debtView.textFieldName.text.length == 0) || (self.debtView.textFieldSurname.text.length == 0))
+    {
+        [self popupAlertMessageWithText:@"Сначала выберите друга"];
+        return NO;
+    }
+    if ((self.debtView.textFieldSum.text.length > 10))
+    {
+        [self popupAlertMessageWithText:@"Максимальная сумма долга десятизначная"];
+        return NO;
+    }
+    return YES;
+}
+
 - (void)addDebt:(UIBarButtonItem *)rightBarButton
 {
-    if (rightBarButton.title == PAARightNavButtonAddText)
+    PAACoreDataManager *coreDataManager = [PAACoreDataManager sharedCoreDataManager];
+    if ([self isUserInputOk])
     {
-        [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.debtView.textFieldName.text
-                                                                     surname:self.debtView.textFieldSurname.text
-                                                              photoUrlString:self.friendModel.personPhotoUrlString
-                                                                     debtSum:[self.debtView.textFieldSum.text doubleValue]
-                                                                 debtDueDate:self.debtView.dueDatePicker.date
-                                                            debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+        if (rightBarButton.tag == PAARightNavButtonTagAdd)
+        {
+            [coreDataManager insertDebtObjectWithName:self.debtView.textFieldName.text
+                                              surname:self.debtView.textFieldSurname.text
+                                       photoUrlString:self.friendModel.personPhotoUrlString
+                                              debtSum:[self.debtView.textFieldSum.text doubleValue]
+                                          debtDueDate:self.debtView.dueDatePicker.date
+                                     debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+        }
+        else
+        {
+            [coreDataManager editObject:self.currentDebt
+                                   name:self.debtView.textFieldName.text
+                                surname:self.debtView.textFieldSurname.text
+                         photoUrlString:self.currentDebt.personPhotoUrl
+                                debtSum:[self.debtView.textFieldSum.text doubleValue]
+                            debtDueDate:self.debtView.dueDatePicker.date
+                       debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+        }
+        [[self navigationController] popViewControllerAnimated:YES];
     }
-    else
-    {
-        [[PAACoreDataManager sharedCoreDataManager] editObject:self.currentDebt
-                                                          name:self.debtView.textFieldName.text
-                                                       surname:self.debtView.textFieldSurname.text
-                                                photoUrlString:self.currentDebt.personPhotoUrl
-                                                       debtSum:[self.debtView.textFieldSum.text doubleValue]
-                                                   debtDueDate:self.debtView.dueDatePicker.date
-                                              debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
-    }
-    [[self navigationController] popViewControllerAnimated:YES];
 }
 
 
-#pragma mark - Keyboard
+#pragma mark - UI
 
--(void)addGestureRecognizer
+- (void)popupAlertMessageWithText:(NSString *)message
 {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Ошибка"
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"OK"
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:nil];
+    [alertController addAction:alertAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)addGestureRecognizer
+{
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
 }
 
--(void)dismissKeyboard
+- (void)dismissKeyboard
 {
     [self.debtView.textFieldName resignFirstResponder];
     [self.debtView.textFieldSurname resignFirstResponder];
     [self.debtView.textFieldSum resignFirstResponder];
 }
-
-#pragma mark - UI
 
 - (void)prepareUI
 {
@@ -141,13 +189,29 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     [self.view addSubview:self.scrollView];
     self.debtView = [[PAADebtView alloc] init];
     [self.scrollView addSubview:self.debtView];
-    [self.debtView.chooseFriendButton addTarget:self action:@selector(openFriendListViewController) forControlEvents:UIControlEventTouchUpInside];
+    self.debtView.textFieldName.delegate = self;
+    self.debtView.textFieldSurname.delegate = self;
 }
 
 - (void)addNavigationRightItem
 {
-    NSString *barButtonTitle = self.addFeatureIsNeeded ? PAARightNavButtonAddText : PAARightNavButtonEditText;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:barButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(addDebt:)];
+    NSString *barButtonTitle;
+    NSInteger barButtonTag;
+    if (self.addFeatureIsNeeded)
+    {
+        barButtonTitle = PAARightNavButtonAddText;
+        barButtonTag = PAARightNavButtonTagAdd;
+    }
+    else
+    {
+        barButtonTitle = PAARightNavButtonEditText;
+        barButtonTag = PAARightNavButtonTagEdit;
+    }
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:barButtonTitle
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(addDebt:)];
+    [rightItem setTag:barButtonTag];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 

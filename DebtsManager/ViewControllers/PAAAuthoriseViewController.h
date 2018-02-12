@@ -6,9 +6,12 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 
+
 extern NSString * const PAAAccessTokenReceivedNotification;
+
 
 @interface PAAAuthoriseViewController : UIViewController
 

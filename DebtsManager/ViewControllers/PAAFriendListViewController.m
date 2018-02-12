@@ -6,17 +6,21 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAAFriendListViewController.h"
 #import "PAANetworkService.h"
 #import "PAADebtViewController.h"
 
+
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
+
 
 @interface PAAFriendListViewController () <UITableViewDataSource, UITableViewDelegate, PAANetworkServiceOutputProtocol>
 
 @property (nonatomic, copy) NSArray<NSDictionary *> *friendList;
 
 @end
+
 
 @implementation PAAFriendListViewController
 
@@ -65,7 +69,8 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier
+                                                            forIndexPath:indexPath];
     NSString *name = self.friendList[indexPath.row][@"first_name"];  //2 раза повторяется
     NSString *surname = self.friendList[indexPath.row][@"last_name"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", surname, name];

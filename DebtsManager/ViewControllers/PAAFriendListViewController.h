@@ -6,15 +6,20 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import <UIKit/UIKit.h>
 #import "PAAFriend.h"
 
+
 @class PAAFriendListViewController;
+
+
 @protocol PAAFriendListViewControllerDelegate <NSObject>
 
 - (void)friendListViewController:(PAAFriendListViewController *)controller didChooseFriend:(PAAFriend *)friendModel;
 
 @end
+
 
 @interface PAAFriendListViewController : UITableViewController
 

@@ -6,8 +6,10 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAADebtTableViewCell.h"
 #import "Masonry.h"
+
 
 static CGFloat const PAAImageWidth = 100.0;
 static CGFloat const PAALabelHeight = 30.0;

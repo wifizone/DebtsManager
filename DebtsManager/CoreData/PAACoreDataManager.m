@@ -6,16 +6,13 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import "PAACoreDataManager.h"
 #import "DebtPAA+CoreDataClass.h"
 #import "AppDelegate.h"
 
-NSString * const PAAPersonNameCoreDataField = @"personName";
-NSString * const PAAPersonSurnameCoreDataField = @"personSurname";
-NSString * const PAAPersonPhotoUrlCoreDataField = @"personPhotoUrl";
-NSString * const PAADebtAppearedDateCoreDataField = @"debtAppearedDate";
-NSString * const PAADebtDueDateCoreDataField = @"debtDueDate";
-NSString * const PAADebtSumCoreDataField = @"debtSum";
+
+static NSString * const PAAEntityDebtName = @"DebtPAA";
 
 @implementation PAACoreDataManager
 
@@ -52,10 +49,15 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     return modelArray;
 }
 
-- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
+- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename
+                  photoUrlString:(NSString *)photoUrlString
+                         debtSum:(double)debtSum
+                     debtDueDate:(NSDate *)dueDate
+                debtAppearedDate:(NSDate *)dateAppeared
 {
     NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
-    DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:@"DebtPAA" inManagedObjectContext:context];
+    DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:PAAEntityDebtName
+                                                  inManagedObjectContext:context];
     debt.personName = name;
     debt.personSurname = surename;
     debt.personPhotoUrl = photoUrlString;
@@ -85,7 +87,12 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     [self.coreDataContext save:nil];
 }
 
-- (void)editObject:(DebtPAA *)debt name:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
+- (void)editObject:(DebtPAA *)debt name:(NSString *)name
+           surname:(NSString *)surename
+    photoUrlString:(NSString *)photoUrlString
+           debtSum:(double)debtSum
+       debtDueDate:(NSDate *)dueDate
+  debtAppearedDate:(NSDate *)dateAppeared
 {
     debt.personName = name;
     debt.personSurname = surename;
@@ -95,7 +102,6 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     debt.debtAppearedDate = dateAppeared;
     
     NSError *error;
-    
     if (![debt.managedObjectContext save:&error])
     {
         NSLog(@"Не удалось изменить объект");
