@@ -35,22 +35,22 @@
     return friendList;
 }
 
-//+ (NSArray<NSDictionary *> *)filterFriendListFromDeletedFriends:(NSArray<PAAFriend *> *)filteredFriendList
-//{
-//    NSPredicate *deletedFriendsFilterPredicate;
-//    deletedFriendsFilterPredicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject,
-//                                                                          NSDictionary<NSString *,id> * _Nullable bindings) {
-//        PAAFriend *friend = evaluatedObject;
-//        if (friend.name == @"DELETED")
-//        {
-//            return NO;
-//        }
-//        else
-//        {
-//            return YES;
-//        }
-//    };
-//    NSArray *filteredFriendList =
-//}
++ (NSArray<PAAFriend *> *)filterFriendListFromDeletedFriends:(NSArray<PAAFriend *> *)friendList
+{
+    NSPredicate *deletedFriendsFilterPredicate;
+    deletedFriendsFilterPredicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject,
+                                                                          NSDictionary<NSString *,id> * _Nullable bindings) {
+        PAAFriend *friend = evaluatedObject;
+        if ([friend.name isEqualToString:@"DELETED"])
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
+    }];
+    return [friendList filteredArrayUsingPredicate:deletedFriendsFilterPredicate];
+}
 
 @end

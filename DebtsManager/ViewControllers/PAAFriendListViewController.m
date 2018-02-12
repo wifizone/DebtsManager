@@ -52,7 +52,8 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 -(void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
 {
-    self.friendList = [PAAFriend getFriendListFromDictionaryArray:friendItemsReceived];
+    NSArray<PAAFriend *> *friendList = [PAAFriend getFriendListFromDictionaryArray:friendItemsReceived];
+    self.friendList = [PAAFriend filterFriendListFromDeletedFriends:friendList];
     [self.tableView reloadData];
     NSLog(@"json получен");
 }

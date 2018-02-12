@@ -19,5 +19,5 @@
 
 - (instancetype)initWithDictionary: (NSDictionary *)friendModelDictionary;
 + (NSArray <PAAFriend *> *)getFriendListFromDictionaryArray: (NSArray<NSDictionary *> *)friendListDictionaries;
-//+ (NSArray <NSDictionary *> *)filterFriendListFromDeletedFriends:(NSArray <NSDictionary *> *)filteredFriendList;
++ (NSArray <PAAFriend *> *)filterFriendListFromDeletedFriends:(NSArray<PAAFriend *> *)friendList;
 @end
