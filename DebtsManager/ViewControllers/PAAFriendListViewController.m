@@ -65,7 +65,8 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier
+                                                            forIndexPath:indexPath];
     NSString *name = self.friendList[indexPath.row][@"first_name"];  //2 раза повторяется
     NSString *surname = self.friendList[indexPath.row][@"last_name"];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", surname, name];

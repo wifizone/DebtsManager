@@ -52,7 +52,11 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     return modelArray;
 }
 
-- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
+- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename
+                  photoUrlString:(NSString *)photoUrlString
+                         debtSum:(double)debtSum
+                     debtDueDate:(NSDate *)dueDate
+                debtAppearedDate:(NSDate *)dateAppeared
 {
     NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
     DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:@"DebtPAA" inManagedObjectContext:context];
@@ -85,7 +89,12 @@ NSString * const PAADebtSumCoreDataField = @"debtSum";
     [self.coreDataContext save:nil];
 }
 
-- (void)editObject:(DebtPAA *)debt name:(NSString *)name surname:(NSString *)surename photoUrlString:(NSString *)photoUrlString debtSum:(double)debtSum debtDueDate:(NSDate *)dueDate debtAppearedDate: (NSDate *)dateAppeared
+- (void)editObject:(DebtPAA *)debt name:(NSString *)name
+           surname:(NSString *)surename
+    photoUrlString:(NSString *)photoUrlString
+           debtSum:(double)debtSum
+       debtDueDate:(NSDate *)dueDate
+  debtAppearedDate:(NSDate *)dateAppeared
 {
     debt.personName = name;
     debt.personSurname = surename;

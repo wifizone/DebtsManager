@@ -19,6 +19,12 @@ static CGFloat const PAADebtViewOffset = 0;
 static NSString * const PAARightNavButtonAddText = @"Добавить";
 static NSString * const PAARightNavButtonEditText = @"Изменить";
 
+typedef NS_ENUM(NSInteger, PAARightNavButtonTags)
+{
+    PAARightNavButtonTagAdd = 1,
+    PAARightNavButtonTagEdit = 2
+};
+
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>
 
@@ -29,6 +35,7 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 @end
 
+
 @implementation PAADebtViewController
 
 
@@ -37,11 +44,6 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self prepareUI];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 
@@ -111,26 +113,27 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 - (void)addDebt:(UIBarButtonItem *)rightBarButton
 {
+    PAACoreDataManager *coreDataManager = [PAACoreDataManager sharedCoreDataManager];
     if ([self isUserInputOk])
     {
-        if (rightBarButton.title == PAARightNavButtonAddText)
+        if (rightBarButton.tag == PAARightNavButtonTagAdd)
         {
-            [[PAACoreDataManager sharedCoreDataManager] insertDebtObjectWithName:self.debtView.textFieldName.text
-                                                                         surname:self.debtView.textFieldSurname.text
-                                                                  photoUrlString:self.friendModel.personPhotoUrlString
-                                                                         debtSum:[self.debtView.textFieldSum.text doubleValue]
-                                                                     debtDueDate:self.debtView.dueDatePicker.date
-                                                                debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+            [coreDataManager insertDebtObjectWithName:self.debtView.textFieldName.text
+                                              surname:self.debtView.textFieldSurname.text
+                                       photoUrlString:self.friendModel.personPhotoUrlString
+                                              debtSum:[self.debtView.textFieldSum.text doubleValue]
+                                          debtDueDate:self.debtView.dueDatePicker.date
+                                     debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
         }
         else
         {
-            [[PAACoreDataManager sharedCoreDataManager] editObject:self.currentDebt
-                                                              name:self.debtView.textFieldName.text
-                                                           surname:self.debtView.textFieldSurname.text
-                                                    photoUrlString:self.currentDebt.personPhotoUrl
-                                                           debtSum:[self.debtView.textFieldSum.text doubleValue]
-                                                       debtDueDate:self.debtView.dueDatePicker.date
-                                                  debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
+            [coreDataManager editObject:self.currentDebt
+                                   name:self.debtView.textFieldName.text
+                                surname:self.debtView.textFieldSurname.text
+                         photoUrlString:self.currentDebt.personPhotoUrl
+                                debtSum:[self.debtView.textFieldSum.text doubleValue]
+                            debtDueDate:self.debtView.dueDatePicker.date
+                       debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
         }
         [[self navigationController] popViewControllerAnimated:YES];
     }
@@ -144,14 +147,17 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Ошибка"
                                                                              message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"OK"
+                                                          style:UIAlertActionStyleDefault
+                                                        handler:nil];
     [alertController addAction:alertAction];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)addGestureRecognizer
 {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:tap];
 }
 
@@ -186,8 +192,23 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 - (void)addNavigationRightItem
 {
-    NSString *barButtonTitle = self.addFeatureIsNeeded ? PAARightNavButtonAddText : PAARightNavButtonEditText;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:barButtonTitle style:UIBarButtonItemStylePlain target:self action:@selector(addDebt:)];
+    NSString *barButtonTitle;
+    NSInteger barButtonTag;
+    if (self.addFeatureIsNeeded)
+    {
+        barButtonTitle = PAARightNavButtonAddText;
+        barButtonTag = PAARightNavButtonTagAdd;
+    }
+    else
+    {
+        barButtonTitle = PAARightNavButtonEditText;
+        barButtonTag = PAARightNavButtonTagEdit;
+    }
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:barButtonTitle
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(addDebt:)];
+    [rightItem setTag:barButtonTag];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 

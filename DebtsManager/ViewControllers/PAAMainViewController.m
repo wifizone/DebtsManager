@@ -77,19 +77,22 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
 
 - (void)addTableViewWithDebts
 {
-    //изменить 20
     self.tableViewWithDebts = [UITableView new];
     self.tableViewWithDebts.rowHeight = PAARowHeight;
     [self.view addSubview:self.tableViewWithDebts];
     self.tableViewWithDebts.dataSource = self;
     self.tableViewWithDebts.delegate = self;
-    [self.tableViewWithDebts registerClass:[PAADebtTableViewCell class] forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
+    [self.tableViewWithDebts registerClass:[PAADebtTableViewCell class]
+                    forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
     self.tableViewWithDebts.allowsMultipleSelection = NO;
 }
 
 - (void)createButtonAdd
 {
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Добавить" style:UIBarButtonItemStylePlain target:self action:@selector(openDebtViewControllerToAddNewDebt)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"Добавить"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(openDebtViewControllerToAddNewDebt)];
     self.navigationItem.rightBarButtonItem = rightItem;
 }
 
@@ -141,7 +144,8 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
     cell.sumToRepayLabel.text = [NSString stringWithFormat:PAASumPrefixInLabel, debt.debtSum];
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"dd.MM.yyyy"];
-    cell.dueDateLabel.text = [NSString stringWithFormat:PAADatePrefixInLabel, [formatter stringFromDate:debt.debtDueDate]];
+    cell.dueDateLabel.text = [NSString stringWithFormat:PAADatePrefixInLabel,
+                              [formatter stringFromDate:debt.debtDueDate]];
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.networkService loadImageOfPerson:debt.personPhotoUrl forIndexPath:indexPath];
     });
@@ -159,7 +163,9 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
     return YES;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView  //выглядит зашкварно
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete)
     {
