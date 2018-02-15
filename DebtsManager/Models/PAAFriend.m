@@ -24,4 +24,33 @@
     return self;
 }
 
++ (NSArray<PAAFriend *> *)getFriendListFromDictionaryArray:(NSArray<NSDictionary *> *)friendListDictionaries
+{
+    NSMutableArray<PAAFriend *> *friendList = [NSMutableArray new];
+    for (NSDictionary *friendDictionary in friendListDictionaries)
+    {
+        PAAFriend *friend = [[PAAFriend alloc] initWithDictionary:friendDictionary];
+        [friendList addObject:friend];
+    }
+    return friendList;
+}
+
++ (NSArray<PAAFriend *> *)filterFriendListFromDeletedFriends:(NSArray<PAAFriend *> *)friendList
+{
+    NSPredicate *deletedFriendsFilterPredicate;
+    deletedFriendsFilterPredicate = [NSPredicate predicateWithBlock:^BOOL(id  _Nullable evaluatedObject,
+                                                                          NSDictionary<NSString *,id> * _Nullable bindings) {
+        PAAFriend *friend = evaluatedObject;
+        if ([friend.name isEqualToString:@"DELETED"])
+        {
+            return NO;
+        }
+        else
+        {
+            return YES;
+        }
+    }];
+    return [friendList filteredArrayUsingPredicate:deletedFriendsFilterPredicate];
+}
+
 @end

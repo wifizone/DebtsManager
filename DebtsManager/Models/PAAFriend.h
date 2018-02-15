@@ -18,5 +18,6 @@
 @property (nonatomic, copy) NSString *personPhotoUrlString;
 
 - (instancetype)initWithDictionary: (NSDictionary *)friendModelDictionary;
-
++ (NSArray <PAAFriend *> *)getFriendListFromDictionaryArray: (NSArray<NSDictionary *> *)friendListDictionaries;
++ (NSArray <PAAFriend *> *)filterFriendListFromDeletedFriends:(NSArray<PAAFriend *> *)friendList;
 @end

@@ -17,7 +17,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 @interface PAAFriendListViewController () <UITableViewDataSource, UITableViewDelegate, PAANetworkServiceOutputProtocol>
 
-@property (nonatomic, copy) NSArray<NSDictionary *> *friendList;
+@property (nonatomic, copy) NSArray<PAAFriend *> *friendList;
 
 @end
 
@@ -50,9 +50,10 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     [networkService loadFriendListOfPerson];
 }
 
--(void)loadingIsDoneWithJsonRecieved:(NSArray *)friendItemsReceived;
+-(void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
 {
-    self.friendList = [friendItemsReceived copy];  //проверить с копи
+    NSArray<PAAFriend *> *friendList = [PAAFriend getFriendListFromDictionaryArray:friendItemsReceived];
+    self.friendList = [PAAFriend filterFriendListFromDeletedFriends:friendList];
     [self.tableView reloadData];
     NSLog(@"json получен");
 }
@@ -71,15 +72,14 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier
                                                             forIndexPath:indexPath];
-    NSString *name = self.friendList[indexPath.row][@"first_name"];  //2 раза повторяется
-    NSString *surname = self.friendList[indexPath.row][@"last_name"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", surname, name];
+    PAAFriend *friendModel = self.friendList[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", friendModel.surname, friendModel.name];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PAAFriend *friendModel = [[PAAFriend alloc] initWithDictionary:self.friendList[indexPath.row]];
+    PAAFriend *friendModel = self.friendList[indexPath.row];
     [self.delegate friendListViewController:self didChooseFriend:friendModel];
 }
 
