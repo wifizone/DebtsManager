@@ -54,6 +54,11 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
         [self.tableView reloadData];
         return;
     }
+    [self downloadFriendList];
+}
+
+- (void)downloadFriendList
+{
     PAANetworkService *networkService = [PAANetworkService new];
     networkService.output = self;
     [networkService loadFriendListOfPerson];
