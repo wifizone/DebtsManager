@@ -47,16 +47,23 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 - (void)loadFriendList
 {
+    PAACoreDataManager *coredataManager = [PAACoreDataManager sharedCoreDataManager];
+    self.friendList = [coredataManager getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext];
+    if (self.friendList.count != 0)
+    {
+        [self.tableView reloadData];
+        return;
+    }
     PAANetworkService *networkService = [PAANetworkService new];
     networkService.output = self;
     [networkService loadFriendListOfPerson];
 }
 
--(void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
+- (void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
 {
     PAACoreDataManager *coredataManager = [PAACoreDataManager sharedCoreDataManager];
     [coredataManager importFriendListFromArrayOfDictionaries:friendItemsReceived];
-    self.friendList = [coredataManager getCurrentFriendModel];
+    self.friendList = [coredataManager getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext];
     [self.tableView reloadData];
     NSLog(@"json получен");
 }

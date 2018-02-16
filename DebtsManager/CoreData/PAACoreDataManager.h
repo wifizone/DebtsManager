@@ -17,7 +17,7 @@
 
 + (PAACoreDataManager *)sharedCoreDataManager;
 - (NSManagedObjectContext *)coreDataContext;
-- (NSArray<FriendPAA *> *)getCurrentFriendModel;
+- (NSArray<FriendPAA *> *)getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext;
 - (void)importFriendListFromArrayOfDictionaries: (NSArray<NSDictionary *> *)friendsDictionaries;
 - (NSArray<DebtPAA *> *)getCurrentDebtModel;
 - (void)insertDebtObjectWithName:(NSString *)name

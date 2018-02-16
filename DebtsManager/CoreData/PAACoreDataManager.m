@@ -66,7 +66,7 @@ static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
 
 #pragma mark - CRUD Friend
 
-- (NSArray<FriendPAA *> *)getCurrentFriendModel
+- (NSArray<FriendPAA *> *)getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext
 {
     NSSet<FriendPAA *> *friendsSet = self.coreDataContext.insertedObjects;
     NSArray *friendArray = [NSArray arrayWithArray:[friendsSet allObjects]];
