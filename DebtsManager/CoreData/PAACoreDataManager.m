@@ -10,10 +10,10 @@
 #import "PAACoreDataManager.h"
 #import "AppDelegate.h"
 
-
+static NSString * const PAADeletedFriend = @"DELETED";
 static NSString * const PAAEntityDebtName = @"DebtPAA";
+static NSString * const PAAEntityFriendName = @"FriendPAA";
 static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
-static NSString * const PAAFriendNameCoreDataAttribute = @"name";
 
 @implementation PAACoreDataManager
 
@@ -42,30 +42,7 @@ static NSString * const PAAFriendNameCoreDataAttribute = @"name";
 }
 
 
-#pragma mark - CRUD
-
-- (NSArray<FriendPAA *> *)getCurrentFriendModel
-{
-    NSArray *sortDescription = [self createSortDescriptionWithKey:PAAFriendNameCoreDataAttribute];
-    NSFetchRequest *fetchRequest = [FriendPAA fetchRequest];
-    [fetchRequest setSortDescriptors:sortDescription];
-    return [self getModelUsingFetchRequest:fetchRequest];
-}
-
-- (NSArray<DebtPAA *> *)getCurrentDebtModel
-{
-    NSArray *sortDescription = [self createSortDescriptionWithKey:PAADebtDueDateCoreDataAttribute];
-    NSFetchRequest *fetchRequest = [DebtPAA fetchRequest];
-    [fetchRequest setSortDescriptors:sortDescription];
-    return [self getModelUsingFetchRequest:fetchRequest];
-}
-
-- (NSArray *)createSortDescriptionWithKey: (NSString *)sortDescriptionKey
-{
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortDescriptionKey ascending:YES];
-    NSArray *sortDescription = @[sortDescriptor];
-    return sortDescription;
-}
+#pragma mark - CRUD General
 
 - (NSArray *)getModelUsingFetchRequest: (NSFetchRequest *)fetchRequest
 {
@@ -79,17 +56,72 @@ static NSString * const PAAFriendNameCoreDataAttribute = @"name";
     return modelArray;
 }
 
-- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surename
+- (NSArray *)createSortDescriptionWithKey: (NSString *)sortDescriptionKey
+{
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortDescriptionKey ascending:YES];
+    NSArray *sortDescription = @[sortDescriptor];
+    return sortDescription;
+}
+
+
+#pragma mark - CRUD Friend
+
+- (NSArray<FriendPAA *> *)getCurrentFriendModel
+{
+    NSSet<FriendPAA *> *friendsSet = self.coreDataContext.insertedObjects;
+    NSArray *friendArray = [NSArray arrayWithArray:[friendsSet allObjects]];
+    return [friendArray sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        FriendPAA *first = (FriendPAA *)obj1;
+        FriendPAA *second = (FriendPAA *)obj2;
+        return [first.surname compare:second.surname];
+    }];
+}
+
+- (void)importFriendListFromArrayOfDictionaries: (NSArray<NSDictionary *> *)friendsDictionaries
+{
+    for (NSDictionary *friendDictionary in friendsDictionaries)
+    {
+        [self insertFriendObjectWithName:friendDictionary[@"first_name"]
+                                 surname:friendDictionary[@"last_name"]
+                          photoUrlString:friendDictionary[@"photo_200"]];
+    }
+}
+
+- (void)insertFriendObjectWithName:(NSString *)name
+                           surname:(NSString *)surname
+                  photoUrlString:(NSString *)photoUrlString
+{
+    if (![name containsString:PAADeletedFriend])
+    {
+        FriendPAA *friend = [NSEntityDescription insertNewObjectForEntityForName:PAAEntityFriendName
+                                                  inManagedObjectContext:self.coreDataContext];
+        friend.name = name;
+        friend.surname = surname;
+        friend.photoUrl = photoUrlString;
+    }
+}
+
+
+#pragma mark - CRUD Debt
+
+- (NSArray<DebtPAA *> *)getCurrentDebtModel
+{
+    NSArray *sortDescription = [self createSortDescriptionWithKey:PAADebtDueDateCoreDataAttribute];
+    NSFetchRequest *fetchRequest = [DebtPAA fetchRequest];
+    [fetchRequest setSortDescriptors:sortDescription];
+    return [self getModelUsingFetchRequest:fetchRequest];
+}
+
+- (void)insertDebtObjectWithName:(NSString *)name surname:(NSString *)surname
                   photoUrlString:(NSString *)photoUrlString
                          debtSum:(double)debtSum
                      debtDueDate:(NSDate *)dueDate
                 debtAppearedDate:(NSDate *)dateAppeared
 {
-    NSManagedObjectContext *context = [PAACoreDataManager sharedCoreDataManager].coreDataContext;
     DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:PAAEntityDebtName
-                                                  inManagedObjectContext:context];
+                                                  inManagedObjectContext:self.coreDataContext];
     debt.personName = name;
-    debt.personSurname = surename;
+    debt.personSurname = surname;
     debt.personPhotoUrl = photoUrlString;
     debt.sum = debtSum;
     debt.dueDate = dueDate;
@@ -122,14 +154,14 @@ static NSString * const PAAFriendNameCoreDataAttribute = @"name";
 }
 
 - (void)editObject:(DebtPAA *)debt name:(NSString *)name
-           surname:(NSString *)surename
+           surname:(NSString *)surname
     photoUrlString:(NSString *)photoUrlString
            debtSum:(double)debtSum
        debtDueDate:(NSDate *)dueDate
   debtAppearedDate:(NSDate *)dateAppeared
 {
     debt.personName = name;
-    debt.personSurname = surename;
+    debt.personSurname = surname;
     debt.personPhotoUrl = photoUrlString;
     debt.sum = debtSum;
     debt.dueDate = dueDate;

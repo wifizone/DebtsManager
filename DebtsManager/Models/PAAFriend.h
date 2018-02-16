@@ -8,6 +8,7 @@
 
 
 #import <Foundation/Foundation.h>
+#import "FriendPAA+CoreDataClass.h"
 
 
 @interface PAAFriend : NSObject
@@ -18,6 +19,6 @@
 @property (nonatomic, copy) NSString *personPhotoUrlString;
 
 - (instancetype)initWithDictionary: (NSDictionary *)friendModelDictionary;
-+ (NSArray <PAAFriend *> *)getFriendListFromDictionaryArray: (NSArray<NSDictionary *> *)friendListDictionaries;
-+ (NSArray <PAAFriend *> *)filterFriendListFromDeletedFriends:(NSArray<PAAFriend *> *)friendList;
++ (NSArray <FriendPAA *> *)getFriendListFromDictionaryArray: (NSArray<NSDictionary *> *)friendListDictionaries;
++ (NSArray <FriendPAA *> *)filterFriendListFromDeletedFriends:(NSArray<FriendPAA *> *)friendList;
 @end

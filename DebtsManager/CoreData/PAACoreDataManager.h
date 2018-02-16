@@ -17,8 +17,9 @@
 
 + (PAACoreDataManager *)sharedCoreDataManager;
 - (NSManagedObjectContext *)coreDataContext;
-- (NSArray<DebtPAA *> *)getCurrentDebtModel;
 - (NSArray<FriendPAA *> *)getCurrentFriendModel;
+- (void)importFriendListFromArrayOfDictionaries: (NSArray<NSDictionary *> *)friendsDictionaries;
+- (NSArray<DebtPAA *> *)getCurrentDebtModel;
 - (void)insertDebtObjectWithName:(NSString *)name
                          surname:(NSString *)surename
                   photoUrlString:(NSString *)photoUrlString

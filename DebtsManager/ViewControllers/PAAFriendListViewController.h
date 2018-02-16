@@ -8,7 +8,7 @@
 
 
 #import <UIKit/UIKit.h>
-#import "PAAFriend.h"
+#import "FriendPAA+CoreDataClass.h"
 
 
 @class PAAFriendListViewController;
@@ -16,7 +16,7 @@
 
 @protocol PAAFriendListViewControllerDelegate <NSObject>
 
-- (void)friendListViewController:(PAAFriendListViewController *)controller didChooseFriend:(PAAFriend *)friendModel;
+- (void)friendListViewController:(PAAFriendListViewController *)controller didChooseFriend:(FriendPAA *)friendModel;
 
 @end
 
