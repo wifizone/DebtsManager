@@ -7,6 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
+#import <Expecta/Expecta.h>
 
 @interface DebtsManagerTests : XCTestCase
 

@@ -110,7 +110,7 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
     [self.navigationController pushViewController:debtViewController animated:YES];
 }
 
-- (void)openDebtViewControllerToEditNewDebt:(NSIndexPath *)indexPath
+- (void)openDebtViewControllerToEditNewDebtForIndexPath:(NSIndexPath *)indexPath
 {
     PAADebtViewController *debtViewController = [PAADebtViewController new];
     debtViewController.addFeatureIsNeeded = NO;
@@ -139,21 +139,29 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)populateTableWithTextForCell:(PAADebtTableViewCell *)cell debt:(DebtPAA *)debt
 {
-    PAADebtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier];
-    DebtPAA *debt = self.arrayWithDebts[indexPath.row];
-    
     cell.personNameLabel.text = [NSString stringWithFormat:PAANamePrefixInLabel, debt.personName, debt.personSurname];
     cell.sumToRepayLabel.text = [NSString stringWithFormat:PAASumPrefixInLabel, debt.debtSum];
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"dd.MM.yyyy"];
     cell.dueDateLabel.text = [NSString stringWithFormat:PAADatePrefixInLabel,
                               [formatter stringFromDate:debt.debtDueDate]];
+}
+
+- (void)populateTableWithImageForCell:(PAADebtTableViewCell *)cell debt:(DebtPAA *)debt indexPath:(NSIndexPath * _Nonnull)indexPath {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.networkService loadImageOfPerson:debt.personPhotoUrl forIndexPath:indexPath];
     });
     cell.personPhotoImage.image = [UIImage imageNamed:PAAPlaceHolderImageName];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    PAADebtTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier];
+    DebtPAA *debt = self.arrayWithDebts[indexPath.row];
+    [self populateTableWithTextForCell:cell debt:debt];
+    [self populateTableWithImageForCell:cell debt:debt indexPath:indexPath];
     return cell;
 }
 
@@ -180,7 +188,36 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [self openDebtViewControllerToEditNewDebt:indexPath];
+    [self openDebtViewControllerToEditNewDebtForIndexPath:indexPath];
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    CATransform3D rotation;
+    rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
+    rotation.m34 = 1.0/ -600;
+    
+    
+    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+    cell.alpha = 0;
+    
+    cell.layer.transform = rotation;
+    cell.layer.anchorPoint = CGPointMake(0, 0.5);
+    
+    
+    
+    if(cell.layer.position.x != 0)
+    {
+        cell.layer.position = CGPointMake(0, cell.layer.position.y);
+    }
+    
+    
+    [UIView beginAnimations:@"rotation" context:NULL];
+    [UIView setAnimationDuration:0.3];
+    cell.layer.transform = CATransform3DIdentity;
+    cell.alpha = 1;
+    
+    [UIView commitAnimations];
 }
 
 

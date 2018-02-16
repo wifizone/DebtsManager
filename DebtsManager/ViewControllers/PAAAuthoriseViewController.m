@@ -82,7 +82,7 @@ static CGFloat const PAAButtonOffset = 20.0;
     self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [self.logoutButton setTitle:PAALogoutUsingVkButtonText forState:UIControlStateNormal];
-    [self.logoutButton addTarget:self action:@selector(eraseAccessToken) forControlEvents:UIControlEventTouchUpInside];
+    [self.logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview: self.logoutButton];
 }
 
@@ -122,9 +122,14 @@ static CGFloat const PAAButtonOffset = 20.0;
     }];
 }
 
-- (void)eraseAccessToken
+- (void)logout
 {
     [PAAApiManager eraseAccessToken];
+////    NSString *loginPageUrlString = [PAAApiManager getAuthorizaitionUrl];
+//    NSString *logoutUrl = @"http://api.vk.com/oauth/logout?client_id=6355774";
+//    NSURL *logoutPageUrl = [NSURL URLWithString:logoutUrl];
+//    self.safariViewController = [[SFSafariViewController alloc] initWithURL:logoutPageUrl];
+//    [self presentViewController:self.safariViewController animated:YES completion:nil];
 }
 
 

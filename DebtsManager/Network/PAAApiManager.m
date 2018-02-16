@@ -14,7 +14,7 @@ static NSString * const PAAapplicationId = @"6355774";
 static NSString * const PAAVkApiVersion = @"5.71";
 static NSString * const PAAAccessTokenInUserDefaultsKey = @"accessToken";
 static NSString * const PAAAuthorizationUrlString = @"https://oauth.vk.com/authorize?client_id=%@&display=page&redirect_uri=%@&scope=65538&response_type=token&v=%@";
-static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/friends.get?order=name&fields=photo_100&v=%@&access_token=%@";
+static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/friends.get?order=name&fields=photo_200&v=%@&access_token=%@";
 
 @implementation PAAApiManager
 

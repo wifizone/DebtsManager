@@ -19,7 +19,7 @@
         _userId = friendModelDictionary[@"id"];
         _name = friendModelDictionary[@"first_name"];
         _surname = friendModelDictionary[@"last_name"];
-        _personPhotoUrlString = friendModelDictionary[@"photo_100"];
+        _personPhotoUrlString = friendModelDictionary[@"photo_200"];
     }
     return self;
 }
