@@ -8,11 +8,12 @@
 
 
 #import "PAACoreDataManager.h"
-#import "DebtPAA+CoreDataClass.h"
 #import "AppDelegate.h"
 
 
 static NSString * const PAAEntityDebtName = @"DebtPAA";
+static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
+static NSString * const PAAFriendNameCoreDataAttribute = @"name";
 
 @implementation PAACoreDataManager
 
@@ -43,14 +44,32 @@ static NSString * const PAAEntityDebtName = @"DebtPAA";
 
 #pragma mark - CRUD
 
-- (NSArray<DebtPAA *> *)getCurrentModel
+- (NSArray<FriendPAA *> *)getCurrentFriendModel
 {
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"debtDueDate" ascending:YES];
-    NSArray *sortDescription = @[sortDescriptor];
+    NSArray *sortDescription = [self createSortDescriptionWithKey:PAAFriendNameCoreDataAttribute];
+    NSFetchRequest *fetchRequest = [FriendPAA fetchRequest];
+    [fetchRequest setSortDescriptors:sortDescription];
+    return [self getModelUsingFetchRequest:fetchRequest];
+}
+
+- (NSArray<DebtPAA *> *)getCurrentDebtModel
+{
+    NSArray *sortDescription = [self createSortDescriptionWithKey:PAADebtDueDateCoreDataAttribute];
     NSFetchRequest *fetchRequest = [DebtPAA fetchRequest];
     [fetchRequest setSortDescriptors:sortDescription];
-    NSArray<DebtPAA *> *modelArray;
-    
+    return [self getModelUsingFetchRequest:fetchRequest];
+}
+
+- (NSArray *)createSortDescriptionWithKey: (NSString *)sortDescriptionKey
+{
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:sortDescriptionKey ascending:YES];
+    NSArray *sortDescription = @[sortDescriptor];
+    return sortDescription;
+}
+
+- (NSArray *)getModelUsingFetchRequest: (NSFetchRequest *)fetchRequest
+{
+    NSArray *modelArray;
     NSError *error;
     if (!(modelArray = [self.coreDataContext executeFetchRequest:fetchRequest error:nil]))
     {
@@ -72,9 +91,9 @@ static NSString * const PAAEntityDebtName = @"DebtPAA";
     debt.personName = name;
     debt.personSurname = surename;
     debt.personPhotoUrl = photoUrlString;
-    debt.debtSum = debtSum;
-    debt.debtDueDate = dueDate;
-    debt.debtAppearedDate = dateAppeared;
+    debt.sum = debtSum;
+    debt.dueDate = dueDate;
+    debt.appearedDate = dateAppeared;
     
     NSError *error;
     
@@ -112,9 +131,9 @@ static NSString * const PAAEntityDebtName = @"DebtPAA";
     debt.personName = name;
     debt.personSurname = surename;
     debt.personPhotoUrl = photoUrlString;
-    debt.debtSum = debtSum;
-    debt.debtDueDate = dueDate;
-    debt.debtAppearedDate = dateAppeared;
+    debt.sum = debtSum;
+    debt.dueDate = dueDate;
+    debt.appearedDate = dateAppeared;
     
     NSError *error;
     if (![debt.managedObjectContext save:&error])

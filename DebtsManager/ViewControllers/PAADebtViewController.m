@@ -220,10 +220,10 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     [self loadPersonPhoto:self.currentDebt.personPhotoUrl];
     [self.debtView.textFieldName setText:self.currentDebt.personName];
     [self.debtView.textFieldSurname setText:self.currentDebt.personSurname];
-    NSString *debtSum = [NSString stringWithFormat:@"%2.f", self.currentDebt.debtSum];
+    NSString *debtSum = [NSString stringWithFormat:@"%2.f", self.currentDebt.sum];
     [self.debtView.textFieldSum setText:debtSum];
-    [self.debtView.debtAppearedDatePicker setDate:self.currentDebt.debtAppearedDate];
-    [self.debtView.dueDatePicker setDate:self.currentDebt.debtDueDate];
+    [self.debtView.debtAppearedDatePicker setDate:self.currentDebt.appearedDate];
+    [self.debtView.dueDatePicker setDate:self.currentDebt.dueDate];
 }
 
 -(void)updateViewConstraints

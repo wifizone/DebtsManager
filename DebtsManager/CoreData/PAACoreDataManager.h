@@ -9,7 +9,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DebtPAA+CoreDataClass.h"
-
+#import "FriendPAA+CoreDataClass.h"
 
 @interface PAACoreDataManager : NSObject
 
@@ -17,7 +17,8 @@
 
 + (PAACoreDataManager *)sharedCoreDataManager;
 - (NSManagedObjectContext *)coreDataContext;
-- (NSManagedObjectContext *)getCurrentModel;
+- (NSArray<DebtPAA *> *)getCurrentDebtModel;
+- (NSArray<FriendPAA *> *)getCurrentFriendModel;
 - (void)insertDebtObjectWithName:(NSString *)name
                          surname:(NSString *)surename
                   photoUrlString:(NSString *)photoUrlString
