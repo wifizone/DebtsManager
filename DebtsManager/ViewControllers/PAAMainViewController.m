@@ -142,11 +142,11 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
 - (void)populateTableWithTextForCell:(PAADebtTableViewCell *)cell debt:(DebtPAA *)debt
 {
     cell.personNameLabel.text = [NSString stringWithFormat:PAANamePrefixInLabel, debt.personName, debt.personSurname];
-    cell.sumToRepayLabel.text = [NSString stringWithFormat:PAASumPrefixInLabel, debt.debtSum];
+    cell.sumToRepayLabel.text = [NSString stringWithFormat:PAASumPrefixInLabel, debt.sum];
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"dd.MM.yyyy"];
     cell.dueDateLabel.text = [NSString stringWithFormat:PAADatePrefixInLabel,
-                              [formatter stringFromDate:debt.debtDueDate]];
+                              [formatter stringFromDate:debt.dueDate]];
 }
 
 - (void)populateTableWithImageForCell:(PAADebtTableViewCell *)cell debt:(DebtPAA *)debt indexPath:(NSIndexPath * _Nonnull)indexPath {
@@ -235,7 +235,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)loadModel
 {
     self.arrayWithDebts = nil;
-    self.arrayWithDebts = [[PAACoreDataManager sharedCoreDataManager] getCurrentModel];
+    self.arrayWithDebts = [[PAACoreDataManager sharedCoreDataManager] getCurrentDebtModel];
 }
 
 @end

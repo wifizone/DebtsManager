@@ -10,6 +10,8 @@
 #import "PAAFriendListViewController.h"
 #import "PAANetworkService.h"
 #import "PAADebtViewController.h"
+#import "FriendPAA+CoreDataClass.h"
+#import "PAACoreDataManager.h"
 
 
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
@@ -17,7 +19,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 @interface PAAFriendListViewController () <UITableViewDataSource, UITableViewDelegate, PAANetworkServiceOutputProtocol>
 
-@property (nonatomic, copy) NSArray<PAAFriend *> *friendList;
+@property (nonatomic, copy) NSArray<FriendPAA *> *friendList;
 
 @end
 
@@ -45,15 +47,28 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 - (void)loadFriendList
 {
+    PAACoreDataManager *coredataManager = [PAACoreDataManager sharedCoreDataManager];
+    self.friendList = [coredataManager getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext];
+    if (self.friendList.count != 0)
+    {
+        [self.tableView reloadData];
+        return;
+    }
+    [self downloadFriendList];
+}
+
+- (void)downloadFriendList
+{
     PAANetworkService *networkService = [PAANetworkService new];
     networkService.output = self;
     [networkService loadFriendListOfPerson];
 }
 
--(void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
+- (void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
 {
-    NSArray<PAAFriend *> *friendList = [PAAFriend getFriendListFromDictionaryArray:friendItemsReceived];
-    self.friendList = [PAAFriend filterFriendListFromDeletedFriends:friendList];
+    PAACoreDataManager *coredataManager = [PAACoreDataManager sharedCoreDataManager];
+    [coredataManager importFriendListFromArrayOfDictionaries:friendItemsReceived];
+    self.friendList = [coredataManager getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext];
     [self.tableView reloadData];
     NSLog(@"json получен");
 }
@@ -72,14 +87,14 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier
                                                             forIndexPath:indexPath];
-    PAAFriend *friendModel = self.friendList[indexPath.row];
+    FriendPAA *friendModel = self.friendList[indexPath.row];
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", friendModel.surname, friendModel.name];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    PAAFriend *friendModel = self.friendList[indexPath.row];
+    FriendPAA *friendModel = self.friendList[indexPath.row];
     [self.delegate friendListViewController:self didChooseFriend:friendModel];
 }
 

@@ -1,5 +1,5 @@
 //
-//  DebtPAA+CoreDataClass.h
+//  FriendPAA+CoreDataClass.h
 //  DebtsManager
 //
 //  Created by Антон Полуянов on 16/02/2018.
@@ -10,14 +10,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class FriendPAA;
+@class DebtPAA;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DebtPAA : NSManagedObject
+@interface FriendPAA : NSManagedObject
 
 @end
 
 NS_ASSUME_NONNULL_END
 
-#import "DebtPAA+CoreDataProperties.h"
+#import "FriendPAA+CoreDataProperties.h"

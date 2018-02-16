@@ -1,5 +1,5 @@
 //
-//  DebtPAA+CoreDataClass.m
+//  FriendPAA+CoreDataClass.m
 //  DebtsManager
 //
 //  Created by Антон Полуянов on 16/02/2018.
@@ -7,8 +7,8 @@
 //
 //
 
-#import "DebtPAA+CoreDataClass.h"
+#import "FriendPAA+CoreDataClass.h"
 
-@implementation DebtPAA
+@implementation FriendPAA
 
 @end
