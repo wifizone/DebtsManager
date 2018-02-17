@@ -10,7 +10,6 @@
 #import "PAADebtViewController.h"
 #import "PAACoreDataManager.h"
 #import "PAANetworkService.h"
-#import "PAAFriend.h"
 #import "Masonry.h"
 #import "PAADebtView.h"
 
@@ -27,6 +26,7 @@ static CGFloat const PAAScrollableDebtViewContent = 750.0;
 static CGFloat const PAADebtViewOffset = 0;
 static NSString * const PAARightNavButtonAddText = @"Добавить";
 static NSString * const PAARightNavButtonEditText = @"Изменить";
+static NSString * const PAABackNavButtonText = @"Назад";
 
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>
@@ -90,6 +90,10 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 - (void)openFriendListViewController
 {
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:PAABackNavButtonText
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:nil];
     self.friendListViewController = [PAAFriendListViewController new];
     self.friendListViewController.delegate = self;
     [self.navigationController pushViewController:self.friendListViewController animated:YES];
@@ -97,7 +101,7 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 - (BOOL)isUserInputOk
 {
-    if (self.debtView.dueDatePicker.date < self.debtView.debtAppearedDatePicker.date)
+    if ([self.debtView.dueDatePicker.date compare:self.debtView.debtAppearedDatePicker.date])
     {
         [self popupAlertMessageWithText:@"Дата возврата долга должна быть больше даты его появления"];
         return NO;
@@ -107,9 +111,9 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
         [self popupAlertMessageWithText:@"Сначала выберите друга"];
         return NO;
     }
-    if ((self.debtView.textFieldSum.text.length > 10))
+    if ((self.debtView.textFieldSum.text.length > 10) || ([self.debtView.textFieldSum.text doubleValue] <= 0))
     {
-        [self popupAlertMessageWithText:@"Максимальная сумма долга десятизначная"];
+        [self popupAlertMessageWithText:@"Максимальная сумма долга десятизначная, минимальная - 1 рубль"];
         return NO;
     }
     return YES;
@@ -218,7 +222,8 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 - (void)populateDebtFields
 {
-    [self loadPersonPhoto:self.currentDebt.friend.photoUrl];
+    self.photoUrlString = self.currentDebt.friend.photoUrl;
+    [self loadPersonPhoto:self.photoUrlString];
     [self.debtView.textFieldName setText:self.currentDebt.friend.name];
     [self.debtView.textFieldSurname setText:self.currentDebt.friend.surname];
     NSString *debtSum = [NSString stringWithFormat:@"%2.f", self.currentDebt.sum];
