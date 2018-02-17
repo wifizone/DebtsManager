@@ -29,6 +29,7 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 #pragma mark - Lifecycle
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupTableView];
@@ -51,6 +52,11 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     self.tableView.refreshControl = [UIRefreshControl new];
     [self.tableView.refreshControl addTarget:self action:@selector(downloadFriendList:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:self.tableView.refreshControl];
+}
+
+- (void)popFriendListViewController
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - DownloadingFriendList
