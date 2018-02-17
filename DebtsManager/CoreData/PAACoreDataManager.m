@@ -101,6 +101,11 @@ static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
     }
 }
 
+- (void)clearContextFromInsertedFriendEntities
+{
+    [self.coreDataContext reset];
+}
+
 
 #pragma mark - CRUD Debt
 
@@ -120,16 +125,20 @@ static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
 {
     DebtPAA *debt = [NSEntityDescription insertNewObjectForEntityForName:PAAEntityDebtName
                                                   inManagedObjectContext:self.coreDataContext];
-    debt.personName = name;
-    debt.personSurname = surname;
-    debt.personPhotoUrl = photoUrlString;
+    FriendPAA *friend = [NSEntityDescription insertNewObjectForEntityForName:PAAEntityFriendName
+                                                      inManagedObjectContext:self.coreDataContext];
+    friend.name = name;
+    friend.surname = surname;
+    friend.photoUrl = photoUrlString;
+    debt.friend = friend;
     debt.sum = debtSum;
     debt.dueDate = dueDate;
     debt.appearedDate = dateAppeared;
+
     
     NSError *error;
     
-    if (![debt.managedObjectContext save:&error])
+    if (![debt.managedObjectContext save:&error] || ![debt.managedObjectContext save:&error])
     {
         NSLog(@"Не удалось сохранить объект");
         NSLog(@"%@, %@", error, error.localizedDescription);
@@ -160,9 +169,9 @@ static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
        debtDueDate:(NSDate *)dueDate
   debtAppearedDate:(NSDate *)dateAppeared
 {
-    debt.personName = name;
-    debt.personSurname = surname;
-    debt.personPhotoUrl = photoUrlString;
+    debt.friend.name = name;
+    debt.friend.surname = surname;
+    debt.friend.photoUrl = photoUrlString;
     debt.sum = debtSum;
     debt.dueDate = dueDate;
     debt.appearedDate = dateAppeared;

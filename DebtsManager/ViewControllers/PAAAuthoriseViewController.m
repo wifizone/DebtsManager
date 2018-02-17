@@ -19,14 +19,12 @@ NSString * const PAALoginUsingVkButtonText = @"Войти с помощью вк
 NSString * const PAALogoutUsingVkButtonText = @"Забыть токен";
 static CGFloat const PAAButtonHeight = 40.0;
 static CGFloat const PAAButtonWidth = 200.0;
-static CGFloat const PAAButtonOffset = 20.0;
 
 
 @interface PAAAuthoriseViewController()
 
 @property (nonatomic, strong)SFSafariViewController *safariViewController;
 @property (nonatomic, strong)UIButton *loginButton;
-@property (nonatomic, strong)UIButton *logoutButton;
 
 @end
 
@@ -42,7 +40,6 @@ static CGFloat const PAAButtonOffset = 20.0;
                                              selector:@selector(tokenReceivedWithNotification:)
                                                  name:PAAAccessTokenReceivedNotification object:nil];
     [self addLoginButton];
-    [self addLogoutButton];
     [self updateViewConstraints];
 }
 
@@ -59,7 +56,6 @@ static CGFloat const PAAButtonOffset = 20.0;
 - (void)updateViewConstraints
 {
     [self setLoginButtonConstraints];
-    [self setLogoutButtonConstraints];
     [super updateViewConstraints];
 }
 
@@ -75,15 +71,6 @@ static CGFloat const PAAButtonOffset = 20.0;
                          action:@selector(getAccessTokenUsingSafari)
                forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview: self.loginButton];
-}
-
-- (void)addLogoutButton
-{
-    self.logoutButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.logoutButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [self.logoutButton setTitle:PAALogoutUsingVkButtonText forState:UIControlStateNormal];
-    [self.logoutButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview: self.logoutButton];
 }
 
 - (void)presentMainViewController
@@ -122,16 +109,6 @@ static CGFloat const PAAButtonOffset = 20.0;
     }];
 }
 
-- (void)logout
-{
-    [PAAApiManager eraseAccessToken];
-////    NSString *loginPageUrlString = [PAAApiManager getAuthorizaitionUrl];
-//    NSString *logoutUrl = @"http://api.vk.com/oauth/logout?client_id=6355774";
-//    NSURL *logoutPageUrl = [NSURL URLWithString:logoutUrl];
-//    self.safariViewController = [[SFSafariViewController alloc] initWithURL:logoutPageUrl];
-//    [self presentViewController:self.safariViewController animated:YES completion:nil];
-}
-
 
 #pragma mark - Constraints
 
@@ -141,16 +118,6 @@ static CGFloat const PAAButtonOffset = 20.0;
         make.height.mas_equalTo(PAAButtonHeight);
         make.width.mas_equalTo(PAAButtonWidth);
         make.center.equalTo(self.view);
-    }];
-}
-
-- (void)setLogoutButtonConstraints
-{
-    [self.logoutButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(PAAButtonHeight);
-        make.width.mas_equalTo(PAAButtonWidth);
-        make.top.equalTo(self.loginButton.mas_bottom).with.offset(PAAButtonOffset);
-        make.centerX.equalTo(self.view);
     }];
 }
 

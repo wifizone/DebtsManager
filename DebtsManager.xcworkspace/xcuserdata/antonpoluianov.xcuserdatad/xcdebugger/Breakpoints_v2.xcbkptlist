@@ -9,13 +9,45 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DebtsManager/ViewControllers/PAAAuthoriseViewController.m"
-            timestampString = "540414991.741637"
+            filePath = "DebtsManager/CoreData/PAACoreDataManager.m"
+            timestampString = "540559214.580825"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "-logout"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
+            landmarkName = "-editObject:name:surname:photoUrlString:debtSum:debtDueDate:debtAppearedDate:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DebtsManager/ViewControllers/PAAFriendListViewController.m"
+            timestampString = "540559215.462533"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "-downloadFriendList:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DebtsManager/ViewControllers/PAAFriendListViewController.m"
+            timestampString = "540559217.09963"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "-downloadFriendList"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
