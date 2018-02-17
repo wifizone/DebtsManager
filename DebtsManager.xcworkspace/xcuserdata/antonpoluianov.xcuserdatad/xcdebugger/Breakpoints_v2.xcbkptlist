@@ -9,44 +9,12 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DebtsManager/ViewControllers/PAAAuthoriseViewController.m"
-            timestampString = "540557600.720935"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "-logout"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "DebtsManager/ViewControllers/PAADebtViewController.m"
-            timestampString = "540557600.728484"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "222"
-            endingLineNumber = "222"
-            landmarkName = "-populateDebtFields"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "DebtsManager/CoreData/PAACoreDataManager.m"
-            timestampString = "540557600.749814"
+            timestampString = "540559214.580825"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "-editObject:name:surname:photoUrlString:debtSum:debtDueDate:debtAppearedDate:"
             landmarkType = "7">
          </BreakpointContent>
@@ -57,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DebtsManager/ViewControllers/PAADebtViewController.m"
-            timestampString = "540557600.7507859"
+            filePath = "DebtsManager/ViewControllers/PAAFriendListViewController.m"
+            timestampString = "540559215.462533"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-friendListViewController:didChooseFriend:"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
+            landmarkName = "-downloadFriendList:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,13 +41,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "DebtsManager/ViewControllers/PAADebtViewController.m"
-            timestampString = "540557600.752497"
+            filePath = "DebtsManager/ViewControllers/PAAFriendListViewController.m"
+            timestampString = "540559217.09963"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "-addDebt:"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "-downloadFriendList"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

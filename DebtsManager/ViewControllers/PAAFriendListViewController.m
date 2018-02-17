@@ -31,17 +31,27 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
+    [self setupTableView];
+    [self addRefreshControl];
     [self loadFriendList];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - UI
+
+- (void)setupTableView
+{
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
 }
 
+- (void)addRefreshControl
+{
+    self.tableView.refreshControl = [UIRefreshControl new];
+    [self.tableView.refreshControl addTarget:self action:@selector(downloadFriendList:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.tableView.refreshControl];
+}
 
 #pragma mark - DownloadingFriendList
 
@@ -64,12 +74,19 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
     [networkService loadFriendListOfPerson];
 }
 
+- (void)downloadFriendList: (UIRefreshControl *)refreshControl
+{
+    [[PAACoreDataManager sharedCoreDataManager] clearContextFromInsertedFriendEntities];
+    [self downloadFriendList];
+}
+
 - (void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
 {
     PAACoreDataManager *coredataManager = [PAACoreDataManager sharedCoreDataManager];
     [coredataManager importFriendListFromArrayOfDictionaries:friendItemsReceived];
     self.friendList = [coredataManager getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext];
     [self.tableView reloadData];
+    [self.tableView.refreshControl endRefreshing];
     NSLog(@"json получен");
 }
 

@@ -19,6 +19,7 @@
 - (NSManagedObjectContext *)coreDataContext;
 - (NSArray<FriendPAA *> *)getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext;
 - (void)importFriendListFromArrayOfDictionaries: (NSArray<NSDictionary *> *)friendsDictionaries;
+- (void)clearContextFromInsertedFriendEntities;
 - (NSArray<DebtPAA *> *)getCurrentDebtModel;
 - (void)insertDebtObjectWithName:(NSString *)name
                          surname:(NSString *)surename

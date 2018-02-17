@@ -101,6 +101,11 @@ static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
     }
 }
 
+- (void)clearContextFromInsertedFriendEntities
+{
+    [self.coreDataContext reset];
+}
+
 
 #pragma mark - CRUD Debt
 

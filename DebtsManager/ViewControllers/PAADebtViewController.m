@@ -59,7 +59,6 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
     [self.debtView.textFieldName setText:friendModel.name];
     [self.debtView.textFieldSurname setText:friendModel.surname];
     [self loadPersonPhoto:friendModel.photoUrl];
-    NSLog(@"%@, %@, %@", friendModel.name, friendModel.surname, friendModel.photoUrl);
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
