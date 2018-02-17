@@ -10,7 +10,6 @@
 #import "PAADebtViewController.h"
 #import "PAACoreDataManager.h"
 #import "PAANetworkService.h"
-#import "PAAFriend.h"
 #import "Masonry.h"
 #import "PAADebtView.h"
 
