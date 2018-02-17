@@ -34,6 +34,7 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 @property (nonatomic, strong) PAAFriendListViewController *friendListViewController;
 @property (nonatomic, strong) PAADebtView *debtView;
 @property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) NSString *photoUrlString;
 
 @end
 
@@ -54,6 +55,7 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 - (void)friendListViewController:(PAAFriendListViewController *)controller didChooseFriend:(FriendPAA *)friendModel
 {
     self.currentDebt.friend = friendModel;
+    self.photoUrlString = friendModel.photoUrl;
     [self.debtView.textFieldName setText:friendModel.name];
     [self.debtView.textFieldSurname setText:friendModel.surname];
     [self loadPersonPhoto:friendModel.photoUrl];
@@ -123,7 +125,7 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
         {
             [coreDataManager insertDebtObjectWithName:self.debtView.textFieldName.text
                                               surname:self.debtView.textFieldSurname.text
-                                       photoUrlString:self.currentDebt.friend.photoUrl
+                                       photoUrlString:self.photoUrlString
                                               debtSum:[self.debtView.textFieldSum.text doubleValue]
                                           debtDueDate:self.debtView.dueDatePicker.date
                                      debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
@@ -131,9 +133,9 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
         else
         {
             [coreDataManager editObject:self.currentDebt
-                                   name:self.currentDebt.friend.name
-                                surname:self.currentDebt.friend.surname
-                         photoUrlString:self.currentDebt.friend.photoUrl
+                                   name:self.debtView.textFieldName.text
+                                surname:self.debtView.textFieldSurname.text
+                         photoUrlString:self.photoUrlString
                                 debtSum:[self.debtView.textFieldSum.text doubleValue]
                             debtDueDate:self.debtView.dueDatePicker.date
                        debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
