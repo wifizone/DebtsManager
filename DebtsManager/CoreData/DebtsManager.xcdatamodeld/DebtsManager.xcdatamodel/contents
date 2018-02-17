@@ -3,9 +3,6 @@
     <entity name="DebtPAA" representedClassName="DebtPAA" syncable="YES">
         <attribute name="appearedDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="personName" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="personPhotoUrl" optional="YES" attributeType="String" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
-        <attribute name="personSurname" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sum" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES" syncable="YES"/>
         <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FriendPAA" inverseName="debt" inverseEntity="FriendPAA" syncable="YES"/>
     </entity>
@@ -16,7 +13,7 @@
         <relationship name="debt" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DebtPAA" inverseName="friend" inverseEntity="DebtPAA" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DebtPAA" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="FriendPAA" positionX="198" positionY="-0" width="128" height="103"/>
+        <element name="DebtPAA" positionX="-63" positionY="-18" width="128" height="105"/>
+        <element name="FriendPAA" positionX="198" positionY="-0" width="128" height="105"/>
     </elements>
 </model>

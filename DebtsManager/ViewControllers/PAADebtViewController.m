@@ -31,7 +31,6 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 @interface PAADebtViewController () <PAANetworkServiceOutputProtocol, UITextFieldDelegate>
 
-@property (nonatomic, strong) FriendPAA *friendModel;
 @property (nonatomic, strong) PAAFriendListViewController *friendListViewController;
 @property (nonatomic, strong) PAADebtView *debtView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -54,10 +53,11 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 - (void)friendListViewController:(PAAFriendListViewController *)controller didChooseFriend:(FriendPAA *)friendModel
 {
-    self.friendModel = friendModel;
+    self.currentDebt.friend = friendModel;
     [self.debtView.textFieldName setText:friendModel.name];
     [self.debtView.textFieldSurname setText:friendModel.surname];
     [self loadPersonPhoto:friendModel.photoUrl];
+    NSLog(@"%@, %@, %@", friendModel.name, friendModel.surname, friendModel.photoUrl);
     [[self navigationController] popViewControllerAnimated:YES];
 }
 
@@ -123,7 +123,7 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
         {
             [coreDataManager insertDebtObjectWithName:self.debtView.textFieldName.text
                                               surname:self.debtView.textFieldSurname.text
-                                       photoUrlString:self.friendModel.photoUrl
+                                       photoUrlString:self.currentDebt.friend.photoUrl
                                               debtSum:[self.debtView.textFieldSum.text doubleValue]
                                           debtDueDate:self.debtView.dueDatePicker.date
                                      debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
@@ -131,9 +131,9 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
         else
         {
             [coreDataManager editObject:self.currentDebt
-                                   name:self.debtView.textFieldName.text
-                                surname:self.debtView.textFieldSurname.text
-                         photoUrlString:self.currentDebt.personPhotoUrl
+                                   name:self.currentDebt.friend.name
+                                surname:self.currentDebt.friend.surname
+                         photoUrlString:self.currentDebt.friend.photoUrl
                                 debtSum:[self.debtView.textFieldSum.text doubleValue]
                             debtDueDate:self.debtView.dueDatePicker.date
                        debtAppearedDate:self.debtView.debtAppearedDatePicker.date];
@@ -217,9 +217,9 @@ static NSString * const PAARightNavButtonEditText = @"Изменить";
 
 - (void)populateDebtFields
 {
-    [self loadPersonPhoto:self.currentDebt.personPhotoUrl];
-    [self.debtView.textFieldName setText:self.currentDebt.personName];
-    [self.debtView.textFieldSurname setText:self.currentDebt.personSurname];
+    [self loadPersonPhoto:self.currentDebt.friend.photoUrl];
+    [self.debtView.textFieldName setText:self.currentDebt.friend.name];
+    [self.debtView.textFieldSurname setText:self.currentDebt.friend.surname];
     NSString *debtSum = [NSString stringWithFormat:@"%2.f", self.currentDebt.sum];
     [self.debtView.textFieldSum setText:debtSum];
     [self.debtView.debtAppearedDatePicker setDate:self.currentDebt.appearedDate];
