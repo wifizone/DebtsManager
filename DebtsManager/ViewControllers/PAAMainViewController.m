@@ -141,7 +141,7 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
 
 - (void)populateTableWithTextForCell:(PAADebtTableViewCell *)cell debt:(DebtPAA *)debt
 {
-    cell.personNameLabel.text = [NSString stringWithFormat:PAANamePrefixInLabel, debt.personName, debt.personSurname];
+    cell.personNameLabel.text = [NSString stringWithFormat:PAANamePrefixInLabel, debt.friend.name, debt.friend.surname];
     cell.sumToRepayLabel.text = [NSString stringWithFormat:PAASumPrefixInLabel, debt.sum];
     NSDateFormatter *formatter = [NSDateFormatter new];
     [formatter setDateFormat:@"dd.MM.yyyy"];
@@ -151,7 +151,7 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
 
 - (void)populateTableWithImageForCell:(PAADebtTableViewCell *)cell debt:(DebtPAA *)debt indexPath:(NSIndexPath * _Nonnull)indexPath {
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.networkService loadImageOfPerson:debt.personPhotoUrl forIndexPath:indexPath];
+        [self.networkService loadImageOfPerson:debt.friend.photoUrl forIndexPath:indexPath];
     });
     cell.personPhotoImage.image = [UIImage imageNamed:PAAPlaceHolderImageName];
 }
