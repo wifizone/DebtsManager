@@ -48,7 +48,7 @@ static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
 {
     NSArray *modelArray;
     NSError *error;
-    if (!(modelArray = [self.coreDataContext executeFetchRequest:fetchRequest error:nil]))
+    if (!(modelArray = [self.coreDataContext executeFetchRequest:fetchRequest error:&error]))
     {
         NSLog(@"Не удалось загрузить модель");
         NSLog(@"%@, %@", error, error.localizedDescription);

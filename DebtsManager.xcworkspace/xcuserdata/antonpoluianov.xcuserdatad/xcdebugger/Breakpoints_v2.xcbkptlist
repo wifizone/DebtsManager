@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DebtsManager/ViewControllers/PAADebtViewController.m"
-            timestampString = "540567576.86622"
+            timestampString = "540663969.005993"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "125"
@@ -26,12 +26,28 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DebtsManager/ViewControllers/PAADebtViewController.m"
-            timestampString = "540567576.916274"
+            timestampString = "540663969.007092"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "104"
             endingLineNumber = "104"
             landmarkName = "-isUserInputOk"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DebtsManager/CoreData/PAACoreDataManager.m"
+            timestampString = "540663969.0108581"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "71"
+            endingLineNumber = "71"
+            landmarkName = "-getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		A639825E2023740300387B67 /* PAAAuthoriseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A639825D2023740300387B67 /* PAAAuthoriseViewController.m */; };
 		A639826C2025AB3600387B67 /* DebtsManagerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = A639826B2025AB3600387B67 /* DebtsManagerUITests.m */; };
-		A639827A2025AB4F00387B67 /* DebtsManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A63982792025AB4F00387B67 /* DebtsManagerTests.m */; };
 		A639828C202607C000387B67 /* PAADebtViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A639828B202607C000387B67 /* PAADebtViewController.m */; };
 		A6398291202608AD00387B67 /* PAACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6398290202608AD00387B67 /* PAACoreDataManager.m */; };
 		A64CFA75203035A1008A36D3 /* PAADebtView.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFA74203035A1008A36D3 /* PAADebtView.m */; };
@@ -17,6 +16,7 @@
 		A64CFAAC20383118008A36D3 /* DebtPAA+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAA620383118008A36D3 /* DebtPAA+CoreDataProperties.m */; };
 		A64CFAAD20383118008A36D3 /* FriendPAA+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAA820383118008A36D3 /* FriendPAA+CoreDataClass.m */; };
 		A64CFAAE20383118008A36D3 /* FriendPAA+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAAA20383118008A36D3 /* FriendPAA+CoreDataProperties.m */; };
+		A64CFAB020397A24008A36D3 /* PAACoreDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAAF20397A24008A36D3 /* PAACoreDataManagerTests.m */; };
 		A6785F1C20260D8900B94131 /* PAAFriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */; };
 		A6785F222026170700B94131 /* PAANetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F212026170700B94131 /* PAANetworkService.m */; };
 		A6DA22762020D5E40092650A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DA22752020D5E40092650A /* AppDelegate.m */; };
@@ -65,7 +65,6 @@
 		A639826B2025AB3600387B67 /* DebtsManagerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebtsManagerUITests.m; sourceTree = "<group>"; };
 		A639826D2025AB3600387B67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A63982772025AB4F00387B67 /* DebtsManagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DebtsManagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A63982792025AB4F00387B67 /* DebtsManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DebtsManagerTests.m; sourceTree = "<group>"; };
 		A639827B2025AB4F00387B67 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A639828A202607C000387B67 /* PAADebtViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAADebtViewController.h; sourceTree = "<group>"; };
 		A639828B202607C000387B67 /* PAADebtViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAADebtViewController.m; sourceTree = "<group>"; };
@@ -81,6 +80,7 @@
 		A64CFAA820383118008A36D3 /* FriendPAA+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FriendPAA+CoreDataClass.m"; sourceTree = "<group>"; };
 		A64CFAA920383118008A36D3 /* FriendPAA+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FriendPAA+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A64CFAAA20383118008A36D3 /* FriendPAA+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FriendPAA+CoreDataProperties.m"; sourceTree = "<group>"; };
+		A64CFAAF20397A24008A36D3 /* PAACoreDataManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAACoreDataManagerTests.m; sourceTree = "<group>"; };
 		A6785F1A20260D8900B94131 /* PAAFriendListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAAFriendListViewController.h; sourceTree = "<group>"; };
 		A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAFriendListViewController.m; sourceTree = "<group>"; };
 		A6785F202026170700B94131 /* PAANetworkService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAANetworkService.h; sourceTree = "<group>"; };
@@ -168,8 +168,8 @@
 		A63982782025AB4F00387B67 /* DebtsManagerTests */ = {
 			isa = PBXGroup;
 			children = (
-				A63982792025AB4F00387B67 /* DebtsManagerTests.m */,
 				A639827B2025AB4F00387B67 /* Info.plist */,
+				A64CFAAF20397A24008A36D3 /* PAACoreDataManagerTests.m */,
 			);
 			path = DebtsManagerTests;
 			sourceTree = "<group>";
@@ -567,7 +567,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A639827A2025AB4F00387B67 /* DebtsManagerTests.m in Sources */,
+				A64CFAB020397A24008A36D3 /* PAACoreDataManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
