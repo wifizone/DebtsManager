@@ -101,7 +101,7 @@ static NSString * const PAABackNavButtonText = @"Назад";
 
 - (BOOL)isUserInputOk
 {
-    if ([self.debtView.dueDatePicker.date compare:self.debtView.debtAppearedDatePicker.date])
+    if (self.debtView.dueDatePicker.date <= self.debtView.debtAppearedDatePicker.date)
     {
         [self popupAlertMessageWithText:@"Дата возврата долга должна быть больше даты его появления"];
         return NO;
