@@ -40,6 +40,7 @@ static CGFloat const PAAButtonWidth = 200.0;
                                              selector:@selector(tokenReceivedWithNotification:)
                                                  name:PAAAccessTokenReceivedNotification object:nil];
     [self addLoginButton];
+    [PAAApiManager eraseAccessToken];
     [self updateViewConstraints];
 }
 

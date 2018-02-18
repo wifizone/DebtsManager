@@ -17,6 +17,7 @@
 		A64CFAAD20383118008A36D3 /* FriendPAA+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAA820383118008A36D3 /* FriendPAA+CoreDataClass.m */; };
 		A64CFAAE20383118008A36D3 /* FriendPAA+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAAA20383118008A36D3 /* FriendPAA+CoreDataProperties.m */; };
 		A64CFAB020397A24008A36D3 /* PAACoreDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAAF20397A24008A36D3 /* PAACoreDataManagerTests.m */; };
+		A64CFAB22039E4B8008A36D3 /* PAAApiManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A64CFAB12039E4B8008A36D3 /* PAAApiManagerTests.m */; };
 		A6785F1C20260D8900B94131 /* PAAFriendListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */; };
 		A6785F222026170700B94131 /* PAANetworkService.m in Sources */ = {isa = PBXBuildFile; fileRef = A6785F212026170700B94131 /* PAANetworkService.m */; };
 		A6DA22762020D5E40092650A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DA22752020D5E40092650A /* AppDelegate.m */; };
@@ -81,6 +82,7 @@
 		A64CFAA920383118008A36D3 /* FriendPAA+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FriendPAA+CoreDataProperties.h"; sourceTree = "<group>"; };
 		A64CFAAA20383118008A36D3 /* FriendPAA+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "FriendPAA+CoreDataProperties.m"; sourceTree = "<group>"; };
 		A64CFAAF20397A24008A36D3 /* PAACoreDataManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAACoreDataManagerTests.m; sourceTree = "<group>"; };
+		A64CFAB12039E4B8008A36D3 /* PAAApiManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAApiManagerTests.m; sourceTree = "<group>"; };
 		A6785F1A20260D8900B94131 /* PAAFriendListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAAFriendListViewController.h; sourceTree = "<group>"; };
 		A6785F1B20260D8900B94131 /* PAAFriendListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAFriendListViewController.m; sourceTree = "<group>"; };
 		A6785F202026170700B94131 /* PAANetworkService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAANetworkService.h; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			children = (
 				A639827B2025AB4F00387B67 /* Info.plist */,
 				A64CFAAF20397A24008A36D3 /* PAACoreDataManagerTests.m */,
+				A64CFAB12039E4B8008A36D3 /* PAAApiManagerTests.m */,
 			);
 			path = DebtsManagerTests;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A64CFAB020397A24008A36D3 /* PAACoreDataManagerTests.m in Sources */,
+				A64CFAB22039E4B8008A36D3 /* PAAApiManagerTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

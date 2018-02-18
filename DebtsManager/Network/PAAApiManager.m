@@ -61,18 +61,43 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
 
 + (NSString *)parseTokenFromUrl:(NSURL *)url
 {
+    if (!url)
+    {
+        return nil;
+    }
+    
     NSString *urlString = url.absoluteString;
-    NSRange tokenStartRange = [urlString rangeOfString:@"access_token="];
-    NSRange tokenEndRange = [urlString rangeOfString:@"&"];
-    NSUInteger tokenStartLocation = tokenStartRange.location + tokenStartRange.length;
-    NSUInteger tokenEndLocation = tokenEndRange.location - tokenEndRange.length;
-    NSUInteger tokenLength = tokenEndLocation - tokenStartLocation + 1;
-    NSString *accessToken = [urlString substringWithRange:NSMakeRange(tokenStartLocation, tokenLength)];
+    NSArray *matches = [self getAccessTokenMatchesFromString:urlString];
+    if (matches.count == 0)
+    {
+        return nil;
+    }
+    NSRange rangeOfFirstGroup = [matches[0] rangeAtIndex:1];
+    NSString *accessToken = [urlString substringWithRange:rangeOfFirstGroup];
     return accessToken;
+}
+
++ (NSArray *)getAccessTokenMatchesFromString:(NSString *)urlString
+{
+    NSString *pattern = @"access_token=(.*?)(&|$)";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:nil];
+    NSArray *matches = [regex matchesInString:urlString options:NSMatchingReportProgress
+                                        range:NSMakeRange(0, urlString.length)];
+    return matches;
 }
 
 + (NSArray *)parseFriendList:(NSDictionary *)friendList
 {
+    if (!friendList)
+    {
+        return nil;
+    }
+    if ([friendList valueForKey:@"error"])
+    {
+        return nil;
+    }
     NSDictionary *responseContainer = friendList[@"response"];
     NSArray<NSDictionary *> *friendListItems = responseContainer[@"items"];
     return friendListItems;
