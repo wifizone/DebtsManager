@@ -30,6 +30,10 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
 + (NSString *)getFriendsIdsRequestUrl
 {
     NSString *accessToken = [self getAccessTokenFromUserDefaults];
+    if (!accessToken)
+    {
+        return nil;
+    }
     return [NSString stringWithFormat:PAAGetFriendsRequest, PAAVkApiVersion, accessToken];
 }
 
@@ -38,6 +42,10 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
 
 + (void)saveAccessTokenToUserDefaults:(NSURL *)url
 {
+    if (!url)
+    {
+        return;
+    }
     NSString *accessToken = [self parseTokenFromUrl:url];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:accessToken forKey:PAAAccessTokenInUserDefaultsKey];
@@ -65,7 +73,6 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
     {
         return nil;
     }
-    
     NSString *urlString = url.absoluteString;
     NSArray *matches = [self getAccessTokenMatchesFromString:urlString];
     if (matches.count == 0)

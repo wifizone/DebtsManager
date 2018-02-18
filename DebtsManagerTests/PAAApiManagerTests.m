@@ -16,6 +16,14 @@ static NSString * const PAACorrectUrl = @"vk6355774://authorize#access_token=163
 static NSString * const PAAIncorrectUrlNoAccessTokenNameParameter = @"token=163337bf50063ab82cf4d35302708d54b1fa1e2aef3fd09df7255b28cdf959023097794a6b486e3edb81a&expires_in=0&user_id=17776407";
 static NSString * const PAAcorrectUrlNoAmpersandAtTheEnd = @"vk6355774://authorize#access_token=163337bf50063ab82cf4d35302708d54b1fa1e2aef3fd09df7255b28cdf959023097794a6b486e3edb81a";
 static NSString * const PAACorrectToken = @"163337bf50063ab82cf4d35302708d54b1fa1e2aef3fd09df7255b28cdf959023097794a6b486e3edb81a";
+static NSString * const PAAAuthorizationUrlString = @"https://oauth.vk.com/authorize?client_id=6355774&display=page&redirect_uri=vk6355774://authorize&scope=65538&response_type=token&v=5.71";
+static NSString * const PAAFriendIdRequest = @"https://api.vk.com/method/friends.get?order=name&fields=photo_200&v=5.71&access_token=%@";
+
+@interface PAAApiManager (Tests)
+
++ (NSString *)getFriendsIdsRequestUrl;
+
+@end
 
 
 @interface PAAApiManagerTests : XCTestCase
@@ -25,6 +33,7 @@ static NSString * const PAACorrectToken = @"163337bf50063ab82cf4d35302708d54b1fa
 @property (nonatomic, strong) NSURL *correctUrlNoAmpersandAtTheEnd;
 @property (nonatomic, strong) NSDictionary *jsonWithError;
 @property (nonatomic, strong) NSDictionary *correctJson;
+@property (nonatomic, assign) id apiManager;
 
 @end
 
@@ -32,6 +41,7 @@ static NSString * const PAACorrectToken = @"163337bf50063ab82cf4d35302708d54b1fa
 
 - (void)setUp {
     [super setUp];
+    self.apiManager = OCMClassMock([PAAApiManager class]);
     self.urlWithToken = [[NSURL alloc] initWithString:PAACorrectUrl];
     self.incorrectUrlNoAccessTokenNameParameter = [[NSURL alloc] initWithString:PAAIncorrectUrlNoAccessTokenNameParameter];
     self.correctUrlNoAmpersandAtTheEnd = [[NSURL alloc] initWithString:PAAcorrectUrlNoAmpersandAtTheEnd];
@@ -56,19 +66,51 @@ static NSString * const PAACorrectToken = @"163337bf50063ab82cf4d35302708d54b1fa
     self.urlWithToken = nil;
     self.incorrectUrlNoAccessTokenNameParameter = nil;
     self.correctUrlNoAmpersandAtTheEnd = nil;
+    self.apiManager = nil;
     [super tearDown];
 }
 
-- (void)testExample {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
+- (void)testGetAuthorizaitionUrlReturnsCorrectUrl
+{
+    NSString *urlString = [PAAApiManager getAuthorizaitionUrl];
+    expect(urlString).equal(PAAAuthorizationUrlString);
 }
 
-- (void)testPerformanceExample {
-    // This is an example of a performance test case.
-    [self measureBlock:^{
-        // Put the code you want to measure the time of here.
-    }];
+- (void)testGetFriendsIdsRequestUrlReturnsNil
+{
+    OCMStub(ClassMethod([self.apiManager getAccessTokenFromUserDefaults])).andReturn(nil);
+    NSString *requestUrlString = [PAAApiManager getFriendsIdsRequestUrl];
+    expect(requestUrlString).to.beNil();
+}
+
+- (void)testGetFriendsIdsRequestUrlReturnsCorrectUrl
+{
+    NSString *someAccessToken = @"12345";
+    OCMStub(ClassMethod([self.apiManager getAccessTokenFromUserDefaults])).andReturn(someAccessToken);
+    NSString *requestUrlString = [PAAApiManager getFriendsIdsRequestUrl];
+    NSString *expectedString = [NSString stringWithFormat:PAAFriendIdRequest, someAccessToken];
+    expect(requestUrlString).equal(expectedString);
+}
+
+- (void)testSaveAccessTokenToUserDefaultsCorrectUrl
+{
+    id mockObject = OCMPartialMock([NSUserDefaults standardUserDefaults]);
+    NSURL *url = [NSURL URLWithString:PAACorrectUrl];
+    [PAAApiManager saveAccessTokenToUserDefaults:url];
+    OCMVerify([mockObject synchronize]);
+}
+
+- (void)testSaveAccessTokenToUserDefaultsNilInput
+{
+    [PAAApiManager saveAccessTokenToUserDefaults:nil];
+    OCMVerify(return);
+}
+
+- (void)testGetAccessTokenFromUserDefaults
+{
+    id mockObject = OCMPartialMock([NSUserDefaults standardUserDefaults]);
+    [PAAApiManager getAccessTokenFromUserDefaults];
+    OCMVerify([mockObject objectForKey:[OCMArg any]]);
 }
 
 - (void)testParseTokenFromUrlNilUrl
