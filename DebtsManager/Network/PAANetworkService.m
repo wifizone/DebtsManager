@@ -31,8 +31,13 @@
     return self;
 }
 
-- (NSMutableURLRequest *)getConfiguredRequestForUrl:(NSString *)urlString {
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+- (NSMutableURLRequest *)getConfiguredRequestForUrl:(NSString *)urlString
+{
+    if (!urlString)
+    {
+        return nil;
+    }
+    NSMutableURLRequest *request = [NSMutableURLRequest new];
     [request setURL:[NSURL URLWithString:urlString]];
     [request setHTTPMethod:@"GET"];
     [request setValue:@"application/x-ww-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -42,14 +47,17 @@
 
 - (void)loadFriendListOfPerson
 {
+    if (!self.session)
+    {
+        return;
+    }
     NSString *urlString = [PAAApiManager getFriendsIdsRequestUrl];
     NSMutableURLRequest *request = [self getConfiguredRequestForUrl:urlString];
-    
     NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request
                                                             completionHandler:^(NSData * _Nullable data,
                                                                                 NSURLResponse * _Nullable response,
                                                                                 NSError * _Nullable error) {
-        NSDictionary *temp = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];  //ошибку обработать
+        NSDictionary *temp = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.output loadingIsDoneWithJsonRecieved: [PAAApiManager parseFriendList:temp]];
         });
@@ -59,6 +67,10 @@
 
 - (void)loadImageOfPerson: (NSString *)imageUrlString
 {
+    if (!self.session || !imageUrlString)
+    {
+        return;
+    }
     NSMutableURLRequest *request = [self getConfiguredRequestForUrl:imageUrlString];
     
     NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request
@@ -74,6 +86,10 @@
 
 - (void)loadImageOfPerson:(NSString *)imageUrlString forIndexPath:(NSIndexPath *)indexPath
 {
+    if (!self.session || !imageUrlString || !indexPath)
+    {
+        return;
+    }
     NSMutableURLRequest *request = [self getConfiguredRequestForUrl:imageUrlString];
     
     NSURLSessionDataTask *sessionDataTask = [self.session dataTaskWithRequest:request

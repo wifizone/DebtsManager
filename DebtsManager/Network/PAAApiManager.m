@@ -86,6 +86,10 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
 
 + (NSArray *)getAccessTokenMatchesFromString:(NSString *)urlString
 {
+    if (!urlString)
+    {
+        return nil;
+    }
     NSString *pattern = @"access_token=(.*?)(&|$)";
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
                                                                            options:NSRegularExpressionCaseInsensitive

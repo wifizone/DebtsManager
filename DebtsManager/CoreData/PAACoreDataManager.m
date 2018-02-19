@@ -10,6 +10,7 @@
 #import "PAACoreDataManager.h"
 #import "AppDelegate.h"
 
+
 static NSString * const PAADeletedFriend = @"DELETED";
 static NSString * const PAAEntityDebtName = @"DebtPAA";
 static NSString * const PAAEntityFriendName = @"FriendPAA";
