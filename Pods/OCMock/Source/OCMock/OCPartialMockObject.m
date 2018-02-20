@@ -217,7 +217,6 @@
     return nil;
 }
 
-
 - (void)forwardInvocationForRealObject:(NSInvocation *)anInvocation
 {
 	// in here "self" is a reference to the real object, not the mock

@@ -12,6 +12,7 @@
 #import "PAANetworkService.h"
 #import "Masonry.h"
 #import "PAADebtView.h"
+#import "PAAAlertMaker.h"
 
 
 typedef NS_ENUM(NSInteger, PAARightNavButtonTags)
@@ -65,10 +66,17 @@ static NSString * const PAABackNavButtonText = @"Назад";
 
 #pragma mark - UITextFieldDelegate
 
--(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
     [self openFriendListViewController];
     return NO;
+}
+
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    if (action == @selector(paste:))
+        return NO;
+    return [super canPerformAction:action withSender:sender];
 }
 
 #pragma mark - LoadingImage
@@ -78,7 +86,7 @@ static NSString * const PAABackNavButtonText = @"Назад";
     self.debtView.personPhotoView.image = [UIImage imageWithData:personPhoto];
 }
 
-- (void)loadPersonPhoto: (NSString *)urlString
+- (void)loadPersonPhoto:(NSString *)urlString
 {
     PAANetworkService *networkService = [PAANetworkService new];
     networkService.output = self;
@@ -86,38 +94,7 @@ static NSString * const PAABackNavButtonText = @"Назад";
 }
 
 
-#pragma mark - Navigation
-
-- (void)openFriendListViewController
-{
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:PAABackNavButtonText
-                                                                             style:UIBarButtonItemStylePlain
-                                                                            target:self
-                                                                            action:nil];
-    self.friendListViewController = [PAAFriendListViewController new];
-    self.friendListViewController.delegate = self;
-    [self.navigationController pushViewController:self.friendListViewController animated:YES];
-}
-
-- (BOOL)isUserInputOk
-{
-    if ([self.debtView.dueDatePicker.date compare:self.debtView.debtAppearedDatePicker.date])
-    {
-        [self popupAlertMessageWithText:@"Дата возврата долга должна быть больше даты его появления"];
-        return NO;
-    }
-    if ((self.debtView.textFieldName.text.length == 0) || (self.debtView.textFieldSurname.text.length == 0))
-    {
-        [self popupAlertMessageWithText:@"Сначала выберите друга"];
-        return NO;
-    }
-    if ((self.debtView.textFieldSum.text.length > 10) || ([self.debtView.textFieldSum.text doubleValue] <= 0))
-    {
-        [self popupAlertMessageWithText:@"Максимальная сумма долга десятизначная, минимальная - 1 рубль"];
-        return NO;
-    }
-    return YES;
-}
+#pragma mark - WorkWithDebtModel
 
 - (void)addDebt:(UIBarButtonItem *)rightBarButton
 {
@@ -147,20 +124,60 @@ static NSString * const PAABackNavButtonText = @"Назад";
     }
 }
 
+- (void)populateDebtFields
+{
+    self.photoUrlString = self.currentDebt.friend.photoUrl;
+    [self loadPersonPhoto:self.photoUrlString];
+    [self.debtView.textFieldName setText:self.currentDebt.friend.name];
+    [self.debtView.textFieldSurname setText:self.currentDebt.friend.surname];
+    NSString *debtSum = [NSString stringWithFormat:@"%2.f", self.currentDebt.sum];
+    [self.debtView.textFieldSum setText:debtSum];
+    [self.debtView.debtAppearedDatePicker setDate:self.currentDebt.appearedDate];
+    [self.debtView.dueDatePicker setDate:self.currentDebt.dueDate];
+}
 
-#pragma mark - UI
+- (BOOL)isUserInputOk
+{
+    if ([self.debtView.dueDatePicker.date timeIntervalSinceReferenceDate] <=
+        [self.debtView.debtAppearedDatePicker.date timeIntervalSinceReferenceDate])
+    {
+        [self popupAlertMessageWithText:@"Дата возврата долга должна быть больше даты его появления"];
+        return NO;
+    }
+    if ((self.debtView.textFieldName.text.length == 0) || (self.debtView.textFieldSurname.text.length == 0))
+    {
+        [self popupAlertMessageWithText:@"Сначала выберите друга"];
+        return NO;
+    }
+    if ((self.debtView.textFieldSum.text.length > 10) || ([self.debtView.textFieldSum.text doubleValue] <= 0))
+    {
+        [self popupAlertMessageWithText:@"Максимальная сумма долга десятизначная, минимальная - 1 рубль"];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark - Navigation
+
+- (void)openFriendListViewController
+{
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:PAABackNavButtonText
+                                                                             style:UIBarButtonItemStylePlain
+                                                                            target:self
+                                                                            action:nil];
+    self.friendListViewController = [PAAFriendListViewController new];
+    self.friendListViewController.delegate = self;
+    [self.navigationController pushViewController:self.friendListViewController animated:YES];
+}
 
 - (void)popupAlertMessageWithText:(NSString *)message
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Ошибка"
-                                                                             message:message
-                                                                      preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *alertAction = [UIAlertAction actionWithTitle:@"OK"
-                                                          style:UIAlertActionStyleDefault
-                                                        handler:nil];
-    [alertController addAction:alertAction];
+    UIAlertController *alertController = [PAAAlertMaker getAlertControllerWithText:message];
     [self presentViewController:alertController animated:YES completion:nil];
 }
+
+
+#pragma mark - UI
 
 - (void)addGestureRecognizer
 {
@@ -218,18 +235,6 @@ static NSString * const PAABackNavButtonText = @"Назад";
                                                                  action:@selector(addDebt:)];
     [rightItem setTag:barButtonTag];
     self.navigationItem.rightBarButtonItem = rightItem;
-}
-
-- (void)populateDebtFields
-{
-    self.photoUrlString = self.currentDebt.friend.photoUrl;
-    [self loadPersonPhoto:self.photoUrlString];
-    [self.debtView.textFieldName setText:self.currentDebt.friend.name];
-    [self.debtView.textFieldSurname setText:self.currentDebt.friend.surname];
-    NSString *debtSum = [NSString stringWithFormat:@"%2.f", self.currentDebt.sum];
-    [self.debtView.textFieldSum setText:debtSum];
-    [self.debtView.debtAppearedDatePicker setDate:self.currentDebt.appearedDate];
-    [self.debtView.dueDatePicker setDate:self.currentDebt.dueDate];
 }
 
 -(void)updateViewConstraints

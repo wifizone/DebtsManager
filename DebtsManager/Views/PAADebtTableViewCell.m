@@ -36,7 +36,6 @@ static CGFloat const PAALabelHeight = 30.0;
         [self.contentView addSubview:_sumToRepayLabel];
         [self.contentView addSubview:_dueDateLabel];
     }
-    
     [self updateConstraints];
     
     return self;
@@ -61,7 +60,6 @@ static CGFloat const PAALabelHeight = 30.0;
         make.left.equalTo(self.personPhotoImage.mas_right).with.offset(labelNamePadding.left);
         make.right.equalTo(superview.mas_right).with.offset(labelNamePadding.right);
         make.top.equalTo(superview.mas_top).with.offset(labelNamePadding.top);
-        make.bottom.equalTo(self.sumToRepayLabel.mas_top).with.offset(labelNamePadding.bottom);
         make.height.mas_equalTo(PAALabelHeight);
     }];
     
@@ -69,7 +67,6 @@ static CGFloat const PAALabelHeight = 30.0;
         make.left.equalTo(self.personPhotoImage.mas_right).with.offset(labelSumPadding.left);
         make.right.equalTo(superview.mas_right).with.offset(labelSumPadding.right);
         make.top.equalTo(self.personNameLabel.mas_bottom).with.offset(labelSumPadding.top);
-        make.bottom.equalTo(self.dueDateLabel.mas_top).with.offset(labelSumPadding.bottom);
         make.height.mas_equalTo(PAALabelHeight);
     }];
     
@@ -77,22 +74,10 @@ static CGFloat const PAALabelHeight = 30.0;
         make.left.equalTo(self.personPhotoImage.mas_right).with.offset(labelDatePadding.left);
         make.right.equalTo(superview.mas_right).with.offset(labelDatePadding.right);
         make.top.equalTo(self.sumToRepayLabel.mas_bottom).with.offset(labelDatePadding.top);
-        make.bottom.equalTo(superview.mas_bottom).with.offset(labelDatePadding.bottom);
         make.height.mas_equalTo(PAALabelHeight);
     }];
     
     [super updateConstraints];
-}
-
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

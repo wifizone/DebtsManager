@@ -16,7 +16,6 @@
 
 NSString * const PAAAccessTokenReceivedNotification = @"PAAAccessTokenReceivedNotification";
 NSString * const PAALoginUsingVkButtonText = @"Войти с помощью вк";
-NSString * const PAALogoutUsingVkButtonText = @"Забыть токен";
 static CGFloat const PAAButtonHeight = 40.0;
 static CGFloat const PAAButtonWidth = 200.0;
 
@@ -40,17 +39,13 @@ static CGFloat const PAAButtonWidth = 200.0;
                                              selector:@selector(tokenReceivedWithNotification:)
                                                  name:PAAAccessTokenReceivedNotification object:nil];
     [self addLoginButton];
+    [PAAApiManager eraseAccessToken];
     [self updateViewConstraints];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)updateViewConstraints

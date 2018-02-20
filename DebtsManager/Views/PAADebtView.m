@@ -31,6 +31,7 @@ static CGFloat const PAALabelHeight = 20.0;
 @property (nonatomic, strong) UILabel *debtAppearedDateLabel;
 @property (nonatomic, strong) UILabel *debtDueDateLabel;
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) NSDate *dateNow;
 
 @end
 
@@ -56,6 +57,7 @@ static CGFloat const PAALabelHeight = 20.0;
     [self addNameTextField];
     [self addSurnameTextField];
     [self addSumTextField];
+    _dateNow = [NSDate date];
     [self addDueDatePicker];
     [self addDebtAppearedDatePicker];
     [self addLabels];
@@ -98,12 +100,14 @@ static CGFloat const PAALabelHeight = 20.0;
 - (void)addDueDatePicker
 {
     _dueDatePicker = [UIDatePicker new];
+    [_dueDatePicker setDate:_dateNow];
     [self addSubview:_dueDatePicker];
 }
 
 - (void)addDebtAppearedDatePicker
 {
     _debtAppearedDatePicker = [UIDatePicker new];
+    [_debtAppearedDatePicker setDate:_dateNow];
     [self addSubview:_debtAppearedDatePicker];
 }
 
