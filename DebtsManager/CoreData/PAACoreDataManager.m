@@ -16,6 +16,14 @@ static NSString * const PAAEntityDebtName = @"DebtPAA";
 static NSString * const PAAEntityFriendName = @"FriendPAA";
 static NSString * const PAADebtDueDateCoreDataAttribute = @"dueDate";
 
+
+@interface PAACoreDataManager ()
+
+@property (nonatomic, strong) NSManagedObjectContext *coreDataContext;
+
+@end
+
+
 @implementation PAACoreDataManager
 
 + (PAACoreDataManager *)sharedCoreDataManager

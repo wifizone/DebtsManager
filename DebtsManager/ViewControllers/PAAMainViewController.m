@@ -188,31 +188,41 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CATransform3D rotation;
-    rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
-    rotation.m34 = 1.0/ -600;
-    
-    
-    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
-    cell.alpha = 0;
-    
-    cell.layer.transform = rotation;
-    cell.layer.anchorPoint = CGPointMake(0, 0.5);
-    
-    
-    
-    if (cell.layer.position.x != 0)
-    {
-        cell.layer.position = CGPointMake(0, cell.layer.position.y);
-    }
-    
+    CATransform3D rotation = [self createRotation];
+    cell = [self setInitialCellState:cell transform:rotation];
     
     [UIView beginAnimations:@"rotation" context:NULL];
     [UIView setAnimationDuration:0.3];
-    cell.layer.transform = CATransform3DIdentity;
-    cell.alpha = 1;
+    cell = [self setFinalCellState:cell];
     
     [UIView commitAnimations];
+}
+
+
+#pragma mark - Animation
+
+- (CATransform3D)createRotation
+{
+    CATransform3D rotation;
+    rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
+    rotation.m34 = 1.0/ -600;
+    return rotation;
+}
+
+- (UITableViewCell *)setInitialCellState:(UITableViewCell *)cell transform:(CATransform3D)rotation
+{
+    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+    cell.alpha = 0;    
+    cell.layer.transform = rotation;
+    cell.layer.anchorPoint = CGPointMake(0, 0.5);
+    return cell;
+}
+
+- (UITableViewCell *)setFinalCellState:(UITableViewCell *)cell
+{
+    cell.layer.transform = CATransform3DIdentity;
+    cell.alpha = 1;
+    return cell;
 }
 
 

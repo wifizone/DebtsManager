@@ -10,10 +10,23 @@
 #import <Foundation/Foundation.h>
 
 
+/**
+ * Протокол для делегирования обработки загруженных с сервера данных
+ */
 @protocol PAANetworkServiceOutputProtocol <NSObject>
 @optional
 
-- (void)loadingIsDoneWithJsonRecieved: (NSArray *)friendItemsReceived;
+/**
+ Процедура вызывается при загрузке JSON со списком друзей
+ @param friendItemsReceived JSON со списком друзей
+ */
+- (void)loadingIsDoneWithJsonRecieved: (NSArray<NSDictionary *> *)friendItemsReceived;
+
+
+/**
+ Процедура вызывается при изображения друга с сервера
+ @param personPhoto Изображение друга
+ */
 - (void)loadingIsDoneWithImageReceived: (NSData *)personPhoto;
 - (void)loadingIsDoneWithImageReceived: (NSData *)personPhoto forIndexPath:(NSIndexPath *)indexPath;
 
@@ -23,9 +36,6 @@
 @protocol PAANetworkServiceInputProtocol <NSObject>
 @optional
 - (void)configureUrlSessionWithParams: (NSDictionary *)params;
-
-- (BOOL)resumeNetworkLoading;
-- (void)suspendNetworkLoading;
 
 - (void)loadFriendListOfPerson;
 - (void)loadImageOfPerson: (NSString *)imageUrlString;

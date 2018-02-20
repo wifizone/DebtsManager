@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 
 
+/**
+ * Вьюконтроллер, отображает все твои долги. Здесь их можно добавить удалить, изменить.
+ */
 @interface PAAMainViewController : UIViewController
 
 @end
