@@ -49,7 +49,6 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
     NSString *accessToken = [self parseTokenFromUrl:url];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:accessToken forKey:PAAAccessTokenInUserDefaultsKey];
-    [defaults synchronize];
 }
 
 + (NSString *)getAccessTokenFromUserDefaults
@@ -99,7 +98,7 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
     return matches;
 }
 
-+ (NSArray *)parseFriendList:(NSDictionary *)friendList
++ (NSArray<NSDictionary *> *)parseFriendList:(NSDictionary *)friendList
 {
     if (!friendList)
     {

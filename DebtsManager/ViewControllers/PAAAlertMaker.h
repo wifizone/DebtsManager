@@ -11,8 +11,16 @@
 #import <UIKit/UIKit.h>
 
 
+/**
+ Работает с генерацией UIAlertController
+ */
 @interface PAAAlertMaker : NSObject
 
+/**
+ Генерирует UIAlertController с заданным сообщением и кнопкой ОК
+ @param message - сообщение для отображения в UIAlertController
+ @return сгенерированный UIAlertController
+ */
 + (UIAlertController *)getAlertControllerWithText:(NSString *)message;
 
 @end

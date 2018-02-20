@@ -10,9 +10,12 @@
 #import <UIKit/UIKit.h>
 
 
+/** Константа глобальная. Имя нотификации, которая срабатывает при получении токена */
 extern NSString * const PAAAccessTokenReceivedNotification;
 
-
+/**
+ * Вьюконтроллер содержит одну кнопку для входа в вк
+ */
 @interface PAAAuthoriseViewController : UIViewController
 
 @end

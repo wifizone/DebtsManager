@@ -97,7 +97,7 @@ static NSString * const PAAFriendIdRequest = @"https://api.vk.com/method/friends
     id mockObject = OCMPartialMock([NSUserDefaults standardUserDefaults]);
     NSURL *url = [NSURL URLWithString:PAACorrectUrl];
     [PAAApiManager saveAccessTokenToUserDefaults:url];
-    OCMVerify([mockObject synchronize]);
+    OCMVerify([mockObject setObject:[OCMArg any] forKey:[OCMArg any]]);
 }
 
 - (void)testSaveAccessTokenToUserDefaultsNilInput

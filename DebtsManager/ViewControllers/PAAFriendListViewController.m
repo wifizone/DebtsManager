@@ -7,7 +7,6 @@
 //
 
 
-#import "PAAFriendListViewController.h"
 #import "PAANetworkService.h"
 #import "PAADebtViewController.h"
 #import "FriendPAA+CoreDataClass.h"
