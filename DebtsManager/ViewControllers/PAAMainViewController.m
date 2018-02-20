@@ -52,11 +52,6 @@ static NSString * const PAADatePrefixInLabel = @"Возвратить: %@";
     self.networkService.output = self;
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:YES];
@@ -186,7 +181,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [self openDebtViewControllerToEditNewDebtForIndexPath:indexPath];
 }
@@ -206,7 +201,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     
     
     
-    if(cell.layer.position.x != 0)
+    if (cell.layer.position.x != 0)
     {
         cell.layer.position = CGPointMake(0, cell.layer.position.y);
     }

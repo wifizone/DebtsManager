@@ -17,7 +17,6 @@
 
 @end
 
-
 @implementation PAANetworkService
 
 - (instancetype)init
@@ -65,7 +64,7 @@
     [sessionDataTask resume];
 }
 
-- (void)loadImageOfPerson: (NSString *)imageUrlString
+- (void)loadImageOfPerson:(NSString *)imageUrlString
 {
     if (!self.session || !imageUrlString)
     {

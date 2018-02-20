@@ -26,7 +26,9 @@
 
 @property (nonatomic, strong) PAACoreDataManager *coreDataManager;
 @property (nonatomic, strong) NSFetchRequest *fetchRequest;
+
 @end
+
 
 @implementation PAACoreDataManagerTests
 
