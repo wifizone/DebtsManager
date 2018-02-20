@@ -33,4 +33,11 @@
     expect(controller).to.beNil();
 }
 
+- (void)testGetAlertControllerWithTextMessageNotNil
+{
+    NSString *message = @"someMessage";
+    UIAlertController *controller = [PAAAlertMaker getAlertControllerWithText:message];
+    expect(controller.message).equal(message);
+}
+
 @end
