@@ -22,6 +22,7 @@ static NSString * const PAAFriendIdRequest = @"https://api.vk.com/method/friends
 @interface PAAApiManager (Tests)
 
 + (NSString *)getFriendsIdsRequestUrl;
++ (NSString *)parseTokenFromUrl:(NSURL *)url;
 
 @end
 
