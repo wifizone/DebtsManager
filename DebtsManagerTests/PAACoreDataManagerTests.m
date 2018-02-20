@@ -18,6 +18,7 @@
 
 - (NSArray *)getModelUsingFetchRequest: (NSFetchRequest *)fetchRequest;
 - (NSArray *)createSortDescriptionWithKey: (NSString *)sortDescriptionKey;
+- (NSManagedObjectContext *)coreDataContext;
 
 @end
 

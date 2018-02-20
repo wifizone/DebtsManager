@@ -30,6 +30,7 @@
 		A6DA22952020DEAF0092650A /* PAADebtTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DA22942020DEAF0092650A /* PAADebtTableViewCell.m */; };
 		A6DA229E20236D730092650A /* PAAApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A6DA229D20236D730092650A /* PAAApiManager.m */; };
 		A6ECA426203B670E00E16DBE /* PAAAlertMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ECA425203B670E00E16DBE /* PAAAlertMaker.m */; };
+		A6ECA428203CB2AB00E16DBE /* PAAAlertMakerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A6ECA427203CB2AB00E16DBE /* PAAAlertMakerTests.m */; };
 		AD390A23EE65C67F1CEBF1CE /* libPods-DebtsManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85BC0770175D3D3CABE55718 /* libPods-DebtsManager.a */; };
 		D7FE82E4640DC717EEE64C5E /* libPods-DebtsManagerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16F9A99AB84A139E5002F0E8 /* libPods-DebtsManagerTests.a */; };
 		FC49CD89F2B6EA45A36612D0 /* libPods-DebtsManagerUITests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E84096B1D5E0A41AF82424 /* libPods-DebtsManagerUITests.a */; };
@@ -106,6 +107,7 @@
 		A6DA229D20236D730092650A /* PAAApiManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAApiManager.m; sourceTree = "<group>"; };
 		A6ECA424203B670E00E16DBE /* PAAAlertMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PAAAlertMaker.h; sourceTree = "<group>"; };
 		A6ECA425203B670E00E16DBE /* PAAAlertMaker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAAlertMaker.m; sourceTree = "<group>"; };
+		A6ECA427203CB2AB00E16DBE /* PAAAlertMakerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PAAAlertMakerTests.m; sourceTree = "<group>"; };
 		DF6E42CF53F5AB2242EEF161 /* Pods-DebtsManagerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebtsManagerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DebtsManagerTests/Pods-DebtsManagerTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -176,6 +178,7 @@
 				A64CFAAF20397A24008A36D3 /* PAACoreDataManagerTests.m */,
 				A64CFAB12039E4B8008A36D3 /* PAAApiManagerTests.m */,
 				A64CFAB3203B3209008A36D3 /* PAANetworkServiceTests.m */,
+				A6ECA427203CB2AB00E16DBE /* PAAAlertMakerTests.m */,
 			);
 			path = DebtsManagerTests;
 			sourceTree = "<group>";
@@ -573,6 +576,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A6ECA428203CB2AB00E16DBE /* PAAAlertMakerTests.m in Sources */,
 				A64CFAB020397A24008A36D3 /* PAACoreDataManagerTests.m in Sources */,
 				A64CFAB22039E4B8008A36D3 /* PAAApiManagerTests.m in Sources */,
 				A64CFAB4203B3209008A36D3 /* PAANetworkServiceTests.m in Sources */,

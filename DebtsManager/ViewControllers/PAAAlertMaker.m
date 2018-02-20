@@ -14,6 +14,10 @@
 
 + (UIAlertController *)getAlertControllerWithText:(NSString *)message
 {
+    if (!message)
+    {
+        return nil;
+    }
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Ошибка"
                                                                              message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
