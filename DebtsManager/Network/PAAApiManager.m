@@ -98,7 +98,7 @@ static NSString * const PAAGetFriendsRequest = @"https://api.vk.com/method/frien
     return matches;
 }
 
-+ (NSArray *)parseFriendList:(NSDictionary *)friendList
++ (NSArray<NSDictionary *> *)parseFriendList:(NSDictionary *)friendList
 {
     if (!friendList)
     {

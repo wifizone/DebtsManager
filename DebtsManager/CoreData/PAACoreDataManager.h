@@ -17,12 +17,10 @@
  */
 @interface PAACoreDataManager : NSObject
 
-
 /** Позволяет работать с классом
  @return Cинглтон объект для работы с классом
  */
 + (PAACoreDataManager *)sharedCoreDataManager;
-
 
 /**
  Функция возвращает список друзей из insertedObjects, то есть незакомиченный список друзей из контекста CoreData
@@ -30,26 +28,22 @@
  */
 - (NSArray<FriendPAA *> *)getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext;
 
-
 /**
  Процедура парсит и сохраняет в CoreData модели друзей
  @param friendsDictionaries массив json словарей, состоящих из моделей друзей, из апи
  */
 - (void)importFriendListFromArrayOfDictionaries: (NSArray<NSDictionary *> *)friendsDictionaries;
 
-
 /**
  Процедура чистит insertedObjects у контекста, то есть незакомиченные изменения
  */
 - (void)clearContextFromInsertedFriendEntities;
-
 
 /**
  Функция получает ранее сохраненный в coreData список друзей
  @return Массив моделей друзей
  */
 - (NSArray<DebtPAA *> *)getCurrentDebtModel;
-
 
 /**
  Процедура cохраняет в CoreData долг
@@ -66,7 +60,6 @@
                          debtSum:(double)debtSum
                      debtDueDate:(NSDate *)dueDate
                 debtAppearedDate:(NSDate *)dateAppeared;
-
 
 /**
  Процедура изменяет долг в CoreData

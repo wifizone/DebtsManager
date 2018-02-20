@@ -11,9 +11,15 @@
 #import "PAANetworkServiceProtocol.h"
 
 
+/**
+ * Класс позволяет работать с загрузкой данных с сервера
+ */
 @interface PAANetworkService : NSObject <PAANetworkServiceInputProtocol>
 
+/** Делегат для обработки загруженных данных */
 @property (nonatomic, weak) id<PAANetworkServiceOutputProtocol> output;
+
+/** Инициализирует url сессию */
 - (instancetype)init;
 
 @end

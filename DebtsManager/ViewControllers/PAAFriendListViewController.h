@@ -11,9 +11,6 @@
 #import "FriendPAA+CoreDataClass.h"
 
 
-/**
- Объявление класса для его объявления в протоколе ниже
- */
 @class PAAFriendListViewController;
 
 
@@ -31,6 +28,7 @@
 - (void)friendListViewController:(PAAFriendListViewController *)controller didChooseFriend:(FriendPAA *)friendModel;
 
 @end
+
 
 /**
  * Вьюконтроллер отображает список твоих друзей в виде таблицы

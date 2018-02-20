@@ -22,23 +22,44 @@
  */
 - (void)loadingIsDoneWithJsonRecieved: (NSArray<NSDictionary *> *)friendItemsReceived;
 
-
 /**
- Процедура вызывается при изображения друга с сервера
+ Процедура вызывается при загрузке изображения друга с сервера
  @param personPhoto Изображение друга
  */
 - (void)loadingIsDoneWithImageReceived: (NSData *)personPhoto;
+
+/**
+ Процедура вызывается при загрузке изображения друга с сервера
+ @param personPhoto Изображение друга
+ @param indexPath Индекс ячейки таблицы. Необходим для присвоения изображения к определенной ячейке
+ */
 - (void)loadingIsDoneWithImageReceived: (NSData *)personPhoto forIndexPath:(NSIndexPath *)indexPath;
 
 @end
 
 
+/**
+ * Протокол для делегирования загрузки данных с сервера
+ */
 @protocol PAANetworkServiceInputProtocol <NSObject>
 @optional
-- (void)configureUrlSessionWithParams: (NSDictionary *)params;
 
+/**
+ Процедура инициирует загрузку списка друзей
+ */
 - (void)loadFriendListOfPerson;
+
+/**
+ Процедура инициирует загрузку изображения друга
+ @param imageUrlString Url изображения
+ */
 - (void)loadImageOfPerson: (NSString *)imageUrlString;
+
+/**
+ Процедура инициирует загрузку изображения друга
+ @param imageUrlString Url изображения
+ @param indexPath Индекс ячейки таблицы. Необходим для присвоения изображения к определенной ячейке
+ */
 - (void)loadImageOfPerson:(NSString *)imageUrlString forIndexPath:(NSIndexPath *)indexPath;
 
 @end
