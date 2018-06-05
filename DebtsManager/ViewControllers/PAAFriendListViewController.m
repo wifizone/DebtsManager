@@ -6,44 +6,92 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
-#import "PAAFriendListViewController.h"
-#import "PAAFriendListTableViewCell.h"
+
 #import "PAANetworkService.h"
+#import "PAADebtViewController.h"
+#import "FriendPAA+CoreDataClass.h"
+#import "PAACoreDataManager.h"
+
 
 static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 
+
 @interface PAAFriendListViewController () <UITableViewDataSource, UITableViewDelegate, PAANetworkServiceOutputProtocol>
 
-@property (nonatomic, copy) NSArray<NSDictionary *> *friendList;
+@property (nonatomic, copy) NSArray<FriendPAA *> *friendList;
 
 @end
 
+
 @implementation PAAFriendListViewController
+
+
+#pragma mark - Lifecycle
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
+    [self setupTableView];
+    [self addRefreshControl];
     [self loadFriendList];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+#pragma mark - UI
+
+- (void)setupTableView
+{
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:PAADebtTableViewCellIdentifier];
 }
 
+- (void)addRefreshControl
+{
+    self.tableView.refreshControl = [UIRefreshControl new];
+    [self.tableView.refreshControl addTarget:self action:@selector(downloadFriendList:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.tableView.refreshControl];
+}
+
+- (void)popFriendListViewController
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - DownloadingFriendList
+
 - (void)loadFriendList
+{
+    PAACoreDataManager *coredataManager = [PAACoreDataManager sharedCoreDataManager];
+    self.friendList = [coredataManager getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext];
+    if (self.friendList.count != 0)
+    {
+        [self.tableView reloadData];
+        return;
+    }
+    [self downloadFriendList];
+}
+
+- (void)downloadFriendList
 {
     PAANetworkService *networkService = [PAANetworkService new];
     networkService.output = self;
     [networkService loadFriendListOfPerson];
 }
 
--(void)loadingIsDoneWithJsonRecieved:(NSArray *)friendItemsReceived;
+- (void)downloadFriendList: (UIRefreshControl *)refreshControl
 {
-    self.friendList = [friendItemsReceived copy];  //проверить с копи
+    [[PAACoreDataManager sharedCoreDataManager] clearContextFromInsertedFriendEntities];
+    [self downloadFriendList];
+}
+
+- (void)loadingIsDoneWithJsonRecieved:(NSArray<NSDictionary *> *)friendItemsReceived;
+{
+    PAACoreDataManager *coredataManager = [PAACoreDataManager sharedCoreDataManager];
+    [coredataManager importFriendListFromArrayOfDictionaries:friendItemsReceived];
+    self.friendList = [coredataManager getCurrentFriendEntitiesFromInsertedObjectsInCoreDataContext];
     [self.tableView reloadData];
+    [self.tableView.refreshControl endRefreshing];
     NSLog(@"json получен");
 }
 
@@ -59,11 +107,17 @@ static NSString * const PAADebtTableViewCellIdentifier = @"cellId";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier forIndexPath:indexPath];
-    NSString *name = self.friendList[indexPath.row][@"first_name"];
-    NSString *surname = self.friendList[indexPath.row][@"last_name"];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", surname, name];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PAADebtTableViewCellIdentifier
+                                                            forIndexPath:indexPath];
+    FriendPAA *friendModel = self.friendList[indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", friendModel.surname, friendModel.name];
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    FriendPAA *friendModel = self.friendList[indexPath.row];
+    [self.delegate friendListViewController:self didChooseFriend:friendModel];
 }
 
 @end

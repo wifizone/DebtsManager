@@ -6,11 +6,20 @@
 //  Copyright © 2018 Антон Полуянов. All rights reserved.
 //
 
+
 #import <Foundation/Foundation.h>
 #import "PAANetworkServiceProtocol.h"
 
-@interface PAANetworkService : NSObject <PAANetworkServiceInputProtocol, NSURLSessionDownloadDelegate>
 
+/**
+ * Класс позволяет работать с загрузкой данных с сервера
+ */
+@interface PAANetworkService : NSObject <PAANetworkServiceInputProtocol>
+
+/** Делегат для обработки загруженных данных */
 @property (nonatomic, weak) id<PAANetworkServiceOutputProtocol> output;
+
+/** Инициализирует url сессию */
+- (instancetype)init;
 
 @end
